@@ -1,0 +1,34 @@
+mixin header
+    .navbar.navbar-inverse.navbar-fixed-top(ng-show="displayToolbar",role='navigation',ng-controller="HeaderController")
+        .navbar-header
+            button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+                span.sr-only Toggle navigation
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+            a.navbar-brand(href='#home') {{ ::text.appTitle }}
+        .navbar-collapse.collapse
+            ul.nav.navbar-nav
+                li(ui-sref="home",ui-sref-active="active")
+                    a(href='#home') {{ ::text.leftMenu.home}}
+
+            ul.nav.navbar-nav.navbar-right
+                li.dropdown(dropdown="")
+                    a.dropdown-toggle(dropdown-toggle="")
+                        span.glyphicon.glyphicon-user
+                        span.dropdown-title {{ ::text.rightMenu.profile }}
+                    ul.dropdown-menu
+                        li
+                            a(href="#profile-management") {{ ::text.rightMenu.settings }}
+                        li
+                            a(href="#files-management")
+                                span.glyphicon.glyphicon-file
+                                span {{ ::text.rightMenu.files }}
+                li.dropdown(dropdown="")
+                    a.dropdown-toggle(dropdown-toggle="")
+                        span.glyphicon.glyphicon-question-sign
+                    ul.dropdown-menu
+                        li
+                            a(href="#help") {{ ::text.rightMenu.help }}
+                        li
+                            a(href="#about") {{ ::text.rightMenu.about }}

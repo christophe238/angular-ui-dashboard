@@ -1,0 +1,12 @@
+doctype html
+include modules/main/jade/views/header/header.jade
+html(lang='en')
+    head
+        link(type='text/css',rel='stylesheet',href='css/all.css')
+        link(type="image/x-icon",rel="shortcut icon",href="assets/img/favicon.ico")
+        script(type='text/javascript',src='app.js')
+        title Sample App
+    body
+        +header()
+        div.container(ui-view="main-content")
+            loading-dots
