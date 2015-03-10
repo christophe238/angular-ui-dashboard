@@ -11,24 +11,3 @@ mixin header
             ul.nav.navbar-nav
                 li(ui-sref="home",ui-sref-active="active")
                     a(href='#home') {{ ::text.leftMenu.home}}
-
-            ul.nav.navbar-nav.navbar-right
-                li.dropdown(dropdown="")
-                    a.dropdown-toggle(dropdown-toggle="")
-                        span.glyphicon.glyphicon-user
-                        span.dropdown-title {{ ::text.rightMenu.profile }}
-                    ul.dropdown-menu
-                        li
-                            a(href="#profile-management") {{ ::text.rightMenu.settings }}
-                        li
-                            a(href="#files-management")
-                                span.glyphicon.glyphicon-file
-                                span {{ ::text.rightMenu.files }}
-                li.dropdown(dropdown="")
-                    a.dropdown-toggle(dropdown-toggle="")
-                        span.glyphicon.glyphicon-question-sign
-                    ul.dropdown-menu
-                        li
-                            a(href="#help") {{ ::text.rightMenu.help }}
-                        li
-                            a(href="#about") {{ ::text.rightMenu.about }}

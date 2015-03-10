@@ -8,20 +8,13 @@
 	},
 	"main":{
 		"header":{
-			"appTitle":"Angular Base",
+			"appTitle":"Angular UI Dashboard",
 			"leftMenu":{
 				"home":"Home"
-			},
-			"rightMenu":{
-				"profile":"Profile",
-				"settings":"Settings",
-				"files":"Files",
-				"help":"Help",
-				"about":"About"
 			}
 		},
 		"home":{
-			"welcome":"Welcome on angular-base project"
+			"welcome":"Angular UI Dashboard examples"
 		}
 	}
 }
