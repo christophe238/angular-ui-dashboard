@@ -1,8 +1,8 @@
 define([
-	'core/CoreApp'
-],function(CoreApp){
+	'gauge/GaugeApp'
+],function(GaugeApp){
 
-	CoreApp.factory('GaugeConfiguration',function(){
+	GaugeApp.factory('GaugeConfiguration',function(){
 
 		var GaugeConfiguration = function(configuration){
 
@@ -10,12 +10,12 @@ define([
 			this.max = 100;
 			this.decimal = 2;
 			this.numberOfGauge = 1;
-			this.startAngle = 160;
-			this.endAngle = 160;
+			this.startAngle = -160;
+			this.amplitude = 300;
 			this.strokeWidth = 20;
-			this.radius = 100;
-			this.colors = ['#EA4F69','#13C764','#EA4F69','#13C764'];
-			this.thresholds = [25,55,65];
+			this.radius = 90;
+			this.colors = ['#FFFF00','#FF8C00','#FF4500','#FF0000'];
+			this.thresholds = [25,55,75];
 			this.background = {
 					display : true,
 					color : '#F6F6F6'
@@ -34,9 +34,15 @@ define([
 					display : true,
 					fontsize : 20,
 					color : 'black',
-					format : function(d){ return '%'; }
+					format : function(d){ return ''; }
 				}
 			};
+			this.title = {
+				display : false,
+				fontsize : 24,
+				value : '',
+				color : 'black'
+			}
 			this.transitions = {
 				arc : 1000,
 				label : 500

@@ -1,21 +1,19 @@
 define([
 	'angular',
 	'd3',
-    'core/CoreApp',
-    'core/controllers/GaugeController',
-    'core/models/GaugeConfiguration',
-    'core/services/GaugeUtils'
-],function(ng,d3,CoreApp){
+    'gauge/GaugeApp',
+    'gauge/models/GaugeConfiguration',
+    'gauge/services/GaugeService'
+],function(ng,d3,GaugeApp){
 
-    CoreApp.directive('gauge',['GaugeConfiguration','GaugeUtils',function(GaugeConfiguration, GaugeUtils){
+    GaugeApp.directive('gauge',['GaugeConfiguration','GaugeService',function(GaugeConfiguration, GaugeService){
         return {
             restrict: 'E',
             scope: {
 	          configuration: '=',
 	          data: '='
 	        },
-            controller: 'GaugeController',
-            link: function($scope,element){
+            link: function($scope,element,attrs){
             	$scope.configuration = new GaugeConfiguration($scope.configuration);
 
             	$scope.previousData = ng.copy($scope.data);
@@ -25,15 +23,20 @@ define([
 					$scope.widget.select('.gauge-container')
                         .append('path')
                             .attr('fill','none')
+                            .attr('transform', GaugeService.computeRotation(
+                            	$scope.configuration.startAngle,
+                            	$scope.configuration.width,
+                            	$scope.configuration.height
+                            	))
                             .attr('stroke',$scope.configuration.getColor(data))
                             .attr('stroke-width',$scope.configuration.strokeWidth)
                             .transition()
                                 .attrTween('d',function(d,i){
                                     var interpolate = d3.interpolate(isNaN($scope.previousData) ? 0:$scope.previousData,data);
                                     return function(t){
-                                        return GaugeUtils.computeArc(
-                                        	$scope.configuration.startAngle,
-				                        	$scope.configuration.endAngle,
+                                        return GaugeService.computeArc(
+                                        	0,
+				                        	$scope.configuration.amplitude,
 				                        	interpolate(t),
 				                        	$scope.configuration.max,
 				                        	$scope.configuration.width,
@@ -75,15 +78,28 @@ define([
 		            $scope.widget = $scope.widget.append('svg')
 		                	.attr('id',$scope.configuration.id)
 		                    .attr('width',$scope.configuration.width)
-		                    .attr('height',$scope.configuration.height);
+		                    .attr('height',$scope.configuration.height+($scope.configuration.title.display ? $scope.configuration.title.fontsize*2:0));
 
+		            if($scope.configuration.title.display){
+		            	//Setting title
+		            	$scope.widget.append('g')
+		            		.attr('class','gauge-title')
+		            		.append('text')
+		            			.text($scope.configuration.title.value)
+		            			.attr('x',$scope.configuration.width/2)
+		            			.attr('y',$scope.configuration.height+$scope.configuration.title.fontsize)
+		            			.attr('font-size',$scope.configuration.title.fontsize+'px')
+		            			.attr('fill',$scope.configuration.title.color)
+		            			.style('text-anchor','middle');
+
+		            }
 		            if($scope.configuration.background.display){
 				        //Setting background
 				        $scope.widget.append('g')
 		                    .append('path')
-		                        .attr('d',GaugeUtils.computeArc(
-		                        	$scope.configuration.startAngle,
-		                        	$scope.configuration.endAngle,
+		                        .attr('d',GaugeService.computeArc(
+		                        	0,
+		                        	$scope.configuration.amplitude,
 		                        	$scope.configuration.max,
 		                        	$scope.configuration.max,
 		                        	$scope.configuration.width,
@@ -91,6 +107,11 @@ define([
 		                        	$scope.configuration.radius
 		                        	))
 		                        .attr('fill','none')
+		                        .attr('transform', GaugeService.computeRotation(
+		                        	$scope.configuration.startAngle,
+		                        	$scope.configuration.width,
+		                        	$scope.configuration.height
+		                        	))
 		                        .attr('stroke',$scope.configuration.background.color)
 		                        .attr('stroke-width',$scope.configuration.strokeWidth);
 	                }
@@ -98,9 +119,9 @@ define([
 		                //Setting border
 		                $scope.widget.append('g')
 	                        .append('path')
-	                            .attr('d',GaugeUtils.computeArc(
-		                        	$scope.configuration.startAngle,
-		                        	$scope.configuration.endAngle,
+	                            .attr('d',GaugeService.computeArc(
+		                        	0,
+		                        	$scope.configuration.amplitude,
 		                        	$scope.configuration.max,
 		                        	$scope.configuration.max,
 		                        	$scope.configuration.width,
@@ -108,6 +129,7 @@ define([
 		                        	$scope.configuration.radius + $scope.configuration.strokeWidth/2-$scope.configuration.border.strokeWidth
 		                        	))
 	                            .attr('fill','none')
+	                            .attr('transform', GaugeService.computeRotation($scope.configuration.startAngle,$scope.configuration.width,$scope.configuration.height))
 	                            .attr('stroke',$scope.configuration.border.color)
 	                            .attr('stroke-width',$scope.configuration.border.strokeWidth);
 		            }
@@ -142,7 +164,8 @@ define([
 
 		        $scope.init();
 
-		        $scope.$watch('configuration',function(){
+		        $scope.$watch('configuration',function(newVal,oldVal){
+		        	$scope.configuration.update(newVal);
 		        	return $scope.init();
 		        });
                 $scope.$watch('data', function(newVals, oldVals) {

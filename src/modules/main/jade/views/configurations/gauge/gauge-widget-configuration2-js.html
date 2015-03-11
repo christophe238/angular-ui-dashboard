@@ -1,0 +1,36 @@
+angular.module('app',[]).controller('MyController',function($scope){
+    $scope.formatLabel = function(value){
+        return value+'$';
+    };
+
+    $scope.gaugeConfiguration = {
+        max : 5000,
+        radius : 90,
+        startAngle : -160,
+        amplitude : 250,
+        strokeWidth : 10,
+        label : {
+            fontsize : 40,
+            format : $scope.formatLabel2,
+            symbol : {
+                display : false
+            }
+        },
+        background : {
+            color : 'darkgrey'
+        },
+        border : {
+            display : false
+        },
+        colors : ['#EA4F69','#2E69DB'],
+        thresholds : [2300],
+        transitions : {
+            arc : 2000,
+            label : 100
+        },
+        title: {
+            display : true,
+            value : $scope.text.gauge.gauge2Title
+        }
+    };
+});

@@ -5,7 +5,8 @@ define([
     'angular-ui-router',
 
     'main/manifest',
-    'core/manifest'
+    'core/manifest',
+    'gauge/manifest'
 ],function(ng){
 
     var app = ng.module('app',[
@@ -14,10 +15,12 @@ define([
         'ui.bootstrap',
         'CoreApp',
         'HeaderApp',
+        'GaugeApp',
         'HomeApp'
     ]);
 
     ng.element(document).ready(function () {
         ng.bootstrap(document, ['app']);
     });
+
 });

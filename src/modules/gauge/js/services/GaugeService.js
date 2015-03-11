@@ -1,16 +1,12 @@
 define([
-	'core/CoreApp'
-],function(CoreApp){
+	'gauge/GaugeApp'
+],function(GaugeApp){
 
-	CoreApp.service('GaugeUtils',function(){
+	GaugeApp.service('GaugeService',function(){
 
-		var GaugeUtils = function(){};
+		var GaugeService = function(){};
 
-		GaugeUtils.prototype.computeArc = function(){
-
-		};
-
-		GaugeUtils.prototype.polarToCartesian = function(centerX, centerY, radius, angleInDegrees) {
+		GaugeService.prototype.polarToCartesian = function(centerX, centerY, radius, angleInDegrees) {
             var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
             return {
                 x: centerX + (radius * Math.cos(angleInRadians)),
@@ -18,7 +14,7 @@ define([
             };
         };
 
-        GaugeUtils.prototype.describeArc = function(x, y, radius, startAngle, endAngle){
+        GaugeService.prototype.describeArc = function(x, y, radius, startAngle, endAngle){
             var start = this.polarToCartesian(x, y, radius, endAngle);
             var end = this.polarToCartesian(x, y, radius, startAngle);
             var arcSweep = ((endAngle - startAngle) <= 180) ? 0:1;
@@ -28,16 +24,20 @@ define([
             ].join(' ');
         };
 
-        GaugeUtils.prototype.computeArc = function(startAngle,endAngle,value,max,width,height,radius){
-
+        GaugeService.prototype.computeArc = function(startAngle,endAngle,value,max,width,height,radius){
             return this.describeArc(
                     width/2,
                     height/2,
                     radius,
                     startAngle,
-                    -(endAngle - 2*endAngle*(value/max))
+                    endAngle*(value/max)
                 );
-        }
-		return new GaugeUtils();
+        };
+
+        GaugeService.prototype.computeRotation = function(startAngle, width, height){
+            return 'rotate(' + startAngle + ',' + width/2 + ',' + height/2 + ')';
+        };
+
+		return new GaugeService();
 	});
 });

@@ -2,7 +2,7 @@
 requirejs.config({
 
     baseUrl: 'src',
-    
+
     waitSeconds: 120,
 
     deps: ['app'],
@@ -45,7 +45,7 @@ requirejs.config({
         },
         'angular-resource': {
             deps: ['angular']
-        },        
+        },
         'angular-route': {
             deps: ['angular']
         },
@@ -63,7 +63,7 @@ requirejs.config({
         },
         'angular-ui-router': {
             deps: ['angular']
-        },                
+        },
         'd3': {
             exports: 'd3'
         },

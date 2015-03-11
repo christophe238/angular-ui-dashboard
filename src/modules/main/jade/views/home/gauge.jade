@@ -1,0 +1,60 @@
+.page-header(ng-click="page.expanded = !page.expanded")
+    h2
+        | {{ ::text.gauge.pageHeader + ' ' }}
+        small {{ ::text.gauge.directiveCall }}
+        span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="page.expanded")
+        span.pull-right.glyphicon.glyphicon-chevron-right(ng-show="!page.expanded")
+.page-content(ng-show="page.expanded")
+    .row
+        .col-md-6
+            .panel.panel-primary
+                .panel-heading(ng-click="gauges.default.expanded = !gauges.default.expanded") {{ ::text.gauge.gaugeDefault }}
+                    span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="gauges.default.expanded")
+                    span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!gauges.default.expanded")
+                .panel-body(ng-show="gauges.default.expanded")
+                    .center
+                        gauge(configuration="defaultConfiguration",data="defaultData")
+                    .panel.panel-default
+                        .panel-heading(ng-click="gauges.default.code.expanded = !gauges.default.code.expanded") {{ ::text.gauge.configuration }}
+                            span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="gauges.default.code.expanded")
+                            span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!gauges.default.code.expanded")
+                        .panel-body(ng-show="gauges.default.code.expanded")
+                            pre.prettyprint.lang-html.linenums.prettyprinted.language-html
+                                include ../configurations/gauge/gauge-widget-default-html.html
+                            pre.prettyprint.lang-js.linenums.prettyprinted
+                                include ../configurations/gauge/gauge-widget-default-js.html
+        .col-md-6
+            .panel.panel-primary
+                .panel-heading(ng-click="gauges.gauge1.expanded = !gauges.gauge1.expanded") {{ ::text.gauge.gauge1 }}
+                    span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="gauges.gauge1.expanded")
+                    span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!gauges.gauge1.expanded")
+                .panel-body(ng-show="gauges.gauge1.expanded")
+                    .center
+                        gauge(configuration="gaugeConfiguration",data="data")
+                    .panel.panel-default
+                        .panel-heading(ng-click="gauges.gauge1.code.expanded = !gauges.gauge1.code.expanded") {{ ::text.gauge.configuration }}
+                            span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="gauges.gauge1.code.expanded")
+                            span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!gauges.gauge1.code.expanded")
+                        .panel-body(ng-show="gauges.gauge1.code.expanded")
+                            pre.prettyprint.lang-html.linenums.prettyprinted.language-html
+                                include ../configurations/gauge/gauge-widget-configuration1-html.html
+                            pre.prettyprint.lang-js.linenums.prettyprinted
+                                include ../configurations/gauge/gauge-widget-configuration1-js.html
+    .row
+        .col-md-6
+            .panel.panel-primary
+                .panel-heading(ng-click="gauges.gauge2.expanded = !gauges.gauge2.expanded") {{ ::text.gauge.gauge2 }}
+                    span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="gauges.gauge2.expanded")
+                    span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!gauges.gauge2.expanded")
+                .panel-body(ng-show="gauges.gauge2.expanded")
+                    .center
+                        gauge(configuration="gaugeConfiguration2",data="data2")
+                    .panel.panel-default
+                        .panel-heading(ng-click="gauges.gauge2.code.expanded = !gauges.gauge2.code.expanded") {{ ::text.gauge.configuration }}
+                            span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="gauges.gauge2.code.expanded")
+                            span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!gauges.gauge2.code.expanded")
+                        .panel-body(ng-show="gauges.gauge2.code.expanded")
+                            pre.prettyprint.lang-html.linenums.prettyprinted.language-html
+                                include ../configurations/gauge/gauge-widget-configuration1-html.html
+                            pre.prettyprint.lang-js.linenums.prettyprinted
+                                include ../configurations/gauge/gauge-widget-configuration2-js.html

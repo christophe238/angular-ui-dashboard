@@ -6,14 +6,12 @@ define([
     'core/app/LocaleApp',
 
     'core/controllers/PageNotFoundController',
-    'core/controllers/GaugeController',
 
+    'core/directives/HTMLEscaper',
     'core/directives/Spinner',
-    'core/directives/Gauge',
 
     'core/services/AppStateService',
     'core/services/CommonResolveStateService',
-    'core/services/GaugeUtils',
     'core/services/LocaleService'
 ],function(){
 

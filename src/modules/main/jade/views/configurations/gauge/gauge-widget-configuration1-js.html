@@ -1,0 +1,35 @@
+angular.module('app',[]).controller('MyController',function($scope){
+
+    $scope.formatLabel = function(value){
+        return value;
+    };
+
+    $scope.formatSymbol = function(value){
+        return '%';
+    };
+    $scope.gaugeConfiguration = {
+        max : 100,
+        radius : 90,
+        startAngle : -90,
+        amplitude : 180,
+        strokeWidth : 25,
+        border : {
+            color : '#EA4F69',
+            strokeWidth: 4
+        },
+        background : {
+            display : false
+        },
+        label : {
+            format : $scope.formatLabel,
+            symbol : {
+                format : $scope.formatSymbol
+            }
+        },
+        colors : ['#00CED1','#1E90FF','#4682B4','#191970'],
+        transitions : {
+            arc : 100,
+            label : 1000
+        }
+    };
+});

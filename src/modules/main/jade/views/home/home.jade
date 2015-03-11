@@ -1,3 +1,5 @@
 h1 {{ ::text.welcome }}
+hr
+div(ng-controller="GaugeController", ng-init="page = pages.gauge")
+    include gauge.jade
 
-gauge(configuration="gaugeConfiguration",data="data")
