@@ -1,15 +1,8 @@
-angular.module('app',[]).controller('MyController',function($scope){
+.controller('MyController',function($scope,$timeout){
 
-    $scope.formatLabel = function(value){
-        return value;
-    };
-
-    $scope.formatSymbol = function(value){
-        return '%';
-    };
     $scope.gaugeConfiguration = {
         max : 100,
-        radius : 90,
+        radius : 130,
         startAngle : -90,
         amplitude : 180,
         strokeWidth : 25,
@@ -21,10 +14,17 @@ angular.module('app',[]).controller('MyController',function($scope){
             display : false
         },
         label : {
-            format : $scope.formatLabel,
+            format : function(d){
+                return d;
+            },
             symbol : {
-                format : $scope.formatSymbol
+                format : function(d){
+                    return '%';
+                }
             }
+        },
+        thresholds : {
+            display : false
         },
         colors : ['#00CED1','#1E90FF','#4682B4','#191970'],
         transitions : {
@@ -32,4 +32,15 @@ angular.module('app',[]).controller('MyController',function($scope){
             label : 1000
         }
     };
+
+    $scope.data = 0;
+
+    $scope.updateData = function(){
+        $timeout(function(){
+            $scope.data = Math.floor(Math.random()*100);
+            $scope.updateData();
+        },2500);
+    };
+
+    $scope.updateData();
 });

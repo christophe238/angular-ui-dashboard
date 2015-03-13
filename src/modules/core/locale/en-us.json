@@ -19,7 +19,8 @@
 				"pageHeader":"Gauge Widget",
 				"directiveCall":"<gauge></gauge>",
 				"gauge1":"Sample Gauge - With Label",
-				"gauge2":"Sample Gauge - With Title",
+				"gauge2":"Sample Gauge - With Title and Multiple gauge (saving history)",
+				"multi":"Sample Multi Gauge",
 				"gauge2Title":"Total in $",
 				"gaugeDefault":"Default Gauge - With empty configuration",
 				"configuration":"Configuration for this widget"

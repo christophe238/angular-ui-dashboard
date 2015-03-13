@@ -1,3 +1,14 @@
-angular.module('app',[]).controller('MyController',function($scope){
+.controller('MyController',function($scope,$timeout){
     $scope.defaultConfiguration = {};
+
+    $scope.data = 0;
+
+    $scope.updateData = function(){
+        $timeout(function(){
+            $scope.data = Math.floor(Math.random()*100);
+            $scope.updateData();
+        },2500);
+    };
+
+    $scope.updateData();
 });

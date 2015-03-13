@@ -1,17 +1,36 @@
-angular.module('app',[]).controller('MyController',function($scope){
-    $scope.formatLabel = function(value){
-        return value+'$';
-    };
+.controller('MyController',function($scope,$timeout){
 
     $scope.gaugeConfiguration = {
         max : 5000,
         radius : 90,
         startAngle : -160,
         amplitude : 250,
+        numberOfGauge : 3,
+        initialValues : [200,1700],
         strokeWidth : 10,
+        radiusRule : {
+            apply : true,
+            rule : function(d,i,ir,iw){
+                return ir - (iw)*i - i*2;
+            }
+        },
+        strokeWidthRule : {
+            apply : true,
+            rule : function(d,i,iw){
+                return iw;
+            }
+        },
+        opacityRule : {
+            apply : true,
+            rule : function(d,i){
+                return 1 - i*0.2;
+            }
+        },
         label : {
             fontsize : 40,
-            format : $scope.formatLabel2,
+            format : function(d){
+                return d+'$';
+            },
             symbol : {
                 display : false
             }
@@ -23,7 +42,10 @@ angular.module('app',[]).controller('MyController',function($scope){
             display : false
         },
         colors : ['#EA4F69','#2E69DB'],
-        thresholds : [2300],
+        thresholds : {
+            values : [2300],
+            aboveGauge : true
+        },
         transitions : {
             arc : 2000,
             label : 100
@@ -33,4 +55,15 @@ angular.module('app',[]).controller('MyController',function($scope){
             value : $scope.text.gauge.gauge2Title
         }
     };
+
+    $scope.data = 0;
+
+    $scope.updateData = function(){
+        $timeout(function(){
+            $scope.data = Math.floor(Math.random()*100);
+            $scope.updateData();
+        },2500);
+    };
+
+    $scope.updateData();
 });

@@ -8,7 +8,7 @@ define([
         $scope.text = localeService.data.main.home;
         $scope.pages = {
         	gauge: {
-        		expanded:true
+        		expanded:false
         	},
         	bar : {
         		expanded:false
