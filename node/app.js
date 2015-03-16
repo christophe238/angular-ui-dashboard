@@ -68,15 +68,6 @@ var handle = function(req, res) {
 
 app.all('', handle);
 
-app.get('/dist/ui-dashboard.js',function(req,res){
-    console.log('Getting lib');
-    res.sendFile('target/dist/ui-dashboard.js');
-});
-app.get('/dist/ui-dashboard.min.js',function(req,res){
-    console.log('Getting minified lib');
-    res.sendFile('target/dist/ui-dashboard.min.js');
-});
-
 http.createServer(app).listen(app.get('port'), function() {
     console.log('http://localhost:%s%s', app.get('port'), appPath);
     console.log('restApi - %s:%s', backend.host, backend.port);
