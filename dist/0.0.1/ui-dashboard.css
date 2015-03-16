@@ -1,0 +1,14 @@
+.multi-gauge-navigate .glyphicon-chevron-left {
+  left: 5%;
+}
+.multi-gauge-navigate .glyphicon-chevron-right {
+  right: 5%;
+}
+.multi-gauge-navigate .glyphicon {
+  position: absolute;
+  display: block;
+  top: 40%;
+}
+.multi-gauge-navigate .glyphicon:hover {
+  cursor: pointer;
+}
