@@ -64,8 +64,8 @@ requirejs.config({
         'angular-ui-router': {
             deps: ['angular']
         },
-        'd3': {
-            exports: 'd3'
+        'ui-dashboard': {
+            deps: ['angular']
         },
         polyglot: {
             exports: 'Polyglot'

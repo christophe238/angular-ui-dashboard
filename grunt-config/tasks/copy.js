@@ -21,12 +21,32 @@ module.exports = function(grunt) {
                 return res;
             }
         });
+
+    var version = require('../version.js')();
+
+    var libInterfix = path.join('dist',version) + path.sep;
+
+    var libFiles = grunt.file.expandMapping([
+        path.join('dist',version,'**')
+        ], path.join('dist','.lastest'), {
+            rename: function(base, destPath) {
+                var res = path.join(base, destPath);
+
+                res = res.replace(libInterfix,'');
+
+                console.log("copy : " + res + " copied");
+                return res;
+            }
+        });
     grunt.config('copy', {
         dev: {
             files: files
         },
         production: {
             files: files
+        },
+        'ui-dashboard': {
+            files: libFiles
         }
     });
 

@@ -12,7 +12,7 @@ module.exports = function(grunt) {
             tasks: ['less:dev']
         },
         requirejs: {
-            files: ['src/**/*.js'],
+            files: ['src/lib/*.js','src/modules/core/**/*.js','src/modules/main/**/*.js'],
             tasks: ['requirejs:dev']
         },
         jade: {
@@ -22,7 +22,6 @@ module.exports = function(grunt) {
         copy: {
             files: ['assets/**','fonts/**','src/modules/core/locale/*.json'],
             tasks: ['copy:dev']
-
         }
     });
 };

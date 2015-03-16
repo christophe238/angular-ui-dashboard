@@ -3,11 +3,10 @@ var path = require('path');
 module.exports = function(grunt) {
     var buildDir = require('../buildDir.js')();
     grunt.loadNpmTasks('grunt-contrib-requirejs');
-
+    var version = require('../version.js')();
     var paths = {
         "main":"modules/main/js",
         "core":"modules/core/js",
-        "gauge":"modules/gauge/js",
         "angular": "lib/angular",
         "angular-animate": "lib/angular-animate",
         "angular-cookies": "lib/angular-cookies",
@@ -23,7 +22,7 @@ module.exports = function(grunt) {
         "angular-touch": "lib/angular-touch",
         "angular-ui-bootstrap": "lib/ui-bootstrap-tpls-0.12.1",
         "angular-ui-router": "lib/angular-ui-router",
-        "d3": "lib/d3",
+        "ui-dashboard": path.resolve('dist','.latest','ui-dashboard'),
         "jade": "lib/jade",
         "jquery": "lib/jquery-2.1.3",
         "lodash": "lib/lodash",
@@ -36,6 +35,13 @@ module.exports = function(grunt) {
     var pathToConfig = path.join('src', 'config', 'require.config.js');
 
     optimizeOptions = grunt.option('build-requirejs-optimize') || 'none';
+
+    var libBuildPaths = {
+        "ui-dashboard":"modules/ui-dashboard/",
+        "gauge":"modules/ui-dashboard/gauge/js",
+        "d3": "lib/d3",
+        "angular": "lib/angular",
+    };
 
     grunt.config('requirejs', {
         dev: {
@@ -59,6 +65,58 @@ module.exports = function(grunt) {
                 mainConfigFile: 'src/config/require.config.js',
                 out: 'target/build/webapp/app.js',
                 include: ['lib/require.js','config/require.config.js']
+            }
+        },
+        'ui-dashboard': {
+            options: {
+                name: 'build-lib-init',
+                optimize: 'none',
+                baseUrl: 'src',
+                paths: libBuildPaths,
+                preserveLicenseComments: true,
+                logLevel : 1,
+                keepAmdefine: true,
+                skipModuleInsertion: true,
+                exclude : [
+                    'angular'
+                ],
+                excludeShallow: [
+                    'ui-dashboard/js/manifest',
+                    'gauge/manifest',
+                    'build-lib-init'
+                ],
+                wrap : {
+                    startFile : [
+                        'LICENSE'
+                    ]
+                },
+                out: 'dist/'+version+'/ui-dashboard.js'
+            }
+        },
+        'ui-dashboard-min': {
+            options: {
+                name: 'build-lib-init',
+                baseUrl: 'src',
+                paths: libBuildPaths,
+                optimize: 'uglify2',
+                preserveLicenseComments: true,
+                logLevel : 1,
+                keepAmdefine: true,
+                skipModuleInsertion: true,
+                exclude : [
+                    'angular'
+                ],
+                excludeShallow: [
+                    'ui-dashboard/js/manifest',
+                    'gauge/manifest',
+                    'build-lib-init'
+                ],
+                wrap : {
+                    startFile : [
+                        'LICENSE'
+                    ]
+                },
+                out: 'dist/'+version+'/ui-dashboard.min.js'
             }
         }
     });
