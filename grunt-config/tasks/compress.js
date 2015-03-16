@@ -11,25 +11,15 @@ module.exports = function(grunt) {
 
     var versionFolder = path.join('dist',version);
 
-    var files = grunt.file.expandMapping([
-        path.join(versionFolder,'**')
-        ], versionFolder, {
-            rename: function(base, destPath) {
-                var res = path.join(base, destPath);
-
-                console.log("Compress : " + res + " copied");
-                return res;
-            }
-        });
     grunt.config('compress', {
         'ui-dashboard': {
             options :{
-                archive : path.join(versionFolder,'ui-dashboard-'+version+'.zip')
+                archive : path.join(versionFolder,'ui-dashboard.zip')
             },
             files: [
                 {
                     expand : true,
-                    src : path.join(versionFolder,'**')
+                    src : [path.join(versionFolder,'**'),'!'+path.join(versionFolder,'ui-dashboard.zip')]
                 }
             ]
         }

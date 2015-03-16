@@ -7,6 +7,7 @@ module.exports = function(grunt) {
     var paths = {
         "main":"modules/main/js",
         "core":"modules/core/js",
+        "download":"modules/download/js",
         "angular": "lib/angular",
         "angular-animate": "lib/angular-animate",
         "angular-cookies": "lib/angular-cookies",

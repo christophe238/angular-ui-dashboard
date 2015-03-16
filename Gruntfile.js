@@ -15,7 +15,8 @@ module.exports = function(grunt) {
     	'requirejs:ui-dashboard',
     	'requirejs:ui-dashboard-min',
     	'compress:ui-dashboard',
-    	'copy:ui-dashboard'
+    	'copy:ui-dashboard',
+        'production'
     ]);
     grunt.registerTask('default', [
     	'less:dev',

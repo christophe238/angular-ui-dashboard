@@ -12,7 +12,7 @@ module.exports = function(grunt) {
             tasks: ['less:dev']
         },
         requirejs: {
-            files: ['src/lib/*.js','src/modules/core/**/*.js','src/modules/main/**/*.js'],
+            files: ['src/lib/*.js','src/modules/core/**/*.js','src/modules/main/**/*.js','src/modules/download/**/*.js','src/app.js'],
             tasks: ['requirejs:dev']
         },
         jade: {

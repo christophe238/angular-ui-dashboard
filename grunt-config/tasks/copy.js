@@ -27,8 +27,8 @@ module.exports = function(grunt) {
     var libInterfix = path.join('dist',version) + path.sep;
 
     var libFiles = grunt.file.expandMapping([
-        path.join('dist',version,'**')
-        ], path.join('dist','.lastest'), {
+        path.join('dist',version,'*')
+        ], path.join('dist','.latest'), {
             rename: function(base, destPath) {
                 var res = path.join(base, destPath);
 
