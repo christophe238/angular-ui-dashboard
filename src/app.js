@@ -3,19 +3,19 @@ define([
     'angular-route',
     'angular-ui-bootstrap',
     'angular-ui-router',
-    'ui-dashboard',
 
     'main/manifest',
-    'core/manifest'
+    'core/manifest',
+    'gauge/manifest'
 ],function(ng){
 
     var app = ng.module('app',[
         'ngRoute',
         'ui.router',
         'ui.bootstrap',
-        'ui.dashboard',
         'CoreApp',
         'HeaderApp',
+        'GaugeApp',
         'HomeApp'
     ]);
 
