@@ -1,0 +1,25 @@
+.container
+	h1 {{ ::text.downloads }}
+	hr
+	.row
+		.col-sm-4
+			h3
+				| {{ ::text.dashboard }}
+				small {{ ::' - ' + text.dashboardVersion }}
+			p {{ ::text.dashboardText }}
+			h4
+				a(
+					href="https://github.com/christophe238/angular-ui-dashboard/blob/master/dist/.lastest/ui-dashboard.zip?raw=true",
+					role="button",
+					title="::text.dashboardDownload"
+				) {{ ::text.dashboardDownload }}
+		.col-sm-4
+			h3 {{ ::text.source }}
+			p {{ ::text.sourceText }}
+			h4
+				a(
+					href="https://github.com/christophe238/angular-ui-dashboard/archive/master.zip"
+					role="button",
+					title="::text.sourceDownload"
+				) {{ ::text.sourceDownload }}
+

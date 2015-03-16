@@ -6,7 +6,8 @@ define([
     'ui-dashboard',
 
     'main/manifest',
-    'core/manifest'
+    'core/manifest',
+    'download/manifest'
 ],function(ng){
 
     var app = ng.module('app',[
@@ -16,7 +17,8 @@ define([
         'ui.dashboard',
         'CoreApp',
         'HeaderApp',
-        'HomeApp'
+        'HomeApp',
+        'DownloadApp'
     ]);
 
     ng.element(document).ready(function () {

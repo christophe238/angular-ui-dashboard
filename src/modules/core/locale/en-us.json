@@ -10,7 +10,9 @@
 		"header":{
 			"appTitle":"Angular UI Dashboard",
 			"leftMenu":{
-				"home":"Home"
+				"examples":"Examples",
+				"download":"Download",
+				"github":"View on GitHub"
 			}
 		},
 		"home":{
@@ -26,5 +28,16 @@
 				"configuration":"Configuration for this widget"
 			}
 		}
+	},
+	"download":{
+		"download":"Download",
+		"downloads":"Downloads",
+		"dashboardText":"Compiled and minified CSS, JavaScript. Includes d3 js library build.",
+		"dashboardDownload":"Download UI Dashboard",
+		"dashboard":"UI Dashboard",
+		"dashboardVersion":"0.0.1",
+		"sourceText":"Source project, less, JavaScript. Requires grunt to build project. See setup instructions",
+		"source":"Source code",
+		"sourceDownload":"Download source"
 	}
 }

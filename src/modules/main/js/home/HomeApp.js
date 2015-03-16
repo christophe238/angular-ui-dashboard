@@ -1,18 +1,19 @@
 define([
     'angular',
-    'views/main/home/home',
-    'core/services/CommonResolveStateService'
-],function(ng,HomeApp,CommonResolveStateService){
+    'core/services/CommonResolveStateService',
+
+    'views/main/home/home'
+],function(ng, CommonResolveStateService){
 
     var app = ng.module('HomeApp',[]);
 
     app.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
-            $urlRouterProvider.when('','/home');
-            $urlRouterProvider.when('#','/home');
+            $urlRouterProvider.when('','/examples');
+            $urlRouterProvider.when('#','/examples');
             $stateProvider
-                .state('home', CommonResolveStateService({
-                    url: '/home',
+                .state('examples', CommonResolveStateService({
+                    url: '/examples',
                     views: {
                         'main-content':{
                             template: TEMPLATES['views/main/home/home'],

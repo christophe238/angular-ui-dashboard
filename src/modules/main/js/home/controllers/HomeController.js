@@ -3,7 +3,7 @@ define([
     'main/home/HomeApp'
 ], function(ng,HomeApp){
 
-    HomeApp.controller('HomeController',['$rootScope','$scope','$timeout','localeService',function($rootScope,$scope,$timeout,localeService){
+    HomeApp.controller('HomeController',['$rootScope','$scope','localeService',function($rootScope,$scope,localeService){
         $rootScope.displayToolbar = true;
         $scope.text = localeService.data.main.home;
         $scope.pages = {

@@ -3,6 +3,7 @@ define([
 ],function(HeaderApp){
 
     HeaderApp.controller('HeaderController',['$rootScope','$scope','localeService',function($rootScope, $scope, localeService){
+    	$rootScope.displayToolbar = true;
         localeService.resolve().then(function(locale){
             $scope.text = locale.data.main.header;
         });

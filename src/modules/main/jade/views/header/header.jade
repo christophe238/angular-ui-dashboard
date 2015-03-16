@@ -9,5 +9,9 @@ mixin header
             a.navbar-brand(href='#home') {{ ::text.appTitle }}
         .navbar-collapse.collapse
             ul.nav.navbar-nav
-                li(ui-sref="home",ui-sref-active="active")
-                    a(href='#home') {{ ::text.leftMenu.home}}
+                li(ui-sref="examples",ui-sref-active="active")
+                    a(href='#examples') {{ ::text.leftMenu.examples}}
+                li(ui-sref="downloads",ui-sref-active="active")
+                    a(href='#downloads') {{ ::text.leftMenu.download}}
+                li
+                    a(href='https://github.com/christophe238/angular-ui-dashboard',target="_blank") {{ ::text.leftMenu.github}}
