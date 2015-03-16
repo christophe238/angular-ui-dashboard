@@ -1,0 +1,30 @@
+{
+	"core":{
+		"pageNotFound":{
+			"error":":( 404",
+			"pageMessage":"The page '%{page}' you are looking for does not exist.",
+			"homeLink":"Return home"
+		}
+	},
+	"main":{
+		"header":{
+			"appTitle":"Angular UI Dashboard",
+			"leftMenu":{
+				"home":"Home"
+			}
+		},
+		"home":{
+			"welcome":"Angular UI Dashboard examples",
+			"gauge": {
+				"pageHeader":"Gauge Widget",
+				"directiveCall":"<gauge></gauge>",
+				"gauge1":"Sample Gauge - With Label",
+				"gauge2":"Sample Gauge - With Title and Multiple gauge (saving history)",
+				"multi":"Sample Multi Gauge",
+				"gauge2Title":"Total in $",
+				"gaugeDefault":"Default Gauge - With empty configuration",
+				"configuration":"Configuration for this widget"
+			}
+		}
+	}
+}
