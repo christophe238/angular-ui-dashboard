@@ -17,9 +17,7 @@ define([
             var defered = $q.defer();
             var supportedLocales = {
                 'en-us': 'en-us',
-                'en': 'en-us',
-                'fr': 'fr-fr',
-                'fr-fr': 'fr-fr'
+                'en': 'en-us'
             };
 
             var lang = 'en-us';
