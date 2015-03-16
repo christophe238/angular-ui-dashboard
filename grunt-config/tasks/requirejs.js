@@ -37,7 +37,7 @@ module.exports = function(grunt) {
     optimizeOptions = grunt.option('build-requirejs-optimize') || 'none';
 
     var libBuildPaths = {
-        "ui-dashboard":"modules/ui-dashboard/",
+        "ui-dashboard":"modules/ui-dashboard",
         "gauge":"modules/ui-dashboard/gauge/js",
         "d3": "lib/d3",
         "angular": "lib/angular",
