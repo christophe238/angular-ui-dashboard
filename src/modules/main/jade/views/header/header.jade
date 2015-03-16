@@ -10,8 +10,10 @@ mixin header
         .navbar-collapse.collapse
             ul.nav.navbar-nav
                 li(ui-sref="examples",ui-sref-active="active")
-                    a(href='#examples') {{ ::text.leftMenu.examples}}
+                    a(href='#examples') {{ ::text.leftMenu.examples }}
                 li(ui-sref="downloads",ui-sref-active="active")
-                    a(href='#downloads') {{ ::text.leftMenu.download}}
+                    a(href='#downloads') {{ ::text.leftMenu.download }}
+                li(ui-sref="docs",ui-sref-active="active")
+                    a(href='#docs') {{ ::text.leftMenu.documentation }}
                 li
-                    a(href='https://github.com/christophe238/angular-ui-dashboard',target="_blank") {{ ::text.leftMenu.github}}
+                    a(href='https://github.com/christophe238/angular-ui-dashboard',target="_blank") {{ ::text.leftMenu.github }}

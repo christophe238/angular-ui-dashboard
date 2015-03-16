@@ -7,7 +7,8 @@ define([
 
     'main/manifest',
     'core/manifest',
-    'download/manifest'
+    'download/manifest',
+    "documentation/manifest"
 ],function(ng){
 
     var app = ng.module('app',[
@@ -18,7 +19,8 @@ define([
         'CoreApp',
         'HeaderApp',
         'HomeApp',
-        'DownloadApp'
+        'DownloadApp',
+        'DocumentationApp'
     ]);
 
     ng.element(document).ready(function () {

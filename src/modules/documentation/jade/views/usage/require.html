@@ -1,0 +1,12 @@
+require.config({
+	paths : {
+		'angular':'path/to/your/angular',
+		'ui.dashboard':'path/to/ui-dashboard.min'
+	},
+
+	shim : {
+		'ui.dashboard': {
+			deps : ['angular']
+		}
+	}
+});

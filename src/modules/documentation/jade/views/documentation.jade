@@ -1,0 +1,16 @@
+.row
+    .col-sm-8
+        h1(id="setup") {{ ::text.setup.title }}
+        hr
+        include setup/setup.jade
+        h1(id="usage") {{ ::text.usage.title }}
+        hr
+        include usage/usage.jade
+    .col-sm-4.static-menu
+        .sidebar-nav-fixed.affix
+            .well
+                ul.nav                    
+                    li(ng-clic="currentHash = 'setup'",ng-class="{'active':currentHash==='setup'}") 
+                        a.clickable(href="#docs#setup") {{ ::text.setup.title }}
+                    li(ng-clic="currentHash = 'usage'",ng-class="{'active':currentHash==='setup'}") 
+                        a.clickable(href="#docs#usage") {{ ::text.usage.title }}

@@ -12,11 +12,12 @@
 			"leftMenu":{
 				"examples":"Examples",
 				"download":"Download",
+				"documentation":"Documentation",
 				"github":"View on GitHub"
 			}
 		},
 		"home":{
-			"welcome":"Angular UI Dashboard examples",
+			"examples":"Examples",
 			"gauge": {
 				"pageHeader":"Gauge Widget",
 				"directiveCall":"<gauge></gauge>",
@@ -39,5 +40,23 @@
 		"sourceText":"Source project, less, JavaScript. Requires grunt to build project. See setup instructions",
 		"source":"Source code",
 		"sourceDownload":"Download source"
+	},
+	"documentation":{
+		"documentation":"Documentation",
+		"usage":{
+			"title":"Usage",
+			"step1":"Load script",
+			"step2":"RequireJS Configuration",
+			"step3":"Include in your Angular App"
+		},
+		"setup":{
+			"title":"Build from source",
+			"step1":"This project is built using nodeJS and grunt",
+			"step2":"Install node packages",
+			"step3":"Install grunt",
+			"step4":"Build library and examples",
+			"step5":"Run local server",
+			"step6":"You can now access the locally built project at http://localhost:7000"
+		}
 	}
 }
