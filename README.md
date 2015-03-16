@@ -1,4 +1,6 @@
 # angular-ui-dashboard
+[![Build Status](https://api.travis-ci.org/christophe238/angular-ui-dashboard.svg?branch=master)](https://api.travis-ci.org/christophe238/angular-ui-dashboard)
+
 Angular components for graphical widgets. Ideal to create a dashboard view.
 
 
