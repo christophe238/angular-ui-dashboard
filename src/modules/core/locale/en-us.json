@@ -57,6 +57,9 @@
 			"step4":"Build library and examples",
 			"step5":"Run local server",
 			"step6":"You can now access the locally built project at http://localhost:7000"
+		},
+		"directives":{
+			"title":"Directives"
 		}
 	}
 }

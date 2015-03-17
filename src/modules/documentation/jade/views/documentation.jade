@@ -6,6 +6,9 @@
         h1(id="usage") {{ ::text.usage.title }}
         hr
         include usage/usage.jade
+        h1(id="directives") {{ ::text.directives.title }}
+        hr
+        include directives/directives.jade
     .col-sm-4.static-menu
         .sidebar-nav-fixed.affix
             .well
@@ -14,3 +17,5 @@
                         a.clickable(href="#docs#setup") {{ ::text.setup.title }}
                     li(ng-clic="currentHash = 'usage'",ng-class="{'active':currentHash==='setup'}") 
                         a.clickable(href="#docs#usage") {{ ::text.usage.title }}
+                    li(ng-clic="currentHash = 'directives'",ng-class="{'active':currentHash==='directives'}") 
+                        a.clickable(href="#docs#directives") {{ ::text.directives.title }}

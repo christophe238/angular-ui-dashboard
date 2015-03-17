@@ -8,6 +8,13 @@ define([
 
 		$scope.currentHash = '';
 
+		$scope.gauge = {
+			template: '<gauge configuration="YOUR_CONFIGURATION_OBJECT" data="YOUR_2_WAY_BOUND_DATA"></gauge>'			
+		};
+
+		$scope.stringify = function(json){
+			return JSON.stringify(json,null,4);
+		}
 		$scope.gotoHash = function(hash){
 			$scope.currentHash = hash;
 			$location.hash(hash);

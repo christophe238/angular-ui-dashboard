@@ -1,0 +1,79 @@
+{
+	id : 'someID',
+	max : 100,
+	decimal : 2,
+	startAngle : -160,
+	amplitude : 320,
+	strokeWidth : 20,
+	radius : 90,		
+	colors : ['#FFFF00','#FF8C00','#FF4500','#FF0000'],
+	thresholds : {
+		display : true,
+		values : [25,55,75],
+		strokeWidth : 20,
+		amplitude : 2,
+		opacity : 1,
+		color : 'darkgrey',
+		aboveGauge : false
+	},
+	background : {
+			display : true,
+			color : '#F6F6F6',
+			opacity : 1
+	},
+	border : {
+			display : true,
+			color : 'lightgrey',
+			strokeWidth : 2,
+			opacity : 1
+	},
+	label : {
+		display : true,
+		fontsize : 32,
+		color : 'black',
+		format : function(value){ return value; },
+		opacity : 1,
+		symbol : {
+			display : true,
+			fontsize : 20,
+			color : 'black',
+			format : function(value){ return ''; },
+			opacity : 1
+		}
+	},
+	title : {
+		display : false,
+		fontsize : 24,
+		value : '',
+		color : 'black',
+		opacity : 1
+	},
+	transitions : {
+		arc : 1000,
+		label : 500
+	},
+	//The following only applies to widget with multiple gauges
+	initialValues : [],
+	numberOfGauge : 1,
+	radiusRule : {
+		apply : true,
+		rule : function(value,index,initialRadius,initialWidth){
+			return initialRadius - index*initialWidth;
+		}
+	},
+	multipleColorRule : {
+		apply : true
+	},
+	strokeWidthRule : {
+		apply : false,
+		rule : function(value,index,initialWidth){
+			return initialWidth;
+		}
+	},
+	opacityRule : {
+		apply : false,
+		rule : function(value,index){
+			return 1;
+		}
+	}
+} 
