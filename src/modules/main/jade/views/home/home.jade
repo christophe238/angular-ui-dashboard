@@ -2,4 +2,7 @@ h1 {{ ::text.examples }}
 hr
 div(ng-controller="GaugeController", ng-init="page = pages.gauge")
     include gauge.jade
-
+div(ng-controller="DonutController", ng-init="page = pages.donut")
+    include donut.jade
+div(ng-controller="PieChartController", ng-init="page = pages.pie")
+    include pie-chart.jade

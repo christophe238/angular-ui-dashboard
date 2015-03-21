@@ -12,7 +12,13 @@ define([
         	},
         	bar : {
         		expanded:false
-        	}
+        	},
+            donut : {
+                expanded:true
+            },
+            pie : {
+                expanded:true
+            }
         }
     }]);
 

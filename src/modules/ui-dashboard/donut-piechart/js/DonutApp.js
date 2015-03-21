@@ -1,1 +1,1 @@
-angular.module('ui.dashboard.DonutApp',[]);
+angular.module('ui.dashboard.DonutApp',['ui.dashboard.CommonApp']);
