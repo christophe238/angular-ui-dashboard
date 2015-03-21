@@ -75,11 +75,11 @@ angular.module('ui.dashboard.GaugeApp').factory('ui.dashboard.GaugeConfiguration
 			value : '',
 			color : 'black',
 			opacity : 1
-		}
+		};
 		this.transitions = {
 			arc : 1000,
 			label : 500
-		}
+		};
 
 		this.update(configuration);
 	};
@@ -107,8 +107,9 @@ angular.module('ui.dashboard.GaugeApp').factory('ui.dashboard.GaugeConfiguration
 
 	GaugeConfiguration.prototype.update = function(configuration){
 		this._mergeRecursive(this,configuration);
-		this.width = this.radius*2 + this.strokeWidth;
-		this.height = this.radius*2 + this.strokeWidth;
+		var borderSize = (this.border.display) ? this.border.strokeWidth*2:0;
+		this.width = this.radius*2 + this.strokeWidth + borderSize;
+		this.height = this.radius*2 + this.strokeWidth + borderSize;
 	};
 
 	GaugeConfiguration.prototype.getColor = function(value){

@@ -1,4 +1,4 @@
-angular.module('ui.dashboard.GaugeApp').directive('gauge',['ui.dashboard.GaugeConfiguration','ui.dashboard.GaugeService',function(GaugeConfiguration, GaugeService){
+angular.module('ui.dashboard.GaugeApp').directive('gauge',['ui.dashboard.GaugeConfiguration','ui.dashboard.ArcService',function(GaugeConfiguration, ArcService){
     return {
         restrict: 'E',
         scope: {
@@ -17,7 +17,7 @@ angular.module('ui.dashboard.GaugeApp').directive('gauge',['ui.dashboard.GaugeCo
                 	.enter()
                         .append('path')
                             .attr('fill','none')
-                            .attr('transform', GaugeService.computeRotation(
+                            .attr('transform', ArcService.computeRotation(
                             	$scope.configuration.startAngle,
                             	$scope.configuration.width,
                             	$scope.configuration.height
@@ -35,7 +35,7 @@ angular.module('ui.dashboard.GaugeApp').directive('gauge',['ui.dashboard.GaugeCo
                                 .attrTween('d',function(d,i){
                                     var interpolate = d3.interpolate(isNaN($scope.previousData[i]) ? 0:$scope.previousData[i],arrangedData[i]);
                                     return function(t){
-                                        return GaugeService.computeArc(
+                                        return ArcService.computeArc(
                                         	0,
 				                        	$scope.configuration.amplitude,
 				                        	interpolate(t),
@@ -124,7 +124,7 @@ angular.module('ui.dashboard.GaugeApp').directive('gauge',['ui.dashboard.GaugeCo
 			        //Setting background
 			        $scope.widget.append('g')
 	                    .append('path')
-	                        .attr('d',GaugeService.computeArc(
+	                        .attr('d',ArcService.computeArc(
 	                        	0,
 	                        	$scope.configuration.amplitude,
 	                        	$scope.configuration.max,
@@ -135,7 +135,7 @@ angular.module('ui.dashboard.GaugeApp').directive('gauge',['ui.dashboard.GaugeCo
 	                        	))
 	                        .attr('opacity',$scope.configuration.background.opacity)
 	                        .attr('fill','none')
-	                        .attr('transform', GaugeService.computeRotation(
+	                        .attr('transform', ArcService.computeRotation(
 	                        	$scope.configuration.startAngle,
 	                        	$scope.configuration.width,
 	                        	$scope.configuration.height
@@ -147,18 +147,18 @@ angular.module('ui.dashboard.GaugeApp').directive('gauge',['ui.dashboard.GaugeCo
 	                //Setting border
 	                $scope.widget.append('g')
                         .append('path')
-                            .attr('d',GaugeService.computeArc(
+                            .attr('d',ArcService.computeArc(
 	                        	0,
 	                        	$scope.configuration.amplitude,
 	                        	$scope.configuration.max,
 	                        	$scope.configuration.max,
 	                        	$scope.configuration.width,
 	                        	$scope.configuration.height,
-	                        	$scope.configuration.radius + $scope.configuration.strokeWidth/2-$scope.configuration.border.strokeWidth
+	                        	$scope.configuration.radius + $scope.configuration.strokeWidth/2 + $scope.configuration.border.strokeWidth/2
 	                        	))
                             .attr('opacity',$scope.configuration.border.opacity)
                             .attr('fill','none')
-                            .attr('transform', GaugeService.computeRotation(
+                            .attr('transform', ArcService.computeRotation(
                             	$scope.configuration.startAngle,
                             	$scope.configuration.width,
                             	$scope.configuration.height
@@ -204,7 +204,7 @@ angular.module('ui.dashboard.GaugeApp').directive('gauge',['ui.dashboard.GaugeCo
 	                angular.forEach($scope.configuration.thresholds.values,function(threshold){
 		                $scope.widget.select('.gauge-threshold')
 		                    .append('path')
-		                        .attr('d',GaugeService.computeArc(
+		                        .attr('d',ArcService.computeArc(
 		                        	($scope.configuration.amplitude * (threshold/$scope.configuration.max)) - $scope.configuration.thresholds.amplitude/2,
 		                        	($scope.configuration.amplitude * (threshold/$scope.configuration.max)) + $scope.configuration.thresholds.amplitude/2,
 		                        	$scope.configuration.max,
@@ -214,7 +214,7 @@ angular.module('ui.dashboard.GaugeApp').directive('gauge',['ui.dashboard.GaugeCo
 		                        	$scope.configuration.radius
 		                        	))
 		                        .attr('fill','none')
-		                        .attr('transform', GaugeService.computeRotation(
+		                        .attr('transform', ArcService.computeRotation(
 	                            	$scope.configuration.startAngle,
 	                            	$scope.configuration.width,
 	                            	$scope.configuration.height

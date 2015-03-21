@@ -1,1 +1,1 @@
-angular.module('ui.dashboard.GaugeApp',[]);
+angular.module('ui.dashboard.GaugeApp',['ui.dashboard.CommonApp']);
