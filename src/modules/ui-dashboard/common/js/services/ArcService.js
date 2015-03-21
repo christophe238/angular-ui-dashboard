@@ -1,8 +1,7 @@
-angular.module('ui.dashboard.GaugeApp').service('ui.dashboard.GaugeService',function(){
+angular.module('ui.dashboard.CommonApp').service('ui.dashboard.ArcService',function(){
+	var ArcService = function(){};
 
-	var GaugeService = function(){};
-
-	GaugeService.prototype.polarToCartesian = function(centerX, centerY, radius, angleInDegrees) {
+	ArcService.prototype.polarToCartesian = function(centerX, centerY, radius, angleInDegrees) {
         var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
         return {
             x: centerX + (radius * Math.cos(angleInRadians)),
@@ -10,7 +9,11 @@ angular.module('ui.dashboard.GaugeApp').service('ui.dashboard.GaugeService',func
         };
     };
 
-    GaugeService.prototype.describeArc = function(x, y, radius, startAngle, endAngle){
+    ArcService.prototype.toRadians = function(degrees){
+        return (degrees/180)*Math.PI;
+    };
+
+    ArcService.prototype.describeArc = function(x, y, radius, startAngle, endAngle){
         var start = this.polarToCartesian(x, y, radius, endAngle);
         var end = this.polarToCartesian(x, y, radius, startAngle);
         var arcSweep = ((endAngle - startAngle) <= 180) ? 0:1;
@@ -20,7 +23,7 @@ angular.module('ui.dashboard.GaugeApp').service('ui.dashboard.GaugeService',func
         ].join(' ');
     };
 
-    GaugeService.prototype.computeArc = function(startAngle,endAngle,value,max,width,height,radius){
+    ArcService.prototype.computeArc = function(startAngle,endAngle,value,max,width,height,radius){
         return this.describeArc(
                 width/2,
                 height/2,
@@ -30,9 +33,13 @@ angular.module('ui.dashboard.GaugeApp').service('ui.dashboard.GaugeService',func
             );
     };
 
-    GaugeService.prototype.computeRotation = function(startAngle, width, height){
+    ArcService.prototype.computeRotation = function(startAngle, width, height){
         return 'rotate(' + startAngle + ',' + width/2 + ',' + height/2 + ')';
     };
 
-	return new GaugeService();
+    ArcService.prototype.translate = function(radius,strokeWidth,border){
+        var center = (radius + ((strokeWidth) ? strokeWidth/2:0)+ ((border) ? border:0))
+        return 'translate(' + center + ',' + center + ')';
+    };
+    return new ArcService();
 });
