@@ -20,16 +20,27 @@ Project built on top of [angular-base](https://github.com/christophe238/angular-
 
 # Roadmap
 :white_check_mark: Basic Circular Gauge - *since v0.0.1*
+
 :white_check_mark: Configurable Circular Gauge - *since v0.0.1*
+
 :white_check_mark: Multiple Circular Gauge with widget selector - *since v0.0.1*
+
 :white_medium_square: Basic Donut - *in progress*
+
 :white_medium_square: Configurable Donut - *in progress*
+
 :white_medium_square: Pie Chart - *in progress*
+
 :white_medium_square: Multiple Widgets view (mix donut, pie chart and gauge) - *in progress*
+
 :white_medium_square: Basic Bar Gauge - *not planned yet*
+
 :white_medium_square: Configurable Bar Gauge - *not planned yet*
+
 :white_medium_square: Basic Multi Line Chart - *not planned yet*
+
 :white_medium_square: Configurable Multi Line Chart - *not planned yet*
+
 :white_medium_square: And more to come ... - *not planned yet*
 
 Feel free to leave us some ideas that you would like to see in this library.
