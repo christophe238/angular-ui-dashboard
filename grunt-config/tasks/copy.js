@@ -26,18 +26,20 @@ module.exports = function(grunt) {
 
     var libInterfix = path.join('dist',version) + path.sep;
 
-    var libFiles = grunt.file.expandMapping([
-        path.join('dist',version,'*')
-        ], path.join('dist','.latest'), {
-            rename: function(base, destPath) {
-                var res = path.join(base, destPath);
+    function getLibFilesInto(folder){
+        grunt.file.expandMapping([
+            path.join('dist',version,'*')
+            ], path.join('dist',folder), {
+                rename: function(base, destPath) {
+                    var res = path.join(base, destPath);
 
-                res = res.replace(libInterfix,'');
+                    res = res.replace(libInterfix,'');
 
-                console.log("copy : " + res + " copied");
-                return res;
-            }
+                    console.log("copy : " + res + " copied");
+                    return res;
+                }
         });
+    }
     grunt.config('copy', {
         dev: {
             files: files
@@ -46,7 +48,10 @@ module.exports = function(grunt) {
             files: files
         },
         'ui-dashboard': {
-            files: libFiles
+            files: getLibFilesInto('.latest')
+        },
+        'ui-dashboard-dev': {
+            files: getLibFilesInto('dev')
         }
     });
 

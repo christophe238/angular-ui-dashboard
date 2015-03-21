@@ -19,9 +19,12 @@ module.exports = function(grunt) {
         'production'
     ]);
     grunt.registerTask('default', [
+        'less:ui-dashboard',
     	'less:dev',
     	'jade:devall',
     	'jade:devindex',
+        'requirejs:ui-dashboard-dev',
+        'copy:ui-dashboard-dev',
     	'requirejs:dev',
     	'copy:dev'
     ]);
