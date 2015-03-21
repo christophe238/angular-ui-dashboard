@@ -41,6 +41,7 @@ module.exports = function(grunt) {
     var libBuildPaths = {
         "ui-dashboard":"modules/ui-dashboard",
         "gauge":"modules/ui-dashboard/gauge/js",
+        "donut-piechart":"modules/ui-dashboard/donut-piechart/js",
         "d3": "lib/d3",
         "angular": "lib/angular",
     };
