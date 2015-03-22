@@ -108,8 +108,8 @@ angular.module('ui.dashboard.GaugeApp').factory('ui.dashboard.GaugeConfiguration
 	GaugeConfiguration.prototype.update = function(configuration){
 		this._mergeRecursive(this,configuration);
 		var borderSize = (this.border.display) ? this.border.strokeWidth*2:0;
-		this.width = this.radius*2 + this.strokeWidth + borderSize;
-		this.height = this.radius*2 + this.strokeWidth + borderSize;
+		this.width = this.radius*2 + this.strokeWidth/2 + borderSize;
+		this.height = this.radius*2 + this.strokeWidth/2 + borderSize;
 	};
 
 	GaugeConfiguration.prototype.getColor = function(value){

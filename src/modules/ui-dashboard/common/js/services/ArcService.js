@@ -41,5 +41,20 @@ angular.module('ui.dashboard.CommonApp').service('ui.dashboard.ArcService',funct
         var center = (radius + ((strokeWidth) ? strokeWidth/2:0)+ ((border) ? border:0))
         return 'translate(' + center + ',' + center + ')';
     };
+
+    ArcService.prototype.d3Arc = function(radius,strokeWidth){
+        return d3.svg.arc()
+            .outerRadius(radius)
+            .innerRadius(radius - strokeWidth);
+    };
+
+    ArcService.prototype.d3Pie = function(amplitude){
+        return d3.layout.pie()
+            .sort(null)
+            .startAngle(0)
+            .endAngle(this.toRadians(amplitude))
+            .value(function(d){ return d+Math.random()/100000; });
+    };
+    
     return new ArcService();
 });

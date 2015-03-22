@@ -8,16 +8,24 @@ define([
         $scope.text = localeService.data.main.home;
         $scope.pages = {
         	gauge: {
+                searchTerms:'',
+                show:true,
         		expanded:false
         	},
         	bar : {
+                searchTerms:'',
+                show:true,
         		expanded:false
         	},
             donut : {
-                expanded:true
+                searchTerms:'',
+                show:true,
+                expanded:false
             },
             pie : {
-                expanded:true
+                searchTerms:'',
+                show:true,
+                expanded:false
             }
         }
     }]);

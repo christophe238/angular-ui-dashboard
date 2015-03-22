@@ -1,4 +1,4 @@
-angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutConfiguration','ui.dashboard.ArcService',function(DonutConfiguration,ArcService){
+angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieChartConfiguration','ui.dashboard.ArcService',function(PieChartConfiguration,ArcService){
 	return {
 		restrict: 'E',
 		scope: {
@@ -6,7 +6,7 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 			data: '='
 		},
 		link: function($scope,element,attrs){
-			$scope.configuration = new DonutConfiguration($scope.configuration || {});
+			$scope.configuration = new PieChartConfiguration($scope.configuration || {});
 
 			$scope.previousData = [];
 			angular.forEach($scope.data,function(){
@@ -15,10 +15,15 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 
 			$scope.draw = function(data){			
 				var paths = $scope.widget.select('.donut-container').selectAll('path')
-				
-				var arc = ArcService.d3Arc($scope.configuration.radius, $scope.configuration.strokeWidth);
+				var arc = d3.svg.arc()
+				    .outerRadius($scope.configuration.radius)
+				    .innerRadius(0);
 
-				var pie = ArcService.d3Pie($scope.configuration.amplitude);
+				var pie = d3.layout.pie()
+				    .sort(null)
+				    .startAngle(0)
+				    .endAngle(ArcService.toRadians($scope.configuration.amplitude))
+				    .value(function(d) { return d+Math.random()/100000; });
 
 				var previousPie = pie($scope.previousData);
 
@@ -37,12 +42,11 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
                             	) + ' ' + 
                             	ArcService.translate(
 	                            	$scope.configuration.radius,
-	                            	$scope.configuration.strokeWidth,
+	                            	0,
 	                            	$scope.configuration.border.display ? $scope.configuration.border.strokeWidth:0
 	                            ))
                             .transition()
                                 .attrTween('d',function(d,i){
-                                	//TODO : Move it to previousPie[i]
                                     var interpolate = d3.interpolate({startAngle:previousPie[i].startAngle, endAngle:previousPie[i].endAngle}, d);
 									return function(t) {
 										return arc(interpolate(t));
@@ -73,12 +77,10 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 				$scope.widget = d3.select(element[0]);
 				$scope.widget.selectAll('*').remove();
 
-				var arc = ArcService.d3Arc($scope.configuration.radius, $scope.configuration.strokeWidth);
-
 				$scope.widget = $scope.widget.append('svg')
 					.attr('id',$scope.configuration.id)
 					.attr('width',$scope.configuration.width)
-					.attr('height',$scope.configuration.height + ($scope.configuration.title.display ? $scope.configuration.title.fontsize*2:0));
+					.attr('height',$scope.configuration.height+($scope.configuration.title.display ? $scope.configuration.title.fontsize*2:0));
 				
 				if($scope.configuration.title.display){
 	            	//Setting title
@@ -87,7 +89,7 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 	            		.append('text')
 	            			.text($scope.configuration.title.value)
 	            			.attr('x',$scope.configuration.width/2)
-	            			.attr('y',$scope.configuration.height + $scope.configuration.title.fontsize)
+	            			.attr('y',$scope.configuration.height+$scope.configuration.title.fontsize)
 	            			.attr('opacity',$scope.configuration.title.opacity)
 	            			.attr('font-size',$scope.configuration.title.fontsize+'px')
 	            			.attr('fill',$scope.configuration.title.color)
@@ -98,40 +100,47 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 			        //Setting background
 			        $scope.widget.append('g')
 	                    .append('path')
-	                        .attr('d',arc({startAngle:0, endAngle:ArcService.toRadians($scope.configuration.amplitude)}))
+	                        .attr('d',ArcService.computeArc(
+	                        	0,
+	                        	$scope.configuration.amplitude,
+	                        	1,
+	                        	1,
+	                        	$scope.configuration.width,
+	                        	$scope.configuration.height,
+	                        	$scope.configuration.radius
+	                        	))
 	                        .attr('opacity',$scope.configuration.background.opacity)
-	                        .attr('fill',$scope.configuration.background.color)
-	                        .attr('transform', 
-                            	ArcService.computeRotation(
-	                            	$scope.configuration.startAngle,
-	                            	$scope.configuration.width,
-	                            	$scope.configuration.height
-                            	) + ' ' + 
-                            	ArcService.translate(
-	                            	$scope.configuration.radius,
-	                            	$scope.configuration.strokeWidth,
-	                            	$scope.configuration.border.display ? $scope.configuration.border.strokeWidth:0
-	                            ));
+	                        .attr('fill','none')
+	                        .attr('transform', ArcService.computeRotation(
+	                        	$scope.configuration.startAngle,
+	                        	$scope.configuration.width,
+	                        	$scope.configuration.height
+	                        	))
+	                        .attr('stroke',$scope.configuration.background.color)
+	                        .attr('stroke-width',$scope.configuration.radius);
                 }
 	            if($scope.configuration.border.display){
 	                //Setting border
-	                var borderArc = ArcService.d3Arc($scope.configuration.radius+$scope.configuration.border.strokeWidth,$scope.configuration.border.strokeWidth)
 	                $scope.widget.append('g')
                         .append('path')
-                            .attr('d',borderArc({startAngle:0, endAngle:ArcService.toRadians($scope.configuration.amplitude)}))
+                            .attr('d',ArcService.computeArc(
+	                        	0,
+	                        	$scope.configuration.amplitude,
+	                        	1,
+	                        	1,
+	                        	$scope.configuration.width,
+	                        	$scope.configuration.height,
+	                        	$scope.configuration.radius + $scope.configuration.strokeWidth/2 + $scope.configuration.border.strokeWidth/2
+	                        	))
                             .attr('opacity',$scope.configuration.border.opacity)
-                            .attr('fill',$scope.configuration.border.color)
-                            .attr('transform', 
-                            	ArcService.computeRotation(
-	                            	$scope.configuration.startAngle,
-	                            	$scope.configuration.width,
-	                            	$scope.configuration.height
-                            	) + ' ' + 
-                            	ArcService.translate(
-	                            	$scope.configuration.radius,
-	                            	$scope.configuration.strokeWidth,
-	                            	$scope.configuration.border.display ? $scope.configuration.border.strokeWidth:0
-	                            ));
+                            .attr('fill','none')
+                            .attr('transform', ArcService.computeRotation(
+                            	$scope.configuration.startAngle,
+                            	$scope.configuration.width,
+                            	$scope.configuration.height
+                            	))
+                            .attr('stroke',$scope.configuration.border.color)
+                            .attr('stroke-width',$scope.configuration.border.strokeWidth);
 	            }
 	            //Main widget content
                 $scope.widget.append('g')

@@ -16,7 +16,10 @@ define([
 
 		$scope.miniDonutConfiguration = {
 			radius : 20,
-			strokeWidth : 5
+			strokeWidth : 5,
+			border : {
+				strokeWidth : 1
+			}
 		}		
 
 		$scope.generateRandomArray = function(size){

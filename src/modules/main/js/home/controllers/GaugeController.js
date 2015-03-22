@@ -37,7 +37,7 @@ define([
 
         $scope.gaugeConfiguration = {
             max : 100,
-            radius : 130,
+            radius : 90,
             startAngle : -90,
             amplitude : 180,
             strokeWidth : 25,
@@ -91,7 +91,7 @@ define([
                 }
             },
             label : {
-                fontsize : 40,
+                fontsize : 32,
                 format : $scope.formatLabel2,
                 symbol : {
                     display : false

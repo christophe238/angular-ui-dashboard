@@ -15,7 +15,7 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.DonutConfiguration
 			};
 		this.border = {
 				display : true,
-				color : 'grey',
+				color : 'lightgrey',
 				strokeWidth : 2,
 				opacity : 1
 			};

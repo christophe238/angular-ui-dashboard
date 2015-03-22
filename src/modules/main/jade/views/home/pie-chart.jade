@@ -1,6 +1,6 @@
 .page-header(ng-click="page.expanded = !page.expanded")
     h2
-        donut(configuration="miniPieConfiguration", data="data0")
+        pie-chart(configuration="miniPieConfiguration", data="data0")
         | {{ ::text.pie.pageHeader + ' ' }}
         small {{ ::text.pie.directiveCall }}
         span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="page.expanded")
@@ -14,4 +14,4 @@
                     span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="true")
                 .panel-body(ng-show="true")
                     .center
-                        donut(configuration="config0",data="data0")
+                        pie-chart(configuration="config0",data="data0")

@@ -42,7 +42,7 @@ angular.module('ui.dashboard.GaugeApp').directive('gauge',['ui.dashboard.GaugeCo
 				                        	$scope.configuration.max,
 				                        	$scope.configuration.width,
 				                        	$scope.configuration.height,
-				                        	(($scope.configuration.radiusRule.apply) ? $scope.configuration.radiusRule.rule(d,i,$scope.configuration.radius,$scope.configuration.strokeWidth):$scope.configuration.radius)
+				                        	(($scope.configuration.radiusRule.apply) ? $scope.configuration.radiusRule.rule(d,i,$scope.configuration.radius-$scope.configuration.strokeWidth/2,$scope.configuration.strokeWidth):($scope.configuration.radius - $scope.configuration.strokeWidth/2))
 		                        			);
                                     };
                                 })
@@ -78,6 +78,7 @@ angular.module('ui.dashboard.GaugeApp').directive('gauge',['ui.dashboard.GaugeCo
     				return tmp;
     			}
         	};
+
         	$scope._updateLabels = function(data){
         		if($scope.configuration.label.display){
             		$scope.widget.select('.gauge-middle-label').select('text')
@@ -131,7 +132,7 @@ angular.module('ui.dashboard.GaugeApp').directive('gauge',['ui.dashboard.GaugeCo
 	                        	$scope.configuration.max,
 	                        	$scope.configuration.width,
 	                        	$scope.configuration.height,
-	                        	$scope.configuration.radius
+	                        	$scope.configuration.radius - $scope.configuration.strokeWidth/2
 	                        	))
 	                        .attr('opacity',$scope.configuration.background.opacity)
 	                        .attr('fill','none')
@@ -154,7 +155,7 @@ angular.module('ui.dashboard.GaugeApp').directive('gauge',['ui.dashboard.GaugeCo
 	                        	$scope.configuration.max,
 	                        	$scope.configuration.width,
 	                        	$scope.configuration.height,
-	                        	$scope.configuration.radius + $scope.configuration.strokeWidth/2 + $scope.configuration.border.strokeWidth/2
+	                        	$scope.configuration.radius + $scope.configuration.border.strokeWidth/2
 	                        	))
                             .attr('opacity',$scope.configuration.border.opacity)
                             .attr('fill','none')
@@ -211,7 +212,7 @@ angular.module('ui.dashboard.GaugeApp').directive('gauge',['ui.dashboard.GaugeCo
 		                        	$scope.configuration.max,
 		                        	$scope.configuration.width,
 		                        	$scope.configuration.height,
-		                        	$scope.configuration.radius
+		                        	$scope.configuration.radius - $scope.configuration.strokeWidth/2
 		                        	))
 		                        .attr('fill','none')
 		                        .attr('transform', ArcService.computeRotation(
