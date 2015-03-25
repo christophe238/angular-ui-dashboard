@@ -5,7 +5,17 @@ define([
 ],function(angular,_,HomeApp){
 
 	HomeApp.controller('PieChartController',['$scope','$timeout',function($scope,$timeout){
-		$scope.config0 = {};
+		$scope.config0 = {
+			sort : 'ascending',
+			slice : {
+				click : function(d){
+					console.log('Slice clicked : '+JSON.stringify(d));
+					$scope.data0 = $scope.generateRandomArray(5);
+					$scope.$apply();
+					console.log('Data refreshed');
+				}
+			}
+		};
 
 		$scope.config1 = {
 			colors : ['#4864AF','#7891D5','#E3EAFC','#DEDEDE','#EFEFEF']
@@ -15,9 +25,19 @@ define([
 		$scope.data1 = [124,4987,1900];
 
 		$scope.miniPieConfiguration = {
+			width : 50,
+			height : 50, 
 			radius : 20,
 			border : {
 				strokeWidth : 1
+			},
+			legend : {
+				display : false
+			},
+			slice : {
+				hover : {
+					apply : false
+				}
 			}
 		}		
 
@@ -36,6 +56,6 @@ define([
 				$scope.refreshData();
 			},2500);
 		};
-		$scope.refreshData();
+		//$scope.refreshData();
 	}]);
 });

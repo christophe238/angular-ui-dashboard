@@ -2,17 +2,31 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.DonutConfiguration
 
 	var DonutConfiguration = function(configuration){
 		this.id = this._generateID();
+		this.width = 300;
+		this.height = 300;
 		this.startAngle = 5;
 		this.strokeWidth = 30;
 		this.amplitude = 350;
+		this.padAngle = 1;
 		this.radius = 90;
 		this.opacity = 1;
 		this.colors = ["#3399FF", "#5DAEF8", "#86C3FA", "#ADD6FB", "#D6EBFD"];
-		this.background = {
-				display : true,
-				color : '#F6F6F6',
-				opacity : 1
-			};
+		this.sort = null;
+		this.slice = {			
+			hover : {
+				apply : true,
+				callback : function(value){},
+				growBy : 5
+			},
+			click : function(value){}
+		};
+		this.legend = {
+			display : true,
+			line : {
+				size : 10,
+				color : 'gray'
+			}
+		}
 		this.border = {
 				display : true,
 				color : 'lightgrey',
@@ -63,10 +77,7 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.DonutConfiguration
 	};
 
 	DonutConfiguration.prototype.update = function(configuration){
-		this._mergeRecursive(this,configuration);
-		var borderSize = (this.border.display) ? this.border.strokeWidth*2:0;
-		this.width = this.radius*2 + this.strokeWidth + borderSize;
-		this.height = this.radius*2 + this.strokeWidth + borderSize;
+		this._mergeRecursive(this,configuration);		
 	};
 
 	DonutConfiguration.prototype.getColor = function(index){

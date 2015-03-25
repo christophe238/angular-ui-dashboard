@@ -17,10 +17,15 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 				var paths = $scope.widget.select('.donut-container').selectAll('path')
 				
 				var arc = ArcService.d3Arc($scope.configuration.radius, $scope.configuration.strokeWidth);
-
-				var pie = ArcService.d3Pie($scope.configuration.amplitude);
+				var arcOver = ArcService.d3Arc($scope.configuration.radius + $scope.configuration.slice.hover.growBy, $scope.configuration.strokeWidth + $scope.configuration.slice.hover.growBy);
+				
+				var pie = ArcService.d3Pie($scope.configuration.amplitude,$scope.configuration.padAngle,$scope.configuration.sort);
 
 				var previousPie = pie($scope.previousData);
+
+				if($scope.configuration.legend.display){
+					$scope.drawLabels(pie(data));
+				}
 
 				paths.data(pie(data),function(d,i){ return d+Math.random()/10000; })
                 	.enter()
@@ -36,10 +41,25 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 	                            	$scope.configuration.height
                             	) + ' ' + 
                             	ArcService.translate(
-	                            	$scope.configuration.radius,
-	                            	$scope.configuration.strokeWidth,
-	                            	$scope.configuration.border.display ? $scope.configuration.border.strokeWidth:0
+	                            	$scope.configuration.width,
+                    				$scope.configuration.height
 	                            ))
+                            .on('mouseover', function(d) {
+				                if($scope.configuration.slice.hover.apply){
+				                	$scope.configuration.slice.hover.callback(d);
+					                d3.select(this).transition()
+					                    .duration(200)
+					                    .attr("d", arcOver);
+				                }
+				            })
+				            .on('mouseout', function(d) {
+				            	if($scope.configuration.slice.hover.apply){
+					                d3.select(this).transition()
+					                    .duration(200)
+					                    .attr("d", arc);
+					            }
+				            })
+				            .on('click',$scope.configuration.slice.click)
                             .transition()
                                 .attrTween('d',function(d,i){
                                 	//TODO : Move it to previousPie[i]
@@ -53,6 +73,35 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
                                 	$scope.previousData = angular.copy(data);
                                 });				
                 paths.remove();
+			};
+			
+			$scope.drawLabels = function(pieData){
+				var lines = $scope.widget.select('.label_group').selectAll('line');
+
+				lines.data(pieData)
+					.enter()
+						.append('line')
+							.attr('x1', 0)
+							.attr('x2', 0)
+							.attr('y1', - $scope.configuration.radius - $scope.configuration.slice.hover.growBy)
+							.attr('y2', - $scope.configuration.radius - $scope.configuration.slice.hover.growBy - $scope.configuration.legend.line.size)
+							.attr('stroke',$scope.configuration.legend.line.color)
+							.attr('transform', function(d) {
+								return $scope._getLabelRotation(d);
+							})
+				lines.transition()
+					.duration($scope.configuration.transitions.arc)
+					.attr('transform', function(d) {
+						return $scope._getLabelRotation(d);
+					});
+			};
+
+			$scope._getLabelRotation = function(d){
+				return ArcService.computeRotation(
+					ArcService.toDegrees((d.startAngle+d.endAngle)/2+d.padAngle*4),
+					0,
+					0
+				);
 			};
 
 			$scope._sumData = function(data){				
@@ -78,8 +127,15 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 				$scope.widget = $scope.widget.append('svg')
 					.attr('id',$scope.configuration.id)
 					.attr('width',$scope.configuration.width)
-					.attr('height',$scope.configuration.height + ($scope.configuration.title.display ? $scope.configuration.title.fontsize*2:0));
+					.attr('height',$scope.configuration.height);
 				
+				$scope.widget.append('g')
+  					.attr("class", "label_group")
+  					.attr("transform", ArcService.translate(
+                    	$scope.configuration.width,
+                    	$scope.configuration.height
+                    ));
+
 				if($scope.configuration.title.display){
 	            	//Setting title
 	            	$scope.widget.append('g')
@@ -94,25 +150,6 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 	            			.style('text-anchor','middle');
 
 	            }
-	            if($scope.configuration.background.display){
-			        //Setting background
-			        $scope.widget.append('g')
-	                    .append('path')
-	                        .attr('d',arc({startAngle:0, endAngle:ArcService.toRadians($scope.configuration.amplitude)}))
-	                        .attr('opacity',$scope.configuration.background.opacity)
-	                        .attr('fill',$scope.configuration.background.color)
-	                        .attr('transform', 
-                            	ArcService.computeRotation(
-	                            	$scope.configuration.startAngle,
-	                            	$scope.configuration.width,
-	                            	$scope.configuration.height
-                            	) + ' ' + 
-                            	ArcService.translate(
-	                            	$scope.configuration.radius,
-	                            	$scope.configuration.strokeWidth,
-	                            	$scope.configuration.border.display ? $scope.configuration.border.strokeWidth:0
-	                            ));
-                }
 	            if($scope.configuration.border.display){
 	                //Setting border
 	                var borderArc = ArcService.d3Arc($scope.configuration.radius+$scope.configuration.border.strokeWidth,$scope.configuration.border.strokeWidth)
@@ -128,9 +165,8 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 	                            	$scope.configuration.height
                             	) + ' ' + 
                             	ArcService.translate(
-	                            	$scope.configuration.radius,
-	                            	$scope.configuration.strokeWidth,
-	                            	$scope.configuration.border.display ? $scope.configuration.border.strokeWidth:0
+	                            	$scope.configuration.width,
+                    				$scope.configuration.height
 	                            ));
 	            }
 	            //Main widget content

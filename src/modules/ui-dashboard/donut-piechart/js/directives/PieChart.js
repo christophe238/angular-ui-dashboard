@@ -14,26 +14,44 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 			});
 
 			$scope.draw = function(data){			
-				var paths = $scope.widget.select('.donut-container').selectAll('path')
-				var arc = d3.svg.arc()
-				    .outerRadius($scope.configuration.radius)
-				    .innerRadius(0);
+				var paths = $scope.widget.select('.donut-container').selectAll('path');
 
-				var pie = d3.layout.pie()
-				    .sort(null)
-				    .startAngle(0)
-				    .endAngle(ArcService.toRadians($scope.configuration.amplitude))
-				    .value(function(d) { return d+Math.random()/100000; });
+				var arc = ArcService.d3Arc($scope.configuration.radius, $scope.configuration.strokeWidth);
+				var arcOver = ArcService.d3Arc($scope.configuration.radius + $scope.configuration.slice.hover.growBy, $scope.configuration.strokeWidth + $scope.configuration.slice.hover.growBy);
+
+				var pie = ArcService.d3Pie($scope.configuration.amplitude,$scope.configuration.padAngle, $scope.configuration.sort);
 
 				var previousPie = pie($scope.previousData);
-
+				
+				if($scope.configuration.legend.display){
+					$scope.drawLabels(pie(data));
+				}
+				
 				paths.data(pie(data),function(d,i){ return d+Math.random()/10000; })
                 	.enter()
                         .append('path')
                             .attr('fill',function(d,i){
                             	return $scope.configuration.getColor(i);
                             	})
+                            .attr('stroke',$scope.configuration.slice.border.color)
+                            .attr('stroke-width',($scope.configuration.slice.border.display ? $scope.configuration.slice.border.width:0))
                             .attr('opacity',$scope.configuration.opacity)
+                            .on('mouseover', function(d) {
+				                if($scope.configuration.slice.hover.apply){
+				                	$scope.configuration.slice.hover.callback(d);
+					                d3.select(this).transition()
+					                    .duration(200)
+					                    .attr("d", arcOver);
+				                }
+				            })
+				            .on('mouseout', function(d) {
+				            	if($scope.configuration.slice.hover.apply){
+					                d3.select(this).transition()
+					                    .duration(200)
+					                    .attr("d", arc);
+					            }
+				            })
+				            .on('click',$scope.configuration.slice.click)
                             .attr('transform', 
                             	ArcService.computeRotation(
 	                            	$scope.configuration.startAngle,
@@ -41,9 +59,8 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 	                            	$scope.configuration.height
                             	) + ' ' + 
                             	ArcService.translate(
-	                            	$scope.configuration.radius,
-	                            	0,
-	                            	$scope.configuration.border.display ? $scope.configuration.border.strokeWidth:0
+	                            	$scope.configuration.width,
+                    				$scope.configuration.height
 	                            ))
                             .transition()
                                 .attrTween('d',function(d,i){
@@ -56,7 +73,36 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
                                 .each("end",function(){
                                 	$scope.previousData = angular.copy(data);
                                 });				
-                paths.remove();
+                paths.remove();                
+			};
+
+			$scope.drawLabels = function(pieData){
+				var lines = $scope.widget.select('.label_group').selectAll('line');
+
+				lines.data(pieData)
+					.enter()
+						.append('line')
+							.attr('x1', 0)
+							.attr('x2', 0)
+							.attr('y1', - $scope.configuration.radius - $scope.configuration.slice.hover.growBy)
+							.attr('y2', - $scope.configuration.radius - $scope.configuration.slice.hover.growBy - $scope.configuration.legend.line.size)
+							.attr('stroke',$scope.configuration.legend.line.color)
+							.attr('transform', function(d) {
+								return $scope._getLabelRotation(d);
+							})
+				lines.transition()
+					.duration($scope.configuration.transitions.arc)
+					.attr('transform', function(d) {
+						return $scope._getLabelRotation(d);
+					});
+			};
+
+			$scope._getLabelRotation = function(d){
+				return ArcService.computeRotation(
+					ArcService.toDegrees((d.startAngle+d.endAngle)/2+d.padAngle*4),
+					0,
+					0
+				);
 			};
 
 			$scope._sumData = function(data){				
@@ -80,7 +126,14 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 				$scope.widget = $scope.widget.append('svg')
 					.attr('id',$scope.configuration.id)
 					.attr('width',$scope.configuration.width)
-					.attr('height',$scope.configuration.height+($scope.configuration.title.display ? $scope.configuration.title.fontsize*2:0));
+					.attr('height',$scope.configuration.height);
+				
+				$scope.widget.append('g')
+  					.attr("class", "label_group")
+  					.attr("transform", ArcService.translate(
+                    	$scope.configuration.width,
+                    	$scope.configuration.height
+                    ));
 				
 				if($scope.configuration.title.display){
 	            	//Setting title
@@ -96,29 +149,6 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 	            			.style('text-anchor','middle');
 
 	            }
-	            if($scope.configuration.background.display){
-			        //Setting background
-			        $scope.widget.append('g')
-	                    .append('path')
-	                        .attr('d',ArcService.computeArc(
-	                        	0,
-	                        	$scope.configuration.amplitude,
-	                        	1,
-	                        	1,
-	                        	$scope.configuration.width,
-	                        	$scope.configuration.height,
-	                        	$scope.configuration.radius
-	                        	))
-	                        .attr('opacity',$scope.configuration.background.opacity)
-	                        .attr('fill','none')
-	                        .attr('transform', ArcService.computeRotation(
-	                        	$scope.configuration.startAngle,
-	                        	$scope.configuration.width,
-	                        	$scope.configuration.height
-	                        	))
-	                        .attr('stroke',$scope.configuration.background.color)
-	                        .attr('stroke-width',$scope.configuration.radius);
-                }
 	            if($scope.configuration.border.display){
 	                //Setting border
 	                $scope.widget.append('g')

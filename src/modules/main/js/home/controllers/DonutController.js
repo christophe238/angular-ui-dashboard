@@ -5,7 +5,14 @@ define([
 ],function(angular,_,HomeApp){
 
 	HomeApp.controller('DonutController',['$scope','$timeout',function($scope,$timeout){
-		$scope.config0 = {};
+		$scope.config0 = {
+			sort : 'descending',
+			slice : {
+				click : function(d){
+					console.log('Slice clicked : '+JSON.stringify(d));
+				}
+			}
+		};
 
 		$scope.config1 = {
 			colors : ['#4864AF','#7891D5','#E3EAFC','#DEDEDE','#EFEFEF']
@@ -15,10 +22,20 @@ define([
 		$scope.data1 = [124,4987,1900];
 
 		$scope.miniDonutConfiguration = {
+			width : 50,
+			height : 50, 
 			radius : 20,
 			strokeWidth : 5,
 			border : {
 				strokeWidth : 1
+			},
+			legend : {
+				display : false
+			},
+			slice : {
+				hover : {
+					apply : false
+				}
 			}
 		}		
 

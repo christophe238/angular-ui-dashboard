@@ -13,6 +13,10 @@ angular.module('ui.dashboard.CommonApp').service('ui.dashboard.ArcService',funct
         return (degrees/180)*Math.PI;
     };
 
+    ArcService.prototype.toDegrees = function(radians){
+        return (radians*180)/Math.PI;
+    };
+
     ArcService.prototype.describeArc = function(x, y, radius, startAngle, endAngle){
         var start = this.polarToCartesian(x, y, radius, endAngle);
         var end = this.polarToCartesian(x, y, radius, startAngle);
@@ -33,13 +37,12 @@ angular.module('ui.dashboard.CommonApp').service('ui.dashboard.ArcService',funct
             );
     };
 
-    ArcService.prototype.computeRotation = function(startAngle, width, height){
-        return 'rotate(' + startAngle + ',' + width/2 + ',' + height/2 + ')';
+    ArcService.prototype.computeRotation = function(angle, width, height){
+        return 'rotate(' + angle + ',' + width/2 + ',' + height/2 + ')';
     };
 
-    ArcService.prototype.translate = function(radius,strokeWidth,border){
-        var center = (radius + ((strokeWidth) ? strokeWidth/2:0)+ ((border) ? border:0))
-        return 'translate(' + center + ',' + center + ')';
+    ArcService.prototype.translate = function(width,height){
+        return 'translate(' + width/2 + ',' + height/2 + ')';
     };
 
     ArcService.prototype.d3Arc = function(radius,strokeWidth){
@@ -48,9 +51,17 @@ angular.module('ui.dashboard.CommonApp').service('ui.dashboard.ArcService',funct
             .innerRadius(radius - strokeWidth);
     };
 
-    ArcService.prototype.d3Pie = function(amplitude){
+    ArcService.prototype.d3Pie = function(amplitude,padAngle,sorting){
+        var sort = null;
+        if(sorting === 'ascending'){
+            sort = d3.ascending;
+        }
+        else if(sorting === 'descending'){
+            sort = d3.descending;
+        }
         return d3.layout.pie()
-            .sort(null)
+            .sort(sort)
+            .padAngle(this.toRadians(padAngle))
             .startAngle(0)
             .endAngle(this.toRadians(amplitude))
             .value(function(d){ return d+Math.random()/100000; });
