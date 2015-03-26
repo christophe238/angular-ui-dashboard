@@ -1,14 +1,25 @@
-.multi-gauge-navigate .glyphicon-chevron-left {
+.ui-dashboard-multi-gauge-navigate .glyphicon-chevron-left {
   left: 5%;
 }
-.multi-gauge-navigate .glyphicon-chevron-right {
+.ui-dashboard-multi-gauge-navigate .glyphicon-chevron-right {
   right: 5%;
 }
-.multi-gauge-navigate .glyphicon {
+.ui-dashboard-multi-gauge-navigate .glyphicon {
   position: absolute;
   display: block;
   top: 40%;
 }
-.multi-gauge-navigate .glyphicon:hover {
+.ui-dashboard-multi-gauge-navigate .glyphicon:hover {
   cursor: pointer;
+}
+.ui-dashboard-donut-label-value,
+.ui-dashboard-pie-label-value {
+  font-size: 12px;
+  font-weight: bold;
+  fill: #CCC;
+}
+.ui-dashboard-donut-label-name,
+.ui-dashboard-pie-label-name {
+  font-size: 12px;
+  fill: #EFEFEF;
 }

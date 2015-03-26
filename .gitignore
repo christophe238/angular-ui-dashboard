@@ -1,6 +1,5 @@
 node_modules/
 target/
 dist/dev/
-dist/.latest/
 dist/0.0.1/
 dist/0.0.2/
