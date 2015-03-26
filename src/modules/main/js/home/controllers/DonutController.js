@@ -5,8 +5,7 @@ define([
 ],function(angular,_,HomeApp){
 
 	HomeApp.controller('DonutController',['$scope','$timeout',function($scope,$timeout){
-		$scope.config0 = {
-			sort : 'descending',
+		$scope.config0 = {			
 			slice : {
 				click : function(d){
 					console.log('Slice clicked : '+JSON.stringify(d));

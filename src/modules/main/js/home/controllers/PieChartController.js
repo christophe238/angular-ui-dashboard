@@ -5,9 +5,11 @@ define([
 ],function(angular,_,HomeApp){
 
 	HomeApp.controller('PieChartController',['$scope','$timeout',function($scope,$timeout){
-		$scope.config0 = {
-			sort : 'ascending',
+		$scope.config0 = {			
 			slice : {
+				label : {
+					position : 'in'
+				},
 				click : function(d){
 					console.log('Slice clicked : '+JSON.stringify(d));
 					$scope.data0 = $scope.generateRandomArray(5);
@@ -56,6 +58,6 @@ define([
 				$scope.refreshData();
 			},2500);
 		};
-		//$scope.refreshData();
+		$scope.refreshData();
 	}]);
 });
