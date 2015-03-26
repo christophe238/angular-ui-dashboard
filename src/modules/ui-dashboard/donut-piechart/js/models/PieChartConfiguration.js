@@ -18,6 +18,23 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.PieChartConfigurat
 				color : '#FFFFFF',
 				width : 2
 			},
+			label : {
+				//Label position outside of the slice : 'out', centered in slice : 'in'
+				position : 'out',
+				value : {
+					class : 'ui-dashboard-donut-label-value',
+					format : function(value){
+				        return value.data;
+				    }
+				},
+				name : {
+					topOffset : 2,
+					class : 'ui-dashboard-donut-label-name',
+					format : function(value){
+				        return 'label';
+				    } 
+				}
+			},	
 			hover : {
 				apply : true,
 				callback : function(value){},

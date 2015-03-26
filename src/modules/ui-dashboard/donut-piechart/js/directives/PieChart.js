@@ -1,4 +1,4 @@
-angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieChartConfiguration','ui.dashboard.ArcService',function(PieChartConfiguration,ArcService){
+angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieChartConfiguration','ui.dashboard.ArcService','ui.dashboard.PieService',function(PieChartConfiguration,ArcService,PieService){
 	return {
 		restrict: 'E',
 		scope: {
@@ -24,7 +24,7 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 				var previousPie = pie($scope.previousData);
 				
 				if($scope.configuration.legend.display){
-					$scope.drawLabels(pie(data));
+					PieService.drawLabels($scope.widget, pie(data), $scope.configuration);
 				}
 				
 				paths.data(pie(data),function(d,i){ return d+Math.random()/10000; })
@@ -74,36 +74,7 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
                                 	$scope.previousData = angular.copy(data);
                                 });				
                 paths.remove();                
-			};
-
-			$scope.drawLabels = function(pieData){
-				var lines = $scope.widget.select('.label_group').selectAll('line');
-
-				lines.data(pieData)
-					.enter()
-						.append('line')
-							.attr('x1', 0)
-							.attr('x2', 0)
-							.attr('y1', - $scope.configuration.radius - $scope.configuration.slice.hover.growBy)
-							.attr('y2', - $scope.configuration.radius - $scope.configuration.slice.hover.growBy - $scope.configuration.legend.line.size)
-							.attr('stroke',$scope.configuration.legend.line.color)
-							.attr('transform', function(d) {
-								return $scope._getLabelRotation(d);
-							})
-				lines.transition()
-					.duration($scope.configuration.transitions.arc)
-					.attr('transform', function(d) {
-						return $scope._getLabelRotation(d);
-					});
-			};
-
-			$scope._getLabelRotation = function(d){
-				return ArcService.computeRotation(
-					ArcService.toDegrees((d.startAngle+d.endAngle)/2+d.padAngle*4),
-					0,
-					0
-				);
-			};
+			};			
 
 			$scope._sumData = function(data){				
 				return $scope._sumDataBefore(data,data.length);
@@ -126,19 +97,12 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 				$scope.widget = $scope.widget.append('svg')
 					.attr('id',$scope.configuration.id)
 					.attr('width',$scope.configuration.width)
-					.attr('height',$scope.configuration.height);
-				
-				$scope.widget.append('g')
-  					.attr("class", "label_group")
-  					.attr("transform", ArcService.translate(
-                    	$scope.configuration.width,
-                    	$scope.configuration.height
-                    ));
+					.attr('height',$scope.configuration.height);								
 				
 				if($scope.configuration.title.display){
 	            	//Setting title
 	            	$scope.widget.append('g')
-	            		.attr('class','donut-title')
+	            		.attr('class','pie-title')
 	            		.append('text')
 	            			.text($scope.configuration.title.value)
 	            			.attr('x',$scope.configuration.width/2)
@@ -174,7 +138,14 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 	            }
 	            //Main widget content
                 $scope.widget.append('g')
-                   	.attr('class','donut-container');               
+                   	.attr('class','donut-container');  
+
+                $scope.widget.append('g')
+  					.attr("class", "label-group")
+  					.attr("transform", ArcService.translate(
+                    	$scope.configuration.width,
+                    	$scope.configuration.height
+                    ));             
 			}
 
 			$scope.init();

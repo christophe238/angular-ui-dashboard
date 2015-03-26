@@ -11,8 +11,26 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.DonutConfiguration
 		this.radius = 90;
 		this.opacity = 1;
 		this.colors = ["#3399FF", "#5DAEF8", "#86C3FA", "#ADD6FB", "#D6EBFD"];
+		//Sorting order : null, 'ascending', 'descending'
 		this.sort = null;
-		this.slice = {			
+		this.slice = {
+			label : {
+				//Label position outside of the slice : 'out', centered in slice : 'in'
+				position : 'out',
+				value : {
+					class : 'ui-dashboard-donut-label-value',
+					format : function(value){
+				        return value.data;
+				    }
+				},
+				name : {
+					topOffset : 2,
+					class : 'ui-dashboard-donut-label-name',
+					format : function(value){
+				        return 'label';
+				    } 
+				}
+			},	
 			hover : {
 				apply : true,
 				callback : function(value){},
