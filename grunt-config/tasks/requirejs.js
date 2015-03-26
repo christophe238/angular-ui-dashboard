@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     var buildDir = require('../buildDir.js')();
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     var version = require('../version.js')();
-    function getPathWithLibFrom(version){
+    function getPathWithLibFrom(version,type){
         return {
             "main":"modules/main/js",
             "core":"modules/core/js",
@@ -25,7 +25,7 @@ module.exports = function(grunt) {
             "angular-touch": "lib/angular-touch",
             "angular-ui-bootstrap": "lib/ui-bootstrap-tpls-0.12.1",
             "angular-ui-router": "lib/angular-ui-router",
-            "ui-dashboard": path.resolve('dist',version,'ui-dashboard'),
+            "ui-dashboard": path.resolve('dist',version,'ui-dashboard'+type),
             "jade": "lib/jade",
             "jquery": "lib/jquery-2.1.3",
             "lodash": "lib/lodash",
@@ -61,7 +61,7 @@ module.exports = function(grunt) {
                 name: 'app',
                 optimize: 'none',
                 baseUrl: 'src',
-                paths: getPathWithLibFrom('dev'),
+                paths: getPathWithLibFrom(version,''),
                 mainConfigFile: 'src/config/require.config.js',
                 out: 'target/build/webapp/app.js',
                 include: ['lib/require.js','config/require.config.js']
@@ -73,7 +73,7 @@ module.exports = function(grunt) {
                 optimize: 'uglify2',
                 preserveLicenseComments: false,
                 baseUrl: 'src',
-                paths: getPathWithLibFrom('.latest'),
+                paths: getPathWithLibFrom('.latest','.min'),
                 mainConfigFile: 'src/config/require.config.js',
                 out: 'target/build/webapp/app.js',
                 include: ['lib/require.js','config/require.config.js']

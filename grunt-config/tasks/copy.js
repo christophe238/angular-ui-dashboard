@@ -27,14 +27,12 @@ module.exports = function(grunt) {
     var libInterfix = path.join('dist',version) + path.sep;
 
     function getLibFilesInto(folder){
-        grunt.file.expandMapping([
+        return grunt.file.expandMapping([
             path.join('dist',version,'*')
             ], path.join('dist',folder), {
-                rename: function(base, destPath) {
-                    var res = path.join(base, destPath);
-
+                rename: function(destPath, base) {
+                    var res = path.join(destPath, base.replace(libInterfix,''));
                     res = res.replace(libInterfix,'');
-
                     console.log("copy : " + res + " copied");
                     return res;
                 }

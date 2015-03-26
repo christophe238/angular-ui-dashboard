@@ -13,7 +13,10 @@ module.exports = function(grunt) {
         },
         lessLib: {
             files: ['src/modules/ui-dashboard/**/*.less'],
-            tasks: ['less:ui-dashboard','less:dev']
+            tasks: ['less:ui-dashboard-min','copy:ui-dashboard','less:dev'],
+            options: {
+              spawn: false,
+            }
         },
         requirejs: {
             files: ['src/lib/*.js','src/modules/core/**/*.js','src/modules/main/**/*.js','src/modules/documentation/**/*.js','src/modules/download/**/*.js','src/app.js'],
@@ -21,15 +24,18 @@ module.exports = function(grunt) {
         },
         requirejsLib: {
             files: ['src/modules/ui-dashboard/**/*.js'],
-            tasks: ['requirejs:ui-dashboard-dev','requirejs:dev']
+            tasks: ['requirejs:ui-dashboard','requirejs:dev']
         },        
         jade: {
             files: ['src/**/*.jade'],
             tasks: ['jade:devall','jade:devindex','requirejs:dev']
         },
         copy: {
-            files: ['assets/**','fonts/**','src/modules/core/locale/*.json'],
-            tasks: ['copy:dev']
+            files: ['src/modules/core/locale/*.json'],
+            tasks: ['copy:dev'],
+            options: {
+              spawn: false,
+            }
         }
     });
 };
