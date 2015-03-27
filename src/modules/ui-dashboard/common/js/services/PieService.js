@@ -1,13 +1,16 @@
 angular.module('ui.dashboard.CommonApp').service('ui.dashboard.PieService',['ui.dashboard.ArcService',function(ArcService){
+	
 	var PieService = function(){};
+	
 	var that = new PieService();
+	
 	PieService.prototype.getLabelTranslation = function(d,config){
 		var size;
 		if(config.slice.label.position === 'out'){
 			size = config.radius + config.slice.hover.growBy + config.legend.line.size;				
 		}
 		else{
-			size = config.radius/2;
+			size = config.radius - config.strokeWidth/2;
 		}
 		return 'translate('+
 			Math.cos(((d.startAngle+d.endAngle+d.padAngle*2 - Math.PI)/2)) * (size) + ',' +
@@ -122,5 +125,5 @@ angular.module('ui.dashboard.CommonApp').service('ui.dashboard.PieService',['ui.
 				return that.getLabelTranslation(d,config);
 			});
 	};
-	return new PieService();
+	return that;
 }]);

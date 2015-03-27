@@ -5,8 +5,8 @@ angular.module('ui.dashboard.GaugeApp').directive('multiGauge',[function(){
           configuration: '=',
           data: '='
         },
-        template :  '<div class=".ui-dashboard-multi-gauge-container">'+
-	        			'<div class="multi-gauge-navigate">'+
+        template :  '<div class="ui-dashboard-multi-gauge-container">'+
+	        			'<div class="ui-dashboard-multi-gauge-navigate">'+
 	        				'<span class="glyphicon glyphicon-chevron-left" ng-click="$previousWidget()"></span>'+
 	        				'<span class="glyphicon glyphicon-chevron-right" ng-click="$nextWidget()"></span>'+
 	        			'</div>'+

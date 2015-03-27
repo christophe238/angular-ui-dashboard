@@ -19,7 +19,7 @@
 		"home":{
 			"examples":"Examples",
 			"gauge": {
-				"pageHeader":"Gauge Widget",
+				"pageHeader":"Circular Gauge Widget",
 				"directiveCall":"<gauge></gauge>",
 				"gauge1":"Sample Gauge - With Label",
 				"gauge2":"Sample Gauge - With Title and Multiple gauge (saving history)",
