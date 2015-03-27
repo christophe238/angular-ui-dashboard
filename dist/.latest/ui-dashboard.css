@@ -16,10 +16,10 @@
 .ui-dashboard-pie-label-value {
   font-size: 12px;
   font-weight: bold;
-  fill: #CCC;
+  fill: #2A2A2A;
 }
 .ui-dashboard-donut-label-name,
 .ui-dashboard-pie-label-name {
   font-size: 12px;
-  fill: #EFEFEF;
+  fill: #CCC;
 }
