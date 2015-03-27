@@ -46,6 +46,7 @@ module.exports = function(grunt) {
         "gauge":"modules/ui-dashboard/gauge/js",
         "donut-piechart":"modules/ui-dashboard/donut-piechart/js",
         "d3": "lib/d3",
+        "d3tip": "lib/d3tip",
         "angular": "lib/angular",
     };
     var libExcludeShallowFiles = [

@@ -27,10 +27,10 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.DonutConfiguration
 					topOffset : 2,
 					class : 'ui-dashboard-donut-label-name',
 					format : function(value){
-				        return 'label';
-				    } 
+				        return '';
+				    }
 				}
-			},	
+			},
 			hover : {
 				apply : true,
 				callback : function(value){},
@@ -65,6 +65,12 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.DonutConfiguration
 			color : 'black',
 			opacity : 1
 		};
+		this.tooltip = {
+			display : true,
+			format : function(value) {
+				return "<strong>Value:</strong> <span style='color:red'>" + value.data + "</span>";
+			}
+		};
 		this.transitions = {
 			arc : 1000,
 			label : 500
@@ -95,7 +101,7 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.DonutConfiguration
 	};
 
 	DonutConfiguration.prototype.update = function(configuration){
-		this._mergeRecursive(this,configuration);		
+		this._mergeRecursive(this,configuration);
 	};
 
 	DonutConfiguration.prototype.getColor = function(index){

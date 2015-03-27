@@ -13,12 +13,12 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 				$scope.previousData.push(0);
 			});
 
-			$scope.draw = function(data){			
+			$scope.draw = function(data){
 				var paths = $scope.widget.select('.donut-container').selectAll('path')
-				
+
 				var arc = ArcService.d3Arc($scope.configuration.radius, $scope.configuration.strokeWidth);
 				var arcOver = ArcService.d3Arc($scope.configuration.radius + $scope.configuration.slice.hover.growBy, $scope.configuration.strokeWidth + $scope.configuration.slice.hover.growBy);
-				
+
 				var pie = ArcService.d3Pie($scope.configuration.amplitude,$scope.configuration.padAngle,$scope.configuration.sort);
 
 				var previousPie = pie($scope.previousData);
@@ -34,12 +34,12 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
                             	return $scope.configuration.getColor(i);
                             	})
                             .attr('opacity',$scope.configuration.opacity)
-                            .attr('transform', 
+                            .attr('transform',
                             	ArcService.computeRotation(
 	                            	$scope.configuration.startAngle,
 	                            	$scope.configuration.width,
 	                            	$scope.configuration.height
-                            	) + ' ' + 
+                            	) + ' ' +
                             	ArcService.translate(
 	                            	$scope.configuration.width,
                     				$scope.configuration.height
@@ -50,6 +50,7 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 					                d3.select(this).transition()
 					                    .duration(200)
 					                    .attr("d", arcOver);
+					                $scope.tooltip.show(d);
 				                }
 				            })
 				            .on('mouseout', function(d) {
@@ -57,6 +58,7 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 					                d3.select(this).transition()
 					                    .duration(200)
 					                    .attr("d", arc);
+					                $scope.tooltip.hide();
 					            }
 				            })
 				            .on('click',$scope.configuration.slice.click)
@@ -70,11 +72,11 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
                                 .duration($scope.configuration.transitions.arc)
                                 .each("end",function(){
                                 	$scope.previousData = angular.copy(data);
-                                });				
+                                });
                 paths.remove();
 			};
 
-			$scope._sumData = function(data){				
+			$scope._sumData = function(data){
 				return $scope._sumDataBefore(data,data.length);
 			};
 
@@ -97,7 +99,15 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 				$scope.widget = $scope.widget.append('svg')
 					.attr('id',$scope.configuration.id)
 					.attr('width',$scope.configuration.width)
-					.attr('height',$scope.configuration.height);				
+					.attr('height',$scope.configuration.height);
+
+				$scope.tooltip = d3.tip()
+					.attr('class', 'ui-dashboard-donut-tooltip')
+  					.offset([0, 0])
+  					.direction('s')
+  					.html($scope.configuration.tooltip.format);
+
+				$scope.widget.call($scope.tooltip);
 
 				if($scope.configuration.title.display){
 	            	//Setting title
@@ -121,12 +131,12 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
                             .attr('d',borderArc({startAngle:0, endAngle:ArcService.toRadians($scope.configuration.amplitude)}))
                             .attr('opacity',$scope.configuration.border.opacity)
                             .attr('fill',$scope.configuration.border.color)
-                            .attr('transform', 
+                            .attr('transform',
                             	ArcService.computeRotation(
 	                            	$scope.configuration.startAngle,
 	                            	$scope.configuration.width,
 	                            	$scope.configuration.height
-                            	) + ' ' + 
+                            	) + ' ' +
                             	ArcService.translate(
 	                            	$scope.configuration.width,
                     				$scope.configuration.height
@@ -134,14 +144,14 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 	            }
 	            //Main widget content
                 $scope.widget.append('g')
-                   	.attr('class','donut-container');  
+                   	.attr('class','donut-container');
 
                 $scope.widget.append('g')
   					.attr("class", "label-group")
   					.attr("transform", ArcService.translate(
                     	$scope.configuration.width,
                     	$scope.configuration.height
-                    ));             
+                    ));
 			}
 
 			$scope.init();

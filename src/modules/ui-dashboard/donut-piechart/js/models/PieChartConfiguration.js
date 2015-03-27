@@ -3,7 +3,7 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.PieChartConfigurat
 	var PieChartConfiguration = function(configuration){
 		this.id = this._generateID();
 		this.width = 300;
-		this.height = 300;	
+		this.height = 300;
 		this.amplitude = 360;
 		this.startAngle = 0;
 		this.padAngle = 0;
@@ -31,10 +31,10 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.PieChartConfigurat
 					topOffset : 2,
 					class : 'ui-dashboard-donut-label-name',
 					format : function(value){
-				        return 'label';
-				    } 
+				        return '';
+				    }
 				}
-			},	
+			},
 			hover : {
 				apply : true,
 				callback : function(value){},
@@ -85,7 +85,7 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.PieChartConfigurat
 	        id += possible.charAt(Math.floor(Math.random() * possible.length));
 
 	    return 'pie-chart-'+id;
-	};	
+	};
 
 	PieChartConfiguration.prototype._mergeRecursive = function(obj1,obj2){
 		for (var p in obj2) {
@@ -102,7 +102,7 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.PieChartConfigurat
 	PieChartConfiguration.prototype.update = function(configuration){
 		this._mergeRecursive(this,configuration);
 		this.strokeWidth = this.radius;
-	};	
+	};
 
 	PieChartConfiguration.prototype.getColor = function(index){
 		return (this.colors[index]) ? this.colors[index]:this.colors[0];

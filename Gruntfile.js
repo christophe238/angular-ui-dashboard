@@ -23,8 +23,8 @@ module.exports = function(grunt) {
     	'less:dev',
     	'jade:devall',
     	'jade:devindex',
-        'requirejs:ui-dashboard-dev',
-        'copy:ui-dashboard-dev',
+        'requirejs:ui-dashboard',
+        'copy:ui-dashboard',
     	'requirejs:dev',
     	'copy:dev'
     ]);

@@ -1,15 +1,15 @@
-.ui-dashboard-multi-gauge-navigate .glyphicon-chevron-left {
+.ui-dashboard-multi-gauge-container .ui-dashboard-multi-gauge-navigate .glyphicon-chevron-left {
   left: 5%;
 }
-.ui-dashboard-multi-gauge-navigate .glyphicon-chevron-right {
+.ui-dashboard-multi-gauge-container .ui-dashboard-multi-gauge-navigate .glyphicon-chevron-right {
   right: 5%;
 }
-.ui-dashboard-multi-gauge-navigate .glyphicon {
+.ui-dashboard-multi-gauge-container .ui-dashboard-multi-gauge-navigate .glyphicon {
   position: absolute;
   display: block;
   top: 40%;
 }
-.ui-dashboard-multi-gauge-navigate .glyphicon:hover {
+.ui-dashboard-multi-gauge-container .ui-dashboard-multi-gauge-navigate .glyphicon:hover {
   cursor: pointer;
 }
 .ui-dashboard-donut-label-value,
