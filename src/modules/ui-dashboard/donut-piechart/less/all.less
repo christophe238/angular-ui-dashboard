@@ -1,13 +1,25 @@
-.ui-dashboard-donut-label-value,.ui-dashboard-pie-label-value{
-	font-size: 12px;
-	font-weight: bold;
-	fill: #2A2A2A;
+.ui-dashboard-donut-label-value,.ui-dashboard-pie-label-value{	
+  &.in{
+    font-size: 10px;
+    fill: #000;
+  }
+  &.out{
+    font-size: 12px;
+    font-weight: bold;
+    fill: #2A2A2A;
+  }
 }
-.ui-dashboard-donut-label-name,.ui-dashboard-pie-label-name{
-	font-size: 12px;
-	fill: #CCC;
+.ui-dashboard-donut-label-name,.ui-dashboard-pie-label-name{	
+  &.in{
+    font-size: 10px;
+    fill: #000;
+  }
+  &.out{
+    font-size: 12px;
+    fill: #CCC;
+  }
 }
-
+.ui-dashboard-donut-label-line,.ui-dashboard-pie-label-line{}
 .ui-dashboard-donut-tooltip {
   line-height: 1;
   font-weight: bold;

@@ -14,7 +14,7 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 			});
 
 			$scope.draw = function(data){
-				var paths = $scope.widget.select('.donut-container').selectAll('path')
+				var paths = $scope.widget.select('.ui-dashboard-donut-container').selectAll('path')
 
 				var arc = ArcService.d3Arc($scope.configuration.radius, $scope.configuration.strokeWidth);
 				var arcOver = ArcService.d3Arc($scope.configuration.radius + $scope.configuration.slice.hover.growBy, $scope.configuration.strokeWidth + $scope.configuration.slice.hover.growBy);
@@ -23,7 +23,7 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 
 				var previousPie = pie($scope.previousData);
 
-				if($scope.configuration.legend.display){
+				if($scope.configuration.slice.label.display){
 					PieService.drawLabels($scope.widget, pie(data), $scope.configuration);
 				}
 
@@ -50,7 +50,8 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 					                d3.select(this).transition()
 					                    .duration(200)
 					                    .attr("d", arcOver);
-					                $scope.tooltip.show(d);
+					                //$scope.tooltip.direction(PieService.getTooltipDirection(d));
+					                //$scope.tooltip.show(d);
 				                }
 				            })
 				            .on('mouseout', function(d) {
@@ -58,7 +59,7 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 					                d3.select(this).transition()
 					                    .duration(200)
 					                    .attr("d", arc);
-					                $scope.tooltip.hide();
+					                //$scope.tooltip.hide();
 					            }
 				            })
 				            .on('click',$scope.configuration.slice.click)
@@ -100,19 +101,20 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 					.attr('id',$scope.configuration.id)
 					.attr('width',$scope.configuration.width)
 					.attr('height',$scope.configuration.height);
-
+				/*
 				$scope.tooltip = d3.tip()
+					.attr('id','tooltip-'+$scope.configuration.id)
 					.attr('class', 'ui-dashboard-donut-tooltip')
-  					.offset([0, 0])
-  					.direction('s')
+  					.offset([-10, 0])
+  					.direction('n')
   					.html($scope.configuration.tooltip.format);
 
 				$scope.widget.call($scope.tooltip);
-
+				*/
 				if($scope.configuration.title.display){
 	            	//Setting title
 	            	$scope.widget.append('g')
-	            		.attr('class','donut-title')
+	            		.attr('class','ui-dashboard-donut-title')
 	            		.append('text')
 	            			.text($scope.configuration.title.value)
 	            			.attr('x',$scope.configuration.width/2)
@@ -125,7 +127,7 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 	            }
 	            if($scope.configuration.border.display){
 	                //Setting border
-	                var borderArc = ArcService.d3Arc($scope.configuration.radius+$scope.configuration.border.strokeWidth,$scope.configuration.border.strokeWidth)
+	                var borderArc = ArcService.d3Arc($scope.configuration.radius + $scope.configuration.border.strokeWidth,$scope.configuration.border.strokeWidth);
 	                $scope.widget.append('g')
                         .append('path')
                             .attr('d',borderArc({startAngle:0, endAngle:ArcService.toRadians($scope.configuration.amplitude)}))
@@ -144,10 +146,10 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 	            }
 	            //Main widget content
                 $scope.widget.append('g')
-                   	.attr('class','donut-container');
+                   	.attr('class','ui-dashboard-donut-container');
 
                 $scope.widget.append('g')
-  					.attr("class", "label-group")
+  					.attr("class", 'ui-dashboard-label-group')
   					.attr("transform", ArcService.translate(
                     	$scope.configuration.width,
                     	$scope.configuration.height

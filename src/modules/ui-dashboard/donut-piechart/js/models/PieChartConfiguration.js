@@ -10,7 +10,8 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.PieChartConfigurat
 		this.radius = 90;
 		this.strokeWidth = 90;
 		this.opacity = 1;
-		this.colors = ['#3AAB89','#6BD3B4','#A4EDD7','#E0FCF4','#CEECE3'];
+		//Green scale : ['#3AAB89','#6BD3B4','#A4EDD7','#E0FCF4','#CEECE3'];
+		this.colors = d3.scale.category10().range();
 		this.sort = null;
 		this.slice = {
 			border : {
@@ -21,15 +22,26 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.PieChartConfigurat
 			label : {
 				//Label position outside of the slice : 'out', centered in slice : 'in'
 				position : 'out',
+				display : true,
+				line : {
+					display : true,
+					size : 10,
+					color : 'gray',
+					class : 'ui-dashboard-pie-label-line'
+				},
 				value : {
-					class : 'ui-dashboard-donut-label-value',
+					fontsize : 12,
+					color : 'gray',
+					class : 'ui-dashboard-pie-label-value',
 					format : function(value){
 				        return value.data;
 				    }
 				},
 				name : {
 					topOffset : 2,
-					class : 'ui-dashboard-donut-label-name',
+					fontsize : 11,
+					color : 'lightgrey',
+					class : 'ui-dashboard-pie-label-name',
 					format : function(value){
 				        return '';
 				    }
@@ -42,19 +54,12 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.PieChartConfigurat
 			},
 			click : function(value){}
 		};
-		this.legend = {
-			display : true,
-			line : {
-				size : 10,
-				color : 'gray'
-			}
-		}
 		this.border = {
-				display : true,
-				color : 'lightgrey',
-				strokeWidth : 2,
-				opacity : 1
-			};
+			display : true,
+			color : 'lightgrey',
+			strokeWidth : 2,
+			opacity : 1
+		};
 		this.label = {
 			display : true,
 			fontsize : 32,

@@ -7,7 +7,7 @@ angular.module('ui.dashboard.CommonApp').service('ui.dashboard.PieService',['ui.
 	PieService.prototype.getLabelTranslation = function(d,config){
 		var size;
 		if(config.slice.label.position === 'out'){
-			size = config.radius + config.slice.hover.growBy + config.legend.line.size;				
+			size = config.radius + config.slice.hover.growBy + config.slice.label.line.size;				
 		}
 		else{
 			size = config.radius - config.strokeWidth/2;
@@ -17,8 +17,13 @@ angular.module('ui.dashboard.CommonApp').service('ui.dashboard.PieService',['ui.
 			Math.sin((d.startAngle+d.endAngle+d.padAngle*2 - Math.PI)/2) * (size) + ')';
 	};
 
-	PieService.prototype.getTextAnchor = function(d){
-		return (that.getMiddle(d) < Math.PI) ? 'beginning':'end';
+	PieService.prototype.getTextAnchor = function(d,position){
+		if(position === 'out'){
+			return (that.getMiddle(d) < Math.PI) ? 'beginning':'end';
+		}
+		else if(position === 'in'){
+			return (that.getMiddle(d) < Math.PI) ? 'end':'beginning';
+		}
 	};
 
 	PieService.prototype.getMiddle = function(d){
@@ -60,18 +65,18 @@ angular.module('ui.dashboard.CommonApp').service('ui.dashboard.PieService',['ui.
 	};
 
 	PieService.prototype.drawLabels = function(widget, pieData,config){		
-		if(config.slice.label.position === 'out'){
-			var lines = widget.select('.label-group').selectAll('line');
+		if(config.slice.label.position === 'out' && config.slice.label.line.display){
+			var lines = widget.select('.ui-dashboard-label-group').selectAll('line');
 
 			lines.data(pieData)
 				.enter()
 					.append('line')
-						.attr('class','label-line')
+						.attr('class',config.slice.label.line.class)
 						.attr('x1', 0)
 						.attr('x2', 0)
 						.attr('y1', - config.radius - config.slice.hover.growBy)
-						.attr('y2', - config.radius - config.slice.hover.growBy - config.legend.line.size)
-						.attr('stroke',config.legend.line.color)
+						.attr('y2', - config.radius - config.slice.hover.growBy - config.slice.label.line.size)
+						.attr('stroke',config.slice.label.line.color)
 						.attr('transform', function(d) {
 							return that.getLabelRotation(d);
 						})
@@ -82,44 +87,56 @@ angular.module('ui.dashboard.CommonApp').service('ui.dashboard.PieService',['ui.
 				});
 		}
 
-		var valueLabels = widget.select('.label-group').selectAll('text.'+config.slice.label.value.class);
+		var valueLabels = widget.select('.ui-dashboard-label-group').selectAll('text.'+config.slice.label.value.class);
 
 		valueLabels.data(pieData)
 			.enter()
 				.append('text')
-					.attr('class',config.slice.label.value.class)
+					.attr('fill',config.slice.label.value.color)
+					.attr('font-size',config.slice.label.value.fontsize+'px')
+					.attr('class',config.slice.label.value.class + ' ' + config.slice.label.position)
 					.attr('transform', function(d){
 						return that.getLabelTranslation(d,config);
 					})
 					.attr('dy',that.getLabelValueDY)
-					.attr('text-anchor',that.getTextAnchor)
+					.attr('text-anchor',function(d){ 
+						return that.getTextAnchor(d,config.slice.label.position);
+					})
 					.text(config.slice.label.value.format);
 		valueLabels.transition()
 			.duration(config.transitions.arc)
 			.text(config.slice.label.value.format)
 			.attr('dy',that.getLabelValueDY)
-			.attr('text-anchor',that.getTextAnchor)
+			.attr('text-anchor',function(d){ 
+				return that.getTextAnchor(d,config.slice.label.position);
+			})
 			.attr('transform', function(d){
 				return that.getLabelTranslation(d,config);
 			});
 
-		var nameLabels = widget.select('.label-group').selectAll('text.'+config.slice.label.name.class);
+		var nameLabels = widget.select('.ui-dashboard-label-group').selectAll('text.'+config.slice.label.name.class);
 
 		nameLabels.data(pieData)
 			.enter()
 				.append('text')
-					.attr('class',config.slice.label.name.class)
+					.attr('fill',config.slice.label.name.color)
+					.attr('font-size',config.slice.label.name.fontsize+'px')				
+					.attr('class',config.slice.label.name.class + ' ' + config.slice.label.position)
 					.attr('transform', function(d){
 						return that.getLabelTranslation(d,config);
 					})
 					.attr('dy',that.getLabelNameDY)
-					.attr('text-anchor',that.getTextAnchor)
+					.attr('text-anchor',function(d){ 
+						return that.getTextAnchor(d,config.slice.label.position);
+					})
 					.text(config.slice.label.name.format);
 		nameLabels
 			.transition()
 			.duration(config.transitions.arc)
 			.attr('dy',that.getLabelNameDY)
-			.attr('text-anchor',that.getTextAnchor)			
+			.attr('text-anchor',function(d){ 
+				return that.getTextAnchor(d,config.slice.label.position);
+			})
 			.text(config.slice.label.name.format)
 			.attr('transform', function(d){
 				return that.getLabelTranslation(d,config);

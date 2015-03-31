@@ -1,4 +1,4 @@
-angular.module('ui.dashboard.GaugeApp').directive('gauge',['ui.dashboard.GaugeConfiguration','ui.dashboard.ArcService',function(GaugeConfiguration, ArcService){
+angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard.GaugeConfiguration','ui.dashboard.ArcService',function(GaugeConfiguration, ArcService){
     return {
         restrict: 'E',
         scope: {

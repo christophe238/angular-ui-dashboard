@@ -1,4 +1,4 @@
-angular.module('ui.dashboard.GaugeApp').directive('multiGauge',[function(){
+angular.module('ui.dashboard.GaugeApp').directive('multiCircularGauge',[function(){
     return {
         restrict: 'E',
         scope: {
@@ -11,7 +11,7 @@ angular.module('ui.dashboard.GaugeApp').directive('multiGauge',[function(){
 	        				'<span class="glyphicon glyphicon-chevron-right" ng-click="$nextWidget()"></span>'+
 	        			'</div>'+
 	        			'<div ng-repeat="conf in configuration">'+
-        					'<gauge configuration="conf" data="data[$index]" ng-show="$selectedWidgetIndex === $index"></gauge>'+
+        					'<circular-gauge configuration="conf" data="data[$index]" ng-show="$selectedWidgetIndex === $index"></circular-gauge>'+
         				'</div>'+
 	        		'</div>',
         controller : 'ui.dashboard.MultiGaugeController'
