@@ -9,7 +9,7 @@ define([
 		$scope.currentHash = '';
 
 		$scope.gauge = {
-			template: '<gauge configuration="YOUR_CONFIGURATION_OBJECT" data="YOUR_2_WAY_BOUND_DATA"></gauge>'			
+			template: '<circular-gauge configuration="YOUR_CONFIGURATION_OBJECT" data="YOUR_2_WAY_BOUND_DATA"></circular-gauge>'			
 		};
 
 		$scope.stringify = function(json){

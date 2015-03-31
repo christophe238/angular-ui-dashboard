@@ -9,9 +9,17 @@
     .row
         .col-md-6
             .panel.panel-default
-                .panel-heading(ng-click="true") {{ ::text.donut.donutDefault }}
-                    span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="true")
-                    span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="true")
-                .panel-body(ng-show="true")
+                .panel-heading(ng-click="donuts.default.expanded = !donuts.default.expanded") {{ ::text.donut.donutDefault }}
+                    span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="donuts.default.expanded")
+                    span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!donuts.default.expanded")
+                .panel-body(ng-show="donuts.default.expanded")
                     .center
                         donut(configuration="config0",data="data0")
+        .col-md-6
+            .panel.panel-default
+                .panel-heading(ng-click="donuts.donut1.expanded = !donuts.donut1.expanded") {{ ::text.donut.donut1 }}
+                    span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="donuts.donut1.expanded")
+                    span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!donuts.donut1.expanded")
+                .panel-body(ng-show="donuts.donut1.expanded")
+                    .center
+                        donut(configuration="config1",data="data1")

@@ -1,5 +1,12 @@
-h1 {{ ::text.examples }}
+h1 {{ ::text.examples }} 
+form.form-inline(role="search")
+    .input-group
+        input.form-control(type="text",placeholder="Search widgets...",ng-model="widgetFilter")
+        .input-group-btn
+            span.glyphicon.glyphicon-search
+
 hr
+
 div(ng-if="pages.donut.show",ng-controller="DonutController", ng-init="page = pages.donut")
     include donut.jade
 div(ng-if="pages.gauge.show",ng-controller="GaugeController", ng-init="page = pages.gauge")

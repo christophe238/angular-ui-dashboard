@@ -1,6 +1,6 @@
 .page-header(ng-click="page.expanded = !page.expanded")
     h2
-        gauge(configuration="miniGaugeConfiguration", data="data")
+        circular-gauge(configuration="miniGaugeConfiguration", data="data")
         | {{ ::text.gauge.pageHeader + ' ' }}
         small {{ ::text.gauge.directiveCall }}
         span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="page.expanded")
@@ -14,7 +14,7 @@
                     span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!gauges.default.expanded")
                 .panel-body(ng-show="gauges.default.expanded")
                     .center
-                        gauge(configuration="defaultConfiguration",data="defaultData")
+                        circular-gauge(configuration="defaultConfiguration",data="defaultData")
                     .panel.panel-info
                         .panel-heading(ng-click="gauges.default.code.expanded = !gauges.default.code.expanded") {{ ::text.gauge.configuration }}
                             span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="gauges.default.code.expanded")
@@ -31,7 +31,7 @@
                     span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!gauges.gauge1.expanded")
                 .panel-body(ng-show="gauges.gauge1.expanded")
                     .center
-                        gauge(configuration="gaugeConfiguration",data="data")
+                        circular-gauge(configuration="gaugeConfiguration",data="data")
                     .panel.panel-info
                         .panel-heading(ng-click="gauges.gauge1.code.expanded = !gauges.gauge1.code.expanded") {{ ::text.gauge.configuration }}
                             span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="gauges.gauge1.code.expanded")
@@ -49,7 +49,7 @@
                     span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!gauges.gauge2.expanded")
                 .panel-body(ng-show="gauges.gauge2.expanded")
                     .center
-                        gauge(configuration="gaugeConfiguration2",data="data2")
+                        circular-gauge(configuration="gaugeConfiguration2",data="data2")
                     .panel.panel-info
                         .panel-heading(ng-click="gauges.gauge2.code.expanded = !gauges.gauge2.code.expanded") {{ ::text.gauge.configuration }}
                             span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="gauges.gauge2.code.expanded")
@@ -66,7 +66,7 @@
                     span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!gauges.multi.expanded")
                 .panel-body(ng-show="gauges.multi.expanded")
                     .center
-                        multi-gauge(configuration="multiConf",data="multiData")
+                        multi-circular-gauge(configuration="multiConf",data="multiData")
                     .panel.panel-info
                         .panel-heading(ng-click="gauges.multi.code.expanded = !gauges.multi.code.expanded") {{ ::text.gauge.configuration }}
                             span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="gauges.multi.code.expanded")

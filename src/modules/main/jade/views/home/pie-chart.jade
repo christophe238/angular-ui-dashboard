@@ -9,9 +9,17 @@
     .row
         .col-md-6
             .panel.panel-default
-                .panel-heading(ng-click="true") {{ ::text.pie.pieDefault }}
-                    span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="true")
-                    span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="true")
-                .panel-body(ng-show="true")
+                .panel-heading(ng-click="pies.default.expanded = !pies.default.expanded") {{ ::text.pie.pieDefault }}
+                    span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="pies.default.expanded")
+                    span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!pies.default.expanded")
+                .panel-body(ng-show="pies.default.expanded")
                     .center
                         pie-chart(configuration="config0",data="data0")
+        .col-md-6
+            .panel.panel-default
+                .panel-heading(ng-click="pies.pie1.expanded = !pies.pie1.expanded") {{ ::text.pie.pie1 }}
+                    span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="pies.pie1.expanded")
+                    span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!pies.pie1.expanded")
+                .panel-body(ng-show="pies.pie1.expanded")
+                    .center
+                        pie-chart(configuration="config1",data="data1")
