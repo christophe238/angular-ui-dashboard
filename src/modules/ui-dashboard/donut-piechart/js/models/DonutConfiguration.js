@@ -55,16 +55,23 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.DonutConfiguration
 			color : 'lightgrey',
 			strokeWidth : 2,
 			opacity : 1
-		};
+		};		
 		this.label = {
 			display : true,
 			fontsize : 32,
-			colors : ['white'],
-			format : function(value){ return value; },
-			opacity : 1
+			color : 'black',
+			format : function(values){ return d3.sum(values); },
+			opacity : 1,
+			symbol : {
+				display : true,
+				fontsize : 20,
+				color : 'black',
+				format : function(values){ return ''; },
+				opacity : 1
+			}
 		};
 		this.title = {
-			display : false,
+			display : true,
 			fontsize : 24,
 			value : '',
 			color : 'black',

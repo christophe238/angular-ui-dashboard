@@ -9,21 +9,22 @@ angular.module('ui.dashboard.CommonApp').service('ui.dashboard.PieService',['ui.
 		if(config.slice.label.position === 'out'){
 			size = config.radius + config.slice.hover.growBy + config.slice.label.line.size;				
 		}
-		else{
-			size = config.radius - config.strokeWidth/2;
+		else if(config.slice.label.position === 'in'){
+			//If it is a pie chart
+			if(config.radius === config.strokeWidth){
+				size = config.radius - config.slice.label.value.fontsize*3;
+			}
+			else{
+				size = config.radius - config.strokeWidth/2 - config.slice.label.value.fontsize;
+			}
 		}
 		return 'translate('+
 			Math.cos(((d.startAngle+d.endAngle+d.padAngle*2 - Math.PI)/2)) * (size) + ',' +
 			Math.sin((d.startAngle+d.endAngle+d.padAngle*2 - Math.PI)/2) * (size) + ')';
 	};
 
-	PieService.prototype.getTextAnchor = function(d,position){
-		if(position === 'out'){
-			return (that.getMiddle(d) < Math.PI) ? 'beginning':'end';
-		}
-		else if(position === 'in'){
-			return (that.getMiddle(d) < Math.PI) ? 'end':'beginning';
-		}
+	PieService.prototype.getTextAnchor = function(d){
+		return (that.getMiddle(d) < Math.PI) ? 'beginning':'end';
 	};
 
 	PieService.prototype.getMiddle = function(d){
@@ -99,17 +100,13 @@ angular.module('ui.dashboard.CommonApp').service('ui.dashboard.PieService',['ui.
 						return that.getLabelTranslation(d,config);
 					})
 					.attr('dy',that.getLabelValueDY)
-					.attr('text-anchor',function(d){ 
-						return that.getTextAnchor(d,config.slice.label.position);
-					})
+					.attr('text-anchor',that.getTextAnchor)
 					.text(config.slice.label.value.format);
 		valueLabels.transition()
 			.duration(config.transitions.arc)
 			.text(config.slice.label.value.format)
 			.attr('dy',that.getLabelValueDY)
-			.attr('text-anchor',function(d){ 
-				return that.getTextAnchor(d,config.slice.label.position);
-			})
+			.attr('text-anchor',that.getTextAnchor)
 			.attr('transform', function(d){
 				return that.getLabelTranslation(d,config);
 			});
@@ -126,17 +123,13 @@ angular.module('ui.dashboard.CommonApp').service('ui.dashboard.PieService',['ui.
 						return that.getLabelTranslation(d,config);
 					})
 					.attr('dy',that.getLabelNameDY)
-					.attr('text-anchor',function(d){ 
-						return that.getTextAnchor(d,config.slice.label.position);
-					})
+					.attr('text-anchor',that.getTextAnchor)
 					.text(config.slice.label.name.format);
 		nameLabels
 			.transition()
 			.duration(config.transitions.arc)
 			.attr('dy',that.getLabelNameDY)
-			.attr('text-anchor',function(d){ 
-				return that.getTextAnchor(d,config.slice.label.position);
-			})
+			.attr('text-anchor',that.getTextAnchor)			
 			.text(config.slice.label.name.format)
 			.attr('transform', function(d){
 				return that.getLabelTranslation(d,config);

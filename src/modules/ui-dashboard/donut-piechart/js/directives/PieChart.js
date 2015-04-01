@@ -64,7 +64,8 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 	                            ))
                             .transition()
                                 .attrTween('d',function(d,i){
-                                    var interpolate = d3.interpolate({startAngle:previousPie[i].startAngle, endAngle:previousPie[i].endAngle}, d);
+                                    var previous = previousPie[i] || {startAngle:0,endAngle:0};
+                                    var interpolate = d3.interpolate(previous, d);
 									return function(t) {
 										return arc(interpolate(t));
 									}
@@ -106,7 +107,7 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 	            		.append('text')
 	            			.text($scope.configuration.title.value)
 	            			.attr('x',$scope.configuration.width/2)
-	            			.attr('y',$scope.configuration.height+$scope.configuration.title.fontsize)
+	            			.attr('y',$scope.configuration.height/2 + $scope.configuration.radius + $scope.configuration.title.fontsize)
 	            			.attr('opacity',$scope.configuration.title.opacity)
 	            			.attr('font-size',$scope.configuration.title.fontsize+'px')
 	            			.attr('fill',$scope.configuration.title.color)
@@ -117,6 +118,7 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 	                //Setting border
 	                var borderArc = ArcService.d3Arc($scope.configuration.radius + $scope.configuration.border.strokeWidth,$scope.configuration.border.strokeWidth);
 	                $scope.widget.append('g')
+                        .attr('class','ui-dashboard-pie-border')
                         .append('path')
                             .attr('d',borderArc({startAngle:0, endAngle:ArcService.toRadians($scope.configuration.amplitude)}))
                             .attr('opacity',$scope.configuration.border.opacity)
@@ -131,7 +133,7 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 	                            	$scope.configuration.width,
                     				$scope.configuration.height
 	                            ));
-	            }
+	            }	            
 	            //Main widget content
                 $scope.widget.append('g')
                    	.attr('class','ui-dashboard-donut-container');  

@@ -60,15 +60,8 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.PieChartConfigurat
 			strokeWidth : 2,
 			opacity : 1
 		};
-		this.label = {
-			display : true,
-			fontsize : 32,
-			colors : ['white'],
-			format : function(value){ return value; },
-			opacity : 1
-		};
 		this.title = {
-			display : false,
+			display : true,
 			fontsize : 24,
 			value : '',
 			color : 'black',

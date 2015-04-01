@@ -65,7 +65,8 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 				            .on('click',$scope.configuration.slice.click)
                             .transition()
                                 .attrTween('d',function(d,i){
-                                    var interpolate = d3.interpolate(previousPie[i], d);
+                                	var previous = previousPie[i] || {startAngle:0,endAngle:0};
+                                    var interpolate = d3.interpolate(previous, d);
 									return function(t) {
 										return arc(interpolate(t));
 									}
@@ -75,7 +76,27 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
                                 	$scope.previousData = angular.copy(data);
                                 });
                 paths.remove();
+                $scope._updateLabels(data);
 			};
+
+			$scope._updateLabels = function(data){
+        		if($scope.configuration.label.display){
+            		$scope.widget.select('.ui-dashboard-donut-middle-label').select('text')
+            			.attr('opacity',0.2)
+	                    .transition()
+	                        .duration($scope.configuration.transitions.label)
+	                        .attr('opacity',1)
+	                        .text($scope.configuration.label.format(data))
+                    if($scope.configuration.label.symbol.display){
+                    	$scope.widget.select('.ui-dashboard-donut-middle-label-symbol').select('text')
+	            			.attr('opacity',0.2)
+		                    .transition()
+		                        .duration($scope.configuration.transitions.label)
+		                        .attr('opacity',1)
+		                        .text($scope.configuration.label.symbol.format(data));
+                    }
+                }
+        	};
 
 			$scope._sumData = function(data){
 				return $scope._sumDataBefore(data,data.length);
@@ -118,17 +139,17 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 	            		.append('text')
 	            			.text($scope.configuration.title.value)
 	            			.attr('x',$scope.configuration.width/2)
-	            			.attr('y',$scope.configuration.height + $scope.configuration.title.fontsize)
+	            			.attr('y',$scope.configuration.height/2 + $scope.configuration.radius + $scope.configuration.title.fontsize)
 	            			.attr('opacity',$scope.configuration.title.opacity)
 	            			.attr('font-size',$scope.configuration.title.fontsize+'px')
 	            			.attr('fill',$scope.configuration.title.color)
 	            			.style('text-anchor','middle');
-
 	            }
 	            if($scope.configuration.border.display){
 	                //Setting border
 	                var borderArc = ArcService.d3Arc($scope.configuration.radius + $scope.configuration.border.strokeWidth,$scope.configuration.border.strokeWidth);
 	                $scope.widget.append('g')
+	                	.attr('class','ui-dashboard-donut-border')
                         .append('path')
                             .attr('d',borderArc({startAngle:0, endAngle:ArcService.toRadians($scope.configuration.amplitude)}))
                             .attr('opacity',$scope.configuration.border.opacity)
@@ -143,6 +164,31 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 	                            	$scope.configuration.width,
                     				$scope.configuration.height
 	                            ));
+	            }
+	            if($scope.configuration.label.display){
+	                //Middle label
+	                $scope.widget.append('g')
+                        .attr('class','ui-dashboard-donut-middle-label')
+                        .append('text')
+                            .text($scope.configuration.label.format(0))
+                            .attr('x',$scope.configuration.width/2)
+                            .attr('y',$scope.configuration.height/2)
+                            .attr('opacity',$scope.configuration.label.opacity)
+                            .attr('font-size', $scope.configuration.label.fontsize + 'px')
+                            .attr('fill',$scope.configuration.label.color)
+                            .style('text-anchor', 'middle');
+                    if($scope.configuration.label.symbol.display){
+	            		$scope.widget.append('g')
+	            			.attr('class','ui-dashboard-donut-middle-label-symbol')
+	            			.append('text')
+	                            .text($scope.configuration.label.symbol.format(0))
+	                            .attr('x',$scope.configuration.width/2)
+	                            .attr('y',$scope.configuration.height/2 + $scope.configuration.label.fontsize)
+	                            .attr('opacity',$scope.configuration.label.symbol.opacity)
+	                            .attr('font-size', $scope.configuration.label.symbol.fontsize+'px')
+	                            .attr('fill',$scope.configuration.label.symbol.color)
+	                            .style('text-anchor', 'middle');
+                    }
 	            }
 	            //Main widget content
                 $scope.widget.append('g')
