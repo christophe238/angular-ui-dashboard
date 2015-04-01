@@ -34,10 +34,10 @@ angular.module('ui.dashboard.GaugeApp').factory('ui.dashboard.GaugeConfiguration
 			}
 		}
 		//END Rules for multiple gauges
-		this.colors = ['#FFFF00','#FF8C00','#FF4500','#FF0000'];
+		this.colors = d3.scale.category10().range();
 		this.thresholds = {
 			display : true,
-			values : [25,55,75],
+			values : [10,20,30,40,50,60,70,80,90],
 			strokeWidth : 20,
 			amplitude : 2,
 			opacity : 1,

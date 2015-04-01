@@ -42,6 +42,7 @@ module.exports = function(grunt) {
 
     var libBuildPaths = {
         "ui-dashboard":"modules/ui-dashboard",
+        "multi-widget":"modules/ui-dashboard/multi-widget/js",
         "common":"modules/ui-dashboard/common/js",
         "gauge":"modules/ui-dashboard/gauge/js",
         "donut-piechart":"modules/ui-dashboard/donut-piechart/js",
@@ -54,6 +55,7 @@ module.exports = function(grunt) {
         'common/manifest',
         'donut-piechart/manifest',
         'gauge/manifest',
+        'multi-widget/manifest',
         'build-lib-init'
     ];
     grunt.config('requirejs', {

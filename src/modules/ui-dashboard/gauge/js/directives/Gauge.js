@@ -12,7 +12,7 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
 
         	$scope.draw = function(data){
         		var arrangedData = $scope._prepareData(angular.copy(data));
-            	var paths = $scope.widget.select('.gauge-container').selectAll('path')
+            	var paths = $scope.widget.select('.ui-dashboard-gauge-container').selectAll('path')
 				paths.data(arrangedData,function(d,i){ return d+Math.random()/1000; })
                 	.enter()
                         .append('path')
@@ -81,14 +81,14 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
 
         	$scope._updateLabels = function(data){
         		if($scope.configuration.label.display){
-            		$scope.widget.select('.gauge-middle-label').select('text')
+            		$scope.widget.select('.ui-dashboard-gauge-middle-label').select('text')
             			.attr('opacity',0.2)
 	                    .transition()
 	                        .duration($scope.configuration.transitions.label)
 	                        .attr('opacity',1)
 	                        .text($scope.configuration.label.format(data))
                     if($scope.configuration.label.symbol.display){
-                    	$scope.widget.select('.gauge-middle-label-symbol').select('text')
+                    	$scope.widget.select('.ui-dashboard-gauge-middle-label-symbol').select('text')
 	            			.attr('opacity',0.2)
 		                    .transition()
 		                        .duration($scope.configuration.transitions.label)
@@ -110,7 +110,7 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
 	            if($scope.configuration.title.display){
 	            	//Setting title
 	            	$scope.widget.append('g')
-	            		.attr('class','gauge-title')
+	            		.attr('class','ui-dashboard-gauge-title')
 	            		.append('text')
 	            			.text($scope.configuration.title.value)
 	            			.attr('x',$scope.configuration.width/2)
@@ -170,7 +170,7 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
 	            if($scope.configuration.label.display){
 	                //Middle label
 	                $scope.widget.append('g')
-                        .attr('class','gauge-middle-label')
+                        .attr('class','ui-dashboard-gauge-middle-label')
                         .append('text')
                             .text($scope.configuration.label.format(0))
                             .attr('x',$scope.configuration.width/2)
@@ -181,7 +181,7 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
                             .style('text-anchor', 'middle');
                     if($scope.configuration.label.symbol.display){
 	            		$scope.widget.append('g')
-	            			.attr('class','gauge-middle-label-symbol')
+	            			.attr('class','ui-dashboard-gauge-middle-label-symbol')
 	            			.append('text')
 	                            .text($scope.configuration.label.symbol.format(0))
 	                            .attr('x',$scope.configuration.width/2)
@@ -196,14 +196,14 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
 	            //Main widget content
                 if($scope.configuration.thresholds.aboveGauge){
                 	$scope.widget.append('g')
-                    	.attr('class','gauge-container');
+                    	.attr('class','ui-dashboard-gauge-container');
                 }
                 if($scope.configuration.thresholds.display){
 	                //Display thresholds
 	                $scope.widget.append('g')
-		                    .attr('class','gauge-threshold')
+		                    .attr('class','ui-dashboard-gauge-threshold')
 	                angular.forEach($scope.configuration.thresholds.values,function(threshold){
-		                $scope.widget.select('.gauge-threshold')
+		                $scope.widget.select('.ui-dashboard-gauge-threshold')
 		                    .append('path')
 		                        .attr('d',ArcService.computeArc(
 		                        	($scope.configuration.amplitude * (threshold/$scope.configuration.max)) - $scope.configuration.thresholds.amplitude/2,
@@ -228,7 +228,7 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
 	            //Main widget content
                 if(!$scope.configuration.thresholds.aboveGauge){
                 	$scope.widget.append('g')
-                    	.attr('class','gauge-container');
+                    	.attr('class','ui-dashboard-gauge-container');
                 }
 	        }
 

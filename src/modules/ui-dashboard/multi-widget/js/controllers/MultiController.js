@@ -1,4 +1,4 @@
-angular.module('ui.dashboard.GaugeApp').controller('ui.dashboard.MultiGaugeController',['$scope',function($scope){
+angular.module('ui.dashboard.MultiWidgetApp').controller('ui.dashboard.MultiController',['$scope',function($scope){
 
     $scope.$selectedWidgetIndex = 0;
 
