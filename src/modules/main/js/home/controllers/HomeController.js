@@ -9,22 +9,27 @@ define([
         $scope.widgetFilter = '';
         $scope.pages = {
         	gauge: {
-                searchTerms:['gauge','circular','tachometer','donut','multiple','single'],
+                searchTerms:['gauge','circular','tachometer','donut','multiple','single','widget'],
                 show:true,
         		expanded:false
         	},
         	bar : {
-                searchTerms:['gauge','bar','line','vertical','horizontal'],
+                searchTerms:['gauge','bar','line','vertical','horizontal','widget'],
                 show:true,
         		expanded:false
         	},
             donut : {
-                searchTerms:['donut','pie','chart','multiple','drilldown','nested'],
+                searchTerms:['donut','pie','chart','multiple','drilldown','nested','widget'],
                 show:true,
                 expanded:false
             },
             pie : {
-                searchTerms:['pie','chart','multiple','drilldown','nested'],
+                searchTerms:['pie','chart','multiple','drilldown','nested','widget'],
+                show:true,
+                expanded:false
+            },
+            multi : {
+                searchTerms:['multi','multiple','widget'],
                 show:true,
                 expanded:false
             }

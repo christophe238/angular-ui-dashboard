@@ -6,10 +6,11 @@ form.form-inline(role="search")
             span.glyphicon.glyphicon-search
 
 hr
-
-div(ng-if="pages.donut.show",ng-controller="DonutController", ng-init="page = pages.donut")
-    include donut.jade
 div(ng-if="pages.gauge.show",ng-controller="GaugeController", ng-init="page = pages.gauge")
     include gauge.jade
+div(ng-if="pages.donut.show",ng-controller="DonutController", ng-init="page = pages.donut")
+    include donut.jade
+div(ng-if="pages.multi.show",ng-controller="MultiController", ng-init="page = pages.multi")
+    include multi.jade
 div(ng-if="pages.pie.show",ng-controller="PieChartController", ng-init="page = pages.pie")
     include pie-chart.jade

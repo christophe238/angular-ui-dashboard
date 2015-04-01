@@ -16,9 +16,12 @@ define([
 				},
 				click : function(d){
 					console.log('Pie Slice clicked : '+JSON.stringify(d));
-					$scope.data1 = $scope.generateRandomArray(5);
+					$scope.data1 = $scope.generateRandomArray(4);
 					$scope.$apply();
 				}
+			},
+			title : {
+				value : 'Sample Widget'
 			}
 		};
 
@@ -33,6 +36,9 @@ define([
 				strokeWidth : 1
 			},			
 			slice : {
+				border : {
+					width : 0.5
+				},
 				label : {
 					display : false
 				},

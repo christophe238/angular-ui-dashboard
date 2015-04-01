@@ -1,0 +1,22 @@
+.controller('MyController',function($scope){
+	
+	$scope.donutConfiguration = {
+		sort : 'ascending',
+		colors : d3.scale.category20b().range().slice(8,12),
+		slice : {
+			label : {
+				position : 'in'
+			},
+			click : function(d){
+				console.log('Donut Slice clicked : '+JSON.stringify(d));
+				$scope.data1 = $scope.generateRandomArray(5);
+				$scope.$apply();
+			}
+		},
+		title : {
+			value : 'Sample Widget'
+		}
+	};
+
+	$scope.data = [400,200,150,180,200];
+});

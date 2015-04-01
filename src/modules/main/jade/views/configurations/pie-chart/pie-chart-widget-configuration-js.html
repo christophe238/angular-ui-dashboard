@@ -1,0 +1,21 @@
+.controller('MyController',function($scope){
+	$scope.pieConfiguration = {
+		sort : 'ascending',
+		colors : d3.scale.category20b().range().slice(12,16),
+		slice : {
+			label : {
+				position : 'in'
+			},
+			click : function(d){
+				console.log('Pie Slice clicked : '+JSON.stringify(d));
+				$scope.data1 = $scope.generateRandomArray(5);
+				//$scope.$apply();
+			}
+		},
+		title : {
+			value : 'Sample Widget'
+		}
+	};
+
+	$scope.data = [204,300,250,140];
+});

@@ -1,0 +1,26 @@
+.page-header(ng-click="page.expanded = !page.expanded")
+    h2
+        multi-chart(configuration="miniMultiConfigurations", data="data")
+        | {{ ::text.multi.pageHeader + ' ' }}
+        small {{ ::text.multi.directiveCall }}
+        span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="page.expanded")
+        span.pull-right.glyphicon.glyphicon-chevron-right(ng-show="!page.expanded")
+.page-content(ng-show="page.expanded")
+    .row
+        .col-md-12
+            .panel.panel-default
+                .panel-heading(ng-click="multi.expanded = !multi.expanded") {{ ::text.multi.multiDefault }}
+                    span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="multi.expanded")
+                    span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!multi.expanded")
+                .panel-body(ng-show="multi.expanded")
+                    .center
+                        multi(configuration="configurations",data="data")
+                    .panel.panel-info
+                        .panel-heading(ng-click="multi.code.expanded = !multi.code.expanded") {{ ::text.multi.configuration }}
+                            span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="multi.code.expanded")
+                            span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!multi.code.expanded")
+                        .panel-body(ng-show="multi.code.expanded")
+                            pre.prettyprint.lang-html.linenums.prettyprinted.language-html
+                                include ../configurations/multi/multi-widget-configuration-html.html
+                            pre.prettyprint.lang-js.linenums.prettyprinted
+                                include ../configurations/multi/multi-widget-configuration-js.html

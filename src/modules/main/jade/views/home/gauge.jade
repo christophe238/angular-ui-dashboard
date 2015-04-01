@@ -1,6 +1,6 @@
 .page-header(ng-click="page.expanded = !page.expanded")
     h2
-        circular-gauge(configuration="miniGaugeConfiguration", data="data")
+        circular-gauge(configuration="miniGaugeConfiguration", data="miniData")
         | {{ ::text.gauge.pageHeader + ' ' }}
         small {{ ::text.gauge.directiveCall }}
         span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="page.expanded")
@@ -14,16 +14,7 @@
                     span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!gauges.default.expanded")
                 .panel-body(ng-show="gauges.default.expanded")
                     .center
-                        circular-gauge(configuration="defaultConfiguration",data="defaultData")
-                    .panel.panel-info
-                        .panel-heading(ng-click="gauges.default.code.expanded = !gauges.default.code.expanded") {{ ::text.gauge.configuration }}
-                            span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="gauges.default.code.expanded")
-                            span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!gauges.default.code.expanded")
-                        .panel-body(ng-show="gauges.default.code.expanded")
-                            pre.prettyprint.lang-html.linenums.prettyprinted.language-html
-                                include ../configurations/gauge/gauge-widget-default-html.html
-                            pre.prettyprint.lang-js.linenums.prettyprinted
-                                include ../configurations/gauge/gauge-widget-default-js.html
+                        circular-gauge(configuration="defaultConfiguration",data="defaultData")                    
         .col-md-6
             .panel.panel-default
                 .panel-heading(ng-click="gauges.gauge1.expanded = !gauges.gauge1.expanded") {{ ::text.gauge.gauge1 }}
@@ -38,41 +29,6 @@
                             span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!gauges.gauge1.code.expanded")
                         .panel-body(ng-show="gauges.gauge1.code.expanded")
                             pre.prettyprint.lang-html.linenums.prettyprinted.language-html
-                                include ../configurations/gauge/gauge-widget-configuration1-html.html
+                                include ../configurations/gauge/gauge-widget-configuration-html.html
                             pre.prettyprint.lang-js.linenums.prettyprinted
-                                include ../configurations/gauge/gauge-widget-configuration1-js.html
-    .row
-        .col-md-6
-            .panel.panel-default
-                .panel-heading(ng-click="gauges.gauge2.expanded = !gauges.gauge2.expanded") {{ ::text.gauge.gauge2 }}
-                    span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="gauges.gauge2.expanded")
-                    span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!gauges.gauge2.expanded")
-                .panel-body(ng-show="gauges.gauge2.expanded")
-                    .center
-                        circular-gauge(configuration="gaugeConfiguration2",data="data2")
-                    .panel.panel-info
-                        .panel-heading(ng-click="gauges.gauge2.code.expanded = !gauges.gauge2.code.expanded") {{ ::text.gauge.configuration }}
-                            span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="gauges.gauge2.code.expanded")
-                            span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!gauges.gauge2.code.expanded")
-                        .panel-body(ng-show="gauges.gauge2.code.expanded")
-                            pre.prettyprint.lang-html.linenums.prettyprinted.language-html
-                                include ../configurations/gauge/gauge-widget-configuration1-html.html
-                            pre.prettyprint.lang-js.linenums.prettyprinted
-                                include ../configurations/gauge/gauge-widget-configuration2-js.html
-        .col-md-6
-            .panel.panel-default
-                .panel-heading(ng-click="gauges.multi.expanded = !gauges.multi.expanded") {{ ::text.gauge.multi }}
-                    span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="gauges.multi.expanded")
-                    span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!gauges.multi.expanded")
-                .panel-body(ng-show="gauges.multi.expanded")
-                    .center
-                        multi-circular-gauge(configuration="multiConf",data="multiData")
-                    .panel.panel-info
-                        .panel-heading(ng-click="gauges.multi.code.expanded = !gauges.multi.code.expanded") {{ ::text.gauge.configuration }}
-                            span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="gauges.multi.code.expanded")
-                            span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!gauges.multi.code.expanded")
-                        .panel-body(ng-show="gauges.multi.code.expanded")
-                            pre.prettyprint.lang-html.linenums.prettyprinted.language-html
-                                include ../configurations/gauge/gauge-widget-multi-html.html
-                            pre.prettyprint.lang-js.linenums.prettyprinted
-                                include ../configurations/gauge/gauge-widget-multi-js.html
+                                include ../configurations/gauge/gauge-widget-configuration-js.html

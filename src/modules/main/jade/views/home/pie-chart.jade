@@ -23,3 +23,12 @@
                 .panel-body(ng-show="pies.pie1.expanded")
                     .center
                         pie-chart(configuration="config1",data="data1")
+                    .panel.panel-info
+                        .panel-heading(ng-click="pies.pie1.code.expanded = !pies.pie1.code.expanded") {{ ::text.pie.configuration }}
+                            span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="pies.pie1.code.expanded")
+                            span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!pies.pie1.code.expanded")
+                        .panel-body(ng-show="pies.pie1.code.expanded")
+                            pre.prettyprint.lang-html.linenums.prettyprinted.language-html
+                                include ../configurations/pie-chart/pie-chart-widget-configuration-html.html
+                            pre.prettyprint.lang-js.linenums.prettyprinted
+                                include ../configurations/pie-chart/pie-chart-widget-configuration-js.html

@@ -1,4 +1,4 @@
-.controller('MyController',function($scope,$timeout){
+.controller('MyController',function($scope){
 
     $scope.gaugeConfiguration = {
         max : 5000,
@@ -29,10 +29,12 @@
         label : {
             fontsize : 32,
             format : function(d){
-                return d+'$';
+                return d;
             },
             symbol : {
-                display : false
+                format : function(d){
+                    return '$';
+                }
             }
         },
         background : {
@@ -56,14 +58,5 @@
         }
     };
 
-    $scope.data = 0;
-
-    $scope.updateData = function(){
-        $timeout(function(){
-            $scope.data = Math.floor(Math.random()*100);
-            $scope.updateData();
-        },2500);
-    };
-
-    $scope.updateData();
+    $scope.data = 0;   
 });

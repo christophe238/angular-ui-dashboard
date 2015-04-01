@@ -16,9 +16,12 @@ define([
 				},
 				click : function(d){
 					console.log('Donut Slice clicked : '+JSON.stringify(d));
-					$scope.data1 = $scope.generateRandomArray(5);
+					$scope.data1 = $scope.generateRandomArray(4);
 					$scope.$apply();
 				}
+			},
+			title : {
+				value : 'Sample Widget'
 			}
 		};
 
@@ -40,7 +43,10 @@ define([
 				hover : {
 					apply : false
 				}
-			}
+			},
+			label : {
+                fontsize : 10
+            }
 		};
 
 		$scope.donuts = {
@@ -51,12 +57,6 @@ define([
                 }
             },
             donut1 : {
-                expanded : true,
-                code : {
-                    expanded : false
-                }
-            },
-            donut2 : {
                 expanded : true,
                 code : {
                     expanded : false

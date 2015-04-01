@@ -9,11 +9,11 @@ define([
         };
 
         $scope.formatSymbol = function(value){
-            return '%';
+            return '$';
         };
 
         $scope.formatLabel2 = function(value){
-            return value+"$";
+            return value;
         };
 
         $scope.defaultConfiguration = {};
@@ -21,6 +21,8 @@ define([
         $scope.miniGaugeConfiguration = {
             radius : 20,
             strokeWidth : 4,
+            max : 1000,
+            colors : d3.scale.category10().range(),
             background : {
                 strokeWidth : 4
             },
@@ -31,40 +33,12 @@ define([
                 fontsize : 10
             },
             thresholds : {
-                display : false
+                display : false,
+                values : [100,200,300,400,500,600,700,800,900]
             }
         };
 
         $scope.gaugeConfiguration = {
-            max : 100,
-            radius : 90,
-            startAngle : -90,
-            amplitude : 180,
-            strokeWidth : 25,
-            border : {
-                color : '#EA4F69',
-                strokeWidth: 4
-            },
-            background : {
-                display : false
-            },
-            label : {
-                format : $scope.formatLabel,
-                symbol : {
-                    format : $scope.formatSymbol
-                }
-            },
-            thresholds : {
-                display : false
-            },
-            colors : ['#00CED1','#1E90FF','#4682B4','#191970'],
-            transitions : {
-                arc : 100,
-                label : 1000
-            }
-        };
-
-        $scope.gaugeConfiguration2 = {
             max : 5000,
             radius : 90,
             startAngle : -160,
@@ -94,7 +68,7 @@ define([
                 fontsize : 32,
                 format : $scope.formatLabel2,
                 symbol : {
-                    display : false
+                    format : $scope.formatSymbol
                 }
             },
             background : {
@@ -130,34 +104,18 @@ define([
                 code : {
                     expanded : false
                 }
-            },
-            gauge2 : {
-                expanded : true,
-                code : {
-                    expanded : false
-                }
-            },
-            multi : {
-                expanded : true,
-                code : {
-                    expanded : false
-                }
             }
         };
 
+        $scope.miniData = 0;
         $scope.defaultData = 0;
         $scope.data = 0;
-        $scope.data2 = 0;
-
-        $scope.multiData = [$scope.defaultData,$scope.data,$scope.data2];
-        $scope.multiConf = [$scope.defaultConfiguration,$scope.gaugeConfiguration,$scope.gaugeConfiguration2];
 
         $scope.updateData = function(){
             $timeout(function(){
+                $scope.miniData = Math.floor(Math.random()*1000);
                 $scope.defaultData = Math.floor(Math.random()*100);
-                $scope.data = Math.floor(Math.random()*100);
-                $scope.data2 = Math.floor(Math.random()*5000);
-                $scope.multiData = [$scope.defaultData,$scope.data,$scope.data2];
+                $scope.data = Math.floor(Math.random()*5000);
                 $scope.updateData();
             },2500);
         };

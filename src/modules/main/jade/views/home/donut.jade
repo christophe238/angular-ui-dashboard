@@ -23,3 +23,12 @@
                 .panel-body(ng-show="donuts.donut1.expanded")
                     .center
                         donut(configuration="config1",data="data1")
+                    .panel.panel-info
+                        .panel-heading(ng-click="donuts.donut1.code.expanded = !donuts.donut1.code.expanded") {{ ::text.donut.configuration }}
+                            span.pull-right.glyphicon.glyphicon-chevron-down(ng-show="donuts.donut1.code.expanded")
+                            span.pull-right.glyphicon.glyphicon-chevron-up(ng-show="!donuts.donut1.code.expanded")
+                        .panel-body(ng-show="donuts.donut1.code.expanded")
+                            pre.prettyprint.lang-html.linenums.prettyprinted.language-html
+                                include ../configurations/donut/donut-widget-configuration-html.html
+                            pre.prettyprint.lang-js.linenums.prettyprinted
+                                include ../configurations/donut/donut-widget-configuration-js.html

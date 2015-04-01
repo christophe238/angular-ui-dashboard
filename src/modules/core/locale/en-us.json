@@ -24,7 +24,7 @@
 				"gauge1":"Sample Gauge - With Label",
 				"gauge2":"Sample Gauge - With Title and Multiple gauge (saving history)",
 				"multi":"Sample Multi Gauge",
-				"gauge2Title":"Total in $",
+				"gauge2Title":"My Savings",
 				"gaugeDefault":"Default Gauge - With empty configuration",
 				"configuration":"Configuration for this widget"
 			},
@@ -34,6 +34,12 @@
 				"donutDefault":"Default Donut - With empty configuration",
 				"configuration":"Configuration for this widget",
 				"donut1":"Donut - With Data sorted and updated on click"				
+			},
+			"multi": {
+				"pageHeader":"Multi Widget",
+				"directiveCall":"<multi></multi>",
+				"multiDefault":"Multi - With some of existing widget",
+				"configuration":"Configuration for this widget"		
 			},
 			"pie": {
 				"pageHeader":"Pie Chart Widget",
