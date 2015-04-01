@@ -387,8 +387,14 @@ angular.module('ui.dashboard.CommonApp').service('ui.dashboard.PieService',['ui.
 		if(config.slice.label.position === 'out'){
 			size = config.radius + config.slice.hover.growBy + config.slice.label.line.size;				
 		}
-		else{
-			size = config.radius - config.strokeWidth/2;
+		else if(config.slice.label.position === 'in'){
+			//If it is a pie chart
+			if(config.radius === config.strokeWidth){
+				size = config.radius - config.slice.label.value.fontsize*3;
+			}
+			else{
+				size = config.radius - config.strokeWidth/2 - config.slice.label.value.fontsize;
+			}
 		}
 		return 'translate('+
 			Math.cos(((d.startAngle+d.endAngle+d.padAngle*2 - Math.PI)/2)) * (size) + ',' +
@@ -547,10 +553,10 @@ angular.module('ui.dashboard.GaugeApp').factory('ui.dashboard.GaugeConfiguration
 			}
 		}
 		//END Rules for multiple gauges
-		this.colors = ['#FFFF00','#FF8C00','#FF4500','#FF0000'];
+		this.colors = d3.scale.category10().range();
 		this.thresholds = {
 			display : true,
-			values : [25,55,75],
+			values : [10,20,30,40,50,60,70,80,90],
 			strokeWidth : 20,
 			amplitude : 2,
 			opacity : 1,
@@ -652,7 +658,7 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
 
         	$scope.draw = function(data){
         		var arrangedData = $scope._prepareData(angular.copy(data));
-            	var paths = $scope.widget.select('.gauge-container').selectAll('path')
+            	var paths = $scope.widget.select('.ui-dashboard-gauge-container').selectAll('path')
 				paths.data(arrangedData,function(d,i){ return d+Math.random()/1000; })
                 	.enter()
                         .append('path')
@@ -721,14 +727,14 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
 
         	$scope._updateLabels = function(data){
         		if($scope.configuration.label.display){
-            		$scope.widget.select('.gauge-middle-label').select('text')
+            		$scope.widget.select('.ui-dashboard-gauge-middle-label').select('text')
             			.attr('opacity',0.2)
 	                    .transition()
 	                        .duration($scope.configuration.transitions.label)
 	                        .attr('opacity',1)
 	                        .text($scope.configuration.label.format(data))
                     if($scope.configuration.label.symbol.display){
-                    	$scope.widget.select('.gauge-middle-label-symbol').select('text')
+                    	$scope.widget.select('.ui-dashboard-gauge-middle-label-symbol').select('text')
 	            			.attr('opacity',0.2)
 		                    .transition()
 		                        .duration($scope.configuration.transitions.label)
@@ -750,7 +756,7 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
 	            if($scope.configuration.title.display){
 	            	//Setting title
 	            	$scope.widget.append('g')
-	            		.attr('class','gauge-title')
+	            		.attr('class','ui-dashboard-gauge-title')
 	            		.append('text')
 	            			.text($scope.configuration.title.value)
 	            			.attr('x',$scope.configuration.width/2)
@@ -810,7 +816,7 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
 	            if($scope.configuration.label.display){
 	                //Middle label
 	                $scope.widget.append('g')
-                        .attr('class','gauge-middle-label')
+                        .attr('class','ui-dashboard-gauge-middle-label')
                         .append('text')
                             .text($scope.configuration.label.format(0))
                             .attr('x',$scope.configuration.width/2)
@@ -821,7 +827,7 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
                             .style('text-anchor', 'middle');
                     if($scope.configuration.label.symbol.display){
 	            		$scope.widget.append('g')
-	            			.attr('class','gauge-middle-label-symbol')
+	            			.attr('class','ui-dashboard-gauge-middle-label-symbol')
 	            			.append('text')
 	                            .text($scope.configuration.label.symbol.format(0))
 	                            .attr('x',$scope.configuration.width/2)
@@ -836,14 +842,14 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
 	            //Main widget content
                 if($scope.configuration.thresholds.aboveGauge){
                 	$scope.widget.append('g')
-                    	.attr('class','gauge-container');
+                    	.attr('class','ui-dashboard-gauge-container');
                 }
                 if($scope.configuration.thresholds.display){
 	                //Display thresholds
 	                $scope.widget.append('g')
-		                    .attr('class','gauge-threshold')
+		                    .attr('class','ui-dashboard-gauge-threshold')
 	                angular.forEach($scope.configuration.thresholds.values,function(threshold){
-		                $scope.widget.select('.gauge-threshold')
+		                $scope.widget.select('.ui-dashboard-gauge-threshold')
 		                    .append('path')
 		                        .attr('d',ArcService.computeArc(
 		                        	($scope.configuration.amplitude * (threshold/$scope.configuration.max)) - $scope.configuration.thresholds.amplitude/2,
@@ -868,7 +874,7 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
 	            //Main widget content
                 if(!$scope.configuration.thresholds.aboveGauge){
                 	$scope.widget.append('g')
-                    	.attr('class','gauge-container');
+                    	.attr('class','ui-dashboard-gauge-container');
                 }
 	        }
 
@@ -884,48 +890,6 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
         }
     };
 }]);
-angular.module('ui.dashboard.GaugeApp').controller('ui.dashboard.MultiGaugeController',['$scope',function($scope){
-
-    $scope.$selectedWidgetIndex = 0;
-
-    $scope.$nextWidget = function(){
-        if($scope.$selectedWidgetIndex === ($scope.configuration.length - 1)){
-            $scope.$selectedWidgetIndex = 0;
-        }
-        else{
-            $scope.$selectedWidgetIndex += 1;
-        }
-    };
-
-    $scope.$previousWidget = function(){
-        if($scope.$selectedWidgetIndex === 0){
-            $scope.$selectedWidgetIndex = $scope.configuration.length -1;
-        }
-        else{
-            $scope.$selectedWidgetIndex -= 1;
-        }
-    };
-}]);
-
-angular.module('ui.dashboard.GaugeApp').directive('multiCircularGauge',[function(){
-    return {
-        restrict: 'E',
-        scope: {
-          configuration: '=',
-          data: '='
-        },
-        template :  '<div class="ui-dashboard-multi-gauge-container">'+
-	        			'<div class="ui-dashboard-multi-gauge-navigate">'+
-	        				'<span class="glyphicon glyphicon-chevron-left" ng-click="$previousWidget()"></span>'+
-	        				'<span class="glyphicon glyphicon-chevron-right" ng-click="$nextWidget()"></span>'+
-	        			'</div>'+
-	        			'<div ng-repeat="conf in configuration">'+
-        					'<gauge configuration="conf" data="data[$index]" ng-show="$selectedWidgetIndex === $index"></gauge>'+
-        				'</div>'+
-	        		'</div>',
-        controller : 'ui.dashboard.MultiGaugeController'
-    };
-}]);
 angular.module('ui.dashboard.DonutApp',['ui.dashboard.CommonApp']);
 angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.DonutConfiguration',function(){
 
@@ -939,7 +903,8 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.DonutConfiguration
 		this.padAngle = 1;
 		this.radius = 90;
 		this.opacity = 1;
-		this.colors = ["#3399FF", "#5DAEF8", "#86C3FA", "#ADD6FB", "#D6EBFD"];
+		//blue scale : ["#3399FF", "#5DAEF8", "#86C3FA", "#ADD6FB", "#D6EBFD"];
+		this.colors = d3.scale.category10().range();
 		//Sorting order : null, 'ascending', 'descending'
 		this.sort = null;
 		this.slice = {
@@ -979,20 +944,27 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.DonutConfiguration
 			click : function(value){}
 		};
 		this.border = {
-				display : true,
-				color : 'lightgrey',
-				strokeWidth : 2,
-				opacity : 1
-			};
+			display : true,
+			color : 'lightgrey',
+			strokeWidth : 2,
+			opacity : 1
+		};		
 		this.label = {
 			display : true,
 			fontsize : 32,
-			colors : ['white'],
-			format : function(value){ return value; },
-			opacity : 1
+			color : 'black',
+			format : function(values){ return d3.sum(values); },
+			opacity : 1,
+			symbol : {
+				display : true,
+				fontsize : 20,
+				color : 'black',
+				format : function(values){ return ''; },
+				opacity : 1
+			}
 		};
 		this.title = {
-			display : false,
+			display : true,
 			fontsize : 24,
 			value : '',
 			color : 'black',
@@ -1055,7 +1027,8 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.PieChartConfigurat
 		this.radius = 90;
 		this.strokeWidth = 90;
 		this.opacity = 1;
-		this.colors = ['#3AAB89','#6BD3B4','#A4EDD7','#E0FCF4','#CEECE3'];
+		//Green scale : ['#3AAB89','#6BD3B4','#A4EDD7','#E0FCF4','#CEECE3'];
+		this.colors = d3.scale.category10().range();
 		this.sort = null;
 		this.slice = {
 			border : {
@@ -1099,20 +1072,13 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.PieChartConfigurat
 			click : function(value){}
 		};
 		this.border = {
-				display : true,
-				color : 'lightgrey',
-				strokeWidth : 2,
-				opacity : 1
-			};
-		this.label = {
 			display : true,
-			fontsize : 32,
-			colors : ['white'],
-			format : function(value){ return value; },
+			color : 'lightgrey',
+			strokeWidth : 2,
 			opacity : 1
 		};
 		this.title = {
-			display : false,
+			display : true,
 			fontsize : 24,
 			value : '',
 			color : 'black',
@@ -1226,7 +1192,8 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 				            .on('click',$scope.configuration.slice.click)
                             .transition()
                                 .attrTween('d',function(d,i){
-                                    var interpolate = d3.interpolate(previousPie[i], d);
+                                	var previous = previousPie[i] || {startAngle:0,endAngle:0};
+                                    var interpolate = d3.interpolate(previous, d);
 									return function(t) {
 										return arc(interpolate(t));
 									}
@@ -1236,7 +1203,27 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
                                 	$scope.previousData = angular.copy(data);
                                 });
                 paths.remove();
+                $scope._updateLabels(data);
 			};
+
+			$scope._updateLabels = function(data){
+        		if($scope.configuration.label.display){
+            		$scope.widget.select('.ui-dashboard-donut-middle-label').select('text')
+            			.attr('opacity',0.2)
+	                    .transition()
+	                        .duration($scope.configuration.transitions.label)
+	                        .attr('opacity',1)
+	                        .text($scope.configuration.label.format(data))
+                    if($scope.configuration.label.symbol.display){
+                    	$scope.widget.select('.ui-dashboard-donut-middle-label-symbol').select('text')
+	            			.attr('opacity',0.2)
+		                    .transition()
+		                        .duration($scope.configuration.transitions.label)
+		                        .attr('opacity',1)
+		                        .text($scope.configuration.label.symbol.format(data));
+                    }
+                }
+        	};
 
 			$scope._sumData = function(data){
 				return $scope._sumDataBefore(data,data.length);
@@ -1279,17 +1266,17 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 	            		.append('text')
 	            			.text($scope.configuration.title.value)
 	            			.attr('x',$scope.configuration.width/2)
-	            			.attr('y',$scope.configuration.height + $scope.configuration.title.fontsize)
+	            			.attr('y',$scope.configuration.height/2 + $scope.configuration.radius + $scope.configuration.title.fontsize)
 	            			.attr('opacity',$scope.configuration.title.opacity)
 	            			.attr('font-size',$scope.configuration.title.fontsize+'px')
 	            			.attr('fill',$scope.configuration.title.color)
 	            			.style('text-anchor','middle');
-
 	            }
 	            if($scope.configuration.border.display){
 	                //Setting border
-	                var borderArc = ArcService.d3Arc($scope.configuration.radius+$scope.configuration.border.strokeWidth,$scope.configuration.border.strokeWidth)
+	                var borderArc = ArcService.d3Arc($scope.configuration.radius + $scope.configuration.border.strokeWidth,$scope.configuration.border.strokeWidth);
 	                $scope.widget.append('g')
+	                	.attr('class','ui-dashboard-donut-border')
                         .append('path')
                             .attr('d',borderArc({startAngle:0, endAngle:ArcService.toRadians($scope.configuration.amplitude)}))
                             .attr('opacity',$scope.configuration.border.opacity)
@@ -1304,6 +1291,31 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 	                            	$scope.configuration.width,
                     				$scope.configuration.height
 	                            ));
+	            }
+	            if($scope.configuration.label.display){
+	                //Middle label
+	                $scope.widget.append('g')
+                        .attr('class','ui-dashboard-donut-middle-label')
+                        .append('text')
+                            .text($scope.configuration.label.format(0))
+                            .attr('x',$scope.configuration.width/2)
+                            .attr('y',$scope.configuration.height/2)
+                            .attr('opacity',$scope.configuration.label.opacity)
+                            .attr('font-size', $scope.configuration.label.fontsize + 'px')
+                            .attr('fill',$scope.configuration.label.color)
+                            .style('text-anchor', 'middle');
+                    if($scope.configuration.label.symbol.display){
+	            		$scope.widget.append('g')
+	            			.attr('class','ui-dashboard-donut-middle-label-symbol')
+	            			.append('text')
+	                            .text($scope.configuration.label.symbol.format(0))
+	                            .attr('x',$scope.configuration.width/2)
+	                            .attr('y',$scope.configuration.height/2 + $scope.configuration.label.fontsize)
+	                            .attr('opacity',$scope.configuration.label.symbol.opacity)
+	                            .attr('font-size', $scope.configuration.label.symbol.fontsize+'px')
+	                            .attr('fill',$scope.configuration.label.symbol.color)
+	                            .style('text-anchor', 'middle');
+                    }
 	            }
 	            //Main widget content
                 $scope.widget.append('g')
@@ -1395,7 +1407,8 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 	                            ))
                             .transition()
                                 .attrTween('d',function(d,i){
-                                    var interpolate = d3.interpolate({startAngle:previousPie[i].startAngle, endAngle:previousPie[i].endAngle}, d);
+                                    var previous = previousPie[i] || {startAngle:0,endAngle:0};
+                                    var interpolate = d3.interpolate(previous, d);
 									return function(t) {
 										return arc(interpolate(t));
 									}
@@ -1437,7 +1450,7 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 	            		.append('text')
 	            			.text($scope.configuration.title.value)
 	            			.attr('x',$scope.configuration.width/2)
-	            			.attr('y',$scope.configuration.height+$scope.configuration.title.fontsize)
+	            			.attr('y',$scope.configuration.height/2 + $scope.configuration.radius + $scope.configuration.title.fontsize)
 	            			.attr('opacity',$scope.configuration.title.opacity)
 	            			.attr('font-size',$scope.configuration.title.fontsize+'px')
 	            			.attr('fill',$scope.configuration.title.color)
@@ -1446,27 +1459,24 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 	            }
 	            if($scope.configuration.border.display){
 	                //Setting border
+	                var borderArc = ArcService.d3Arc($scope.configuration.radius + $scope.configuration.border.strokeWidth,$scope.configuration.border.strokeWidth);
 	                $scope.widget.append('g')
+                        .attr('class','ui-dashboard-pie-border')
                         .append('path')
-                            .attr('d',ArcService.computeArc(
-	                        	0,
-	                        	$scope.configuration.amplitude,
-	                        	1,
-	                        	1,
-	                        	$scope.configuration.width,
-	                        	$scope.configuration.height,
-	                        	$scope.configuration.radius + $scope.configuration.strokeWidth/2 + $scope.configuration.border.strokeWidth/2
-	                        	))
+                            .attr('d',borderArc({startAngle:0, endAngle:ArcService.toRadians($scope.configuration.amplitude)}))
                             .attr('opacity',$scope.configuration.border.opacity)
-                            .attr('fill','none')
-                            .attr('transform', ArcService.computeRotation(
-                            	$scope.configuration.startAngle,
-                            	$scope.configuration.width,
-                            	$scope.configuration.height
-                            	))
-                            .attr('stroke',$scope.configuration.border.color)
-                            .attr('stroke-width',$scope.configuration.border.strokeWidth);
-	            }
+                            .attr('fill',$scope.configuration.border.color)
+                            .attr('transform',
+                            	ArcService.computeRotation(
+	                            	$scope.configuration.startAngle,
+	                            	$scope.configuration.width,
+	                            	$scope.configuration.height
+                            	) + ' ' +
+                            	ArcService.translate(
+	                            	$scope.configuration.width,
+                    				$scope.configuration.height
+	                            ));
+	            }	            
 	            //Main widget content
                 $scope.widget.append('g')
                    	.attr('class','ui-dashboard-donut-container');  
@@ -1491,8 +1501,54 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 		}
 	}
 }]);
+angular.module('ui.dashboard.MultiWidgetApp',[]);
+angular.module('ui.dashboard.MultiWidgetApp').controller('ui.dashboard.MultiController',['$scope',function($scope){
+
+    $scope.$selectedWidgetIndex = 0;
+
+    $scope.$nextWidget = function(){
+        if($scope.$selectedWidgetIndex === ($scope.configuration.length - 1)){
+            $scope.$selectedWidgetIndex = 0;
+        }
+        else{
+            $scope.$selectedWidgetIndex += 1;
+        }
+    };
+
+    $scope.$previousWidget = function(){
+        if($scope.$selectedWidgetIndex === 0){
+            $scope.$selectedWidgetIndex = $scope.configuration.length -1;
+        }
+        else{
+            $scope.$selectedWidgetIndex -= 1;
+        }
+    };
+}]);
+
+angular.module('ui.dashboard.MultiWidgetApp').directive('multi',[function(){
+    return {
+        restrict: 'E',
+        scope: {
+          configuration: '=',
+          data: '='
+        },
+        template :  '<div class="ui-dashboard-multi-container">'+
+	        			'<div class="ui-dashboard-multi-navigate">'+
+	        				'<span class="glyphicon glyphicon-chevron-left" ng-click="$previousWidget()"></span>'+
+	        				'<span class="glyphicon glyphicon-chevron-right" ng-click="$nextWidget()"></span>'+
+	        			'</div>'+
+	        			'<div ng-repeat="conf in configuration">'+                                                        
+        					'<circular-gauge ng-if="conf.type === \'circular-gauge\'" configuration="conf" data="data[$index]" ng-show="$selectedWidgetIndex === $index"></circular-gauge>'+
+                            '<donut ng-if="conf.type === \'donut\'" configuration="conf" data="data[$index]" ng-show="$selectedWidgetIndex === $index"></donut>'+
+                            '<pie-chart ng-if="conf.type === \'pie-chart\'" configuration="conf" data="data[$index]" ng-show="$selectedWidgetIndex === $index"></pie-chart>'+
+        				'</div>'+
+	        		'</div>',
+        controller : 'ui.dashboard.MultiController'
+    };
+}]);
 angular.module('ui.dashboard',[
 	'ui.dashboard.CommonApp',
 	'ui.dashboard.GaugeApp',
-	'ui.dashboard.DonutApp'
+	'ui.dashboard.DonutApp',
+	'ui.dashboard.MultiWidgetApp'
 ]);

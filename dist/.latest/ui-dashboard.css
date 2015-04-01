@@ -1,25 +1,36 @@
-.ui-dashboard-multi-gauge-container .ui-dashboard-multi-gauge-navigate .glyphicon-chevron-left {
+.ui-dashboard-multi-container .ui-dashboard-multi-navigate .glyphicon-chevron-left {
   left: 5%;
 }
-.ui-dashboard-multi-gauge-container .ui-dashboard-multi-gauge-navigate .glyphicon-chevron-right {
+.ui-dashboard-multi-container .ui-dashboard-multi-navigate .glyphicon-chevron-right {
   right: 5%;
 }
-.ui-dashboard-multi-gauge-container .ui-dashboard-multi-gauge-navigate .glyphicon {
+.ui-dashboard-multi-container .ui-dashboard-multi-navigate .glyphicon {
   position: absolute;
   display: block;
   top: 40%;
 }
-.ui-dashboard-multi-gauge-container .ui-dashboard-multi-gauge-navigate .glyphicon:hover {
+.ui-dashboard-multi-container .ui-dashboard-multi-navigate .glyphicon:hover {
   cursor: pointer;
 }
-.ui-dashboard-donut-label-value,
-.ui-dashboard-pie-label-value {
+.ui-dashboard-donut-label-value.in,
+.ui-dashboard-pie-label-value.in {
+  font-size: 12px;
+  fill: #FFF;
+  font-weight: bold;
+}
+.ui-dashboard-donut-label-value.out,
+.ui-dashboard-pie-label-value.out {
   font-size: 12px;
   font-weight: bold;
   fill: #2A2A2A;
 }
-.ui-dashboard-donut-label-name,
-.ui-dashboard-pie-label-name {
+.ui-dashboard-donut-label-name.in,
+.ui-dashboard-pie-label-name.in {
+  font-size: 10px;
+  fill: #FFF;
+}
+.ui-dashboard-donut-label-name.out,
+.ui-dashboard-pie-label-name.out {
   font-size: 12px;
   fill: #CCC;
 }
