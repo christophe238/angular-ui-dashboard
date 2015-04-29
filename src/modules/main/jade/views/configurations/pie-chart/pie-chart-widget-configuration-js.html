@@ -8,8 +8,8 @@
 			},
 			click : function(d){
 				console.log('Pie Slice clicked : '+JSON.stringify(d));
-				$scope.data1 = $scope.generateRandomArray(5);
-				//$scope.$apply();
+				$scope.data = $scope.generateRandomArray(5);
+				$scope.$apply();
 			}
 		},
 		title : {

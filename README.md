@@ -6,7 +6,7 @@ Angular components for graphical widgets. Ideal to create a dashboard view.
 # Demo
 See demo here : http://christophe238.github.io/angular-ui-dashboard/
 
-# Build 
+# Build
 http://christophe238.github.io/angular-ui-dashboard/#/docs#setup
 
 # Usage
@@ -16,22 +16,22 @@ http://christophe238.github.io/angular-ui-dashboard/#/docs#usage
 http://christophe238.github.io/angular-ui-dashboard/#/docs#directives
 
 # About angular-ui-dashboard
-Project built on top of [angular-base](https://github.com/christophe238/angular-base) and the great [d3](https://github.com/mbostock/d3) library. 
+Project built on top of [angular-base](https://github.com/christophe238/angular-base) and the great [d3](https://github.com/mbostock/d3) library.
 
 # Roadmap
-:white_check_mark: Basic Circular Gauge - *since v0.0.1*
+:white_check_mark: Basic Circular Gauge - *available since v0.0.1*
 
-:white_check_mark: Configurable Circular Gauge - *since v0.0.1*
+:white_check_mark: Configurable Circular Gauge - *available since v0.0.1*
 
-:white_check_mark: Multiple Circular Gauge with widget selector - *since v0.0.1*
+:white_check_mark: Multiple Circular Gauge with widget selector - *available since v0.0.1*
 
-:white_medium_square: Basic Donut - *in progress*
+:white_check_mark: Basic Donut - *available since v0.0.2*
 
-:white_medium_square: Configurable Donut - *in progress*
+:white_check_mark: Configurable Donut - *available since v0.0.2*
 
-:white_medium_square: Pie Chart - *in progress*
+:white_check_mark: Pie Chart - *available since v0.0.2*
 
-:white_medium_square: Multiple Widgets view (mix donut, pie chart and gauge) - *in progress*
+:white_check_mark: Multiple Widgets view (mix donut, pie chart and gauge) - *available since v0.0.2*
 
 :white_medium_square: Basic Bar Gauge - *not planned yet*
 

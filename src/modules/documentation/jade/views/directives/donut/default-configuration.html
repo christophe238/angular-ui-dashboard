@@ -1,0 +1,88 @@
+{
+	id : 'someID',
+	width : 300,
+	height : 300,
+	startAngle : 5,
+	strokeWidth : 30,
+	amplitude : 350,
+	padAngle : 1,
+	radius : 90,
+	opacity : 1,
+	//blue scale : ["#3399FF", "#5DAEF8", "#86C3FA", "#ADD6FB", "#D6EBFD"],
+	colors : d3.scale.category10().range(),
+	//Sorting order : null, 'ascending', 'descending'
+	sort : null,
+	slice : {
+		label : {
+			//Label position outside of the slice : 'out', centered in slice : 'in'
+			position : 'out',
+			display : true,
+			line : {
+				display : true,
+				size : 10,
+				color : 'gray',
+				class : 'ui-dashboard-donut-label-line'
+			},
+			value : {
+				fontsize : 12,
+				color : 'gray',
+				class : 'ui-dashboard-donut-label-value',
+				format : function(value){
+			        return value.data;
+			    }
+			},
+			name : {
+				topOffset : 2,
+				fontsize : 11,
+				color : 'lightgrey',
+				class : 'ui-dashboard-donut-label-name',
+				format : function(value){
+			        return '';
+			    }
+			}
+		},
+		hover : {
+			apply : true,
+			callback : function(value){},
+			growBy : 5
+		},
+		click : function(value){}
+	},
+	border : {
+		display : true,
+		color : 'lightgrey',
+		strokeWidth : 2,
+		opacity : 1
+	},
+	label : {
+		display : true,
+		fontsize : 32,
+		color : 'black',
+		format : function(values){ return d3.sum(values); },
+		opacity : 1,
+		symbol : {
+			display : true,
+			fontsize : 20,
+			color : 'black',
+			format : function(values){ return ''; },
+			opacity : 1
+		}
+	},
+	title : {
+		display : true,
+		fontsize : 24,
+		value : '',
+		color : 'black',
+		opacity : 1
+	},
+	tooltip : {
+		display : true,
+		format : function(value) {
+			return "<strong>Value:</strong> <span style='color:red'>" + value.data + "</span>";
+		}
+	},
+	transitions : {
+		arc : 1000,
+		label : 500
+	}
+}

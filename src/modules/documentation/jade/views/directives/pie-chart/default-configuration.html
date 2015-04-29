@@ -1,0 +1,72 @@
+{
+	id : 'someID',
+	width : 300,
+	height : 300,
+	amplitude : 360,
+	startAngle : 0,
+	padAngle : 0,
+	radius : 90,
+	strokeWidth : 90,
+	opacity : 1,
+	//Green scale : ['#3AAB89','#6BD3B4','#A4EDD7','#E0FCF4','#CEECE3'],
+	colors : d3.scale.category10().range(),
+	sort : null,
+	slice : {
+		border : {
+			display : true,
+			color : '#FFFFFF',
+			width : 2
+		},
+		label : {
+			//Label position outside of the slice : 'out', centered in slice : 'in'
+			position : 'out',
+			display : true,
+			line : {
+				display : true,
+				size : 10,
+				color : 'gray',
+				class : 'ui-dashboard-pie-label-line'
+			},
+			value : {
+				fontsize : 12,
+				color : 'gray',
+				class : 'ui-dashboard-pie-label-value',
+				format : function(value){
+			        return value.data;
+			    }
+			},
+			name : {
+				topOffset : 2,
+				fontsize : 11,
+				color : 'lightgrey',
+				class : 'ui-dashboard-pie-label-name',
+				format : function(value){
+			        return '';
+			    }
+			}
+		},
+		hover : {
+			apply : true,
+			callback : function(value){},
+			growBy : 5
+		},
+		click : function(value){}
+	},
+	border : {
+		display : true,
+		color : 'lightgrey',
+		strokeWidth : 2,
+		opacity : 1
+	},
+	title : {
+		display : true,
+		fontsize : 24,
+		value : '',
+		color : 'black',
+		opacity : 1
+	},
+	transitions : {
+		arc : 1000,
+		label : 500
+	}
+}

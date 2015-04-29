@@ -12,10 +12,19 @@
     .col-sm-4.static-menu
         .sidebar-nav-fixed.affix
             .well
-                ul.nav                    
-                    li(ng-clic="currentHash = 'setup'",ng-class="{'active':currentHash==='setup'}") 
+                ul.nav
+                    li(ng-click="currentHash = 'setup'",ng-class="{'active':currentHash==='setup'}")
                         a.clickable(href="#docs#setup") {{ ::text.setup.title }}
-                    li(ng-clic="currentHash = 'usage'",ng-class="{'active':currentHash==='setup'}") 
+                    li(ng-click="currentHash = 'usage'",ng-class="{'active':currentHash==='setup'}")
                         a.clickable(href="#docs#usage") {{ ::text.usage.title }}
-                    li(ng-clic="currentHash = 'directives'",ng-class="{'active':currentHash==='directives'}") 
+                    li(ng-click="currentHash = 'directives'",ng-class="{'active':currentHash==='directives'}")
                         a.clickable(href="#docs#directives") {{ ::text.directives.title }}
+                        ul.nav.second-level
+                            li(ng-click="currentHash = 'circularGaugeWidget'",ng-class="{'active':currentHash==='circularGaugeWidget'}")
+                                a.clickable(href="#docs#circularGaugeWidget") {{ ::text.directives.circularGaugeWidget.title }}
+                            li(ng-click="currentHash = 'donutWidget'",ng-class="{'active':currentHash==='donutWidget'}")
+                                a.clickable(href="#docs#donutWidget") {{ ::text.directives.donutWidget.title }}
+                            li(ng-click="currentHash = 'multiWidget'",ng-class="{'active':currentHash==='multiWidget'}")
+                                a.clickable(href="#docs#multiWidget") {{ ::text.directives.multiWidget.title }}
+                            li(ng-click="currentHash = 'pieChartWidget'",ng-class="{'active':currentHash==='pieChartWidget'}")
+                                a.clickable(href="#docs#pieChartWidget") {{ ::text.directives.pieChartWidget.title }}
