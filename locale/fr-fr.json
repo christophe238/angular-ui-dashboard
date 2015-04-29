@@ -1,0 +1,27 @@
+{
+	"core":{
+		"pageNotFound":{
+			"error":":( 404",
+			"pageMessage":"La page '%{page}' à laquelle vous essayez d'accéder n'existe pas.",
+			"homeLink":"Retour à la page d'accueil"
+		}
+	},
+	"main":{
+		"header":{
+			"appTitle":"Angular Base",
+			"leftMenu":{
+				"home":"Accueil"
+			},
+			"rightMenu":{
+				"profile":"Profil",
+				"settings":"Réglages",
+				"files":"Fichiers",
+				"help":"Aide",
+				"about":"A Propos"
+			}
+		},
+		"home":{
+			"welcome":"Bienvenue sur le project angular-base"
+		}
+	}
+}

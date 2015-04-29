@@ -19,14 +19,34 @@
 		"home":{
 			"examples":"Examples",
 			"gauge": {
-				"pageHeader":"Gauge Widget",
-				"directiveCall":"<gauge></gauge>",
+				"pageHeader":"Circular Gauge Widget",
+				"directiveCall":"<circular-gauge></circular-gauge>",
 				"gauge1":"Sample Gauge - With Label",
 				"gauge2":"Sample Gauge - With Title and Multiple gauge (saving history)",
 				"multi":"Sample Multi Gauge",
-				"gauge2Title":"Total in $",
+				"gauge2Title":"My Savings",
 				"gaugeDefault":"Default Gauge - With empty configuration",
 				"configuration":"Configuration for this widget"
+			},
+			"donut": {
+				"pageHeader":"Donut Widget",
+				"directiveCall":"<donut></donut>",
+				"donutDefault":"Default Donut - With empty configuration",
+				"configuration":"Configuration for this widget",
+				"donut1":"Donut - With Data sorted and updated on click"
+			},
+			"multi": {
+				"pageHeader":"Multi Widget",
+				"directiveCall":"<multi></multi>",
+				"multiDefault":"Multi - With some of existing widget",
+				"configuration":"Configuration for this widget"
+			},
+			"pie": {
+				"pageHeader":"Pie Chart Widget",
+				"directiveCall":"<pie-chart></pie-chart>",
+				"pieDefault":"Default Pie Chart - With empty configuration",
+				"configuration":"Configuration for this widget",
+				"pie1":"Pie Chart - With Data sorted and updated on click"
 			}
 		}
 	},
@@ -36,7 +56,7 @@
 		"dashboardText":"Compiled and minified CSS, JavaScript. Includes d3 js library build.",
 		"dashboardDownload":"Download UI Dashboard",
 		"dashboard":"UI Dashboard",
-		"dashboardVersion":"0.0.1",
+		"dashboardVersion":"0.0.2",
 		"sourceText":"Source project, less, JavaScript. Requires grunt to build project. See setup instructions",
 		"source":"Source code",
 		"sourceDownload":"Download source"
@@ -59,7 +79,22 @@
 			"step6":"You can now access the locally built project at http://localhost:7000"
 		},
 		"directives":{
-			"title":"Directives"
+			"title":"Directives",
+			"directive":"Directive",
+			"defaultConfiguration":"Default Configuration",
+			"overrideFields":"All those fields can be overriden for you to customize widget",
+			"circularGaugeWidget":{
+				"title":"Circular Gauge Widget"
+			},
+			"donutWidget":{
+				"title":"Donut Widget"
+			},
+			"multiWidget":{
+				"title":"Multi Widget"
+			},
+			"pieChartWidget":{
+				"title":"Pie Chart Widget"
+			}
 		}
 	}
 }
