@@ -3,10 +3,15 @@
 //
 // Tooltips for d3.js SVG visualizations
 
+// Modified by Christophe Marchadour
+// Remove direction in favor of coordinate 
+// for smoother and more precise tooltip location/move
+
 // Public - contructs a new tooltip
 //
 // Returns a tip
 d3.tip = function() {
+  var coordinate  = d3_tip_coordinate,
       offset    = d3_tip_offset,
       html      = d3_tip_html,
       node      = initNode(),
@@ -29,10 +34,14 @@ d3.tip = function() {
 
     var content = html.apply(this, args),
         poffset = offset.apply(this, args),
+        nodel   = d3.select(node)
 
     nodel.html(content)
       .style({ opacity: 1, 'pointer-events': 'all' })
 
+    nodel.style({
+      top: (coordinate().y +  poffset[0]) + 'px',
+      left: (coordinate().x + poffset[1]) + 'px'
     })
 
     return tip
@@ -81,8 +90,14 @@ d3.tip = function() {
     return tip
   }
 
+  // Public: Set or get the coordinate of the tooltip
   //
+  // v - {x:"",y:""}
   //
+  // Returns tip or coordinate
+  tip.coordinate = function(v) {
+    if (!arguments.length) return coordinate;
+    coordinate = v == null ? v : d3.functor(v)
 
     return tip
   }
@@ -113,6 +128,7 @@ d3.tip = function() {
 
   function d3_tip_offset() { return [0, 0] }
   function d3_tip_html() { return ' ' }
+  function d3_tip_coordinate() { return {x:0,y:0} }  
 
   function initNode() {
     var node = d3.select(document.createElement('div'))
