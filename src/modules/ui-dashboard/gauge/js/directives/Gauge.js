@@ -31,6 +31,17 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
                             .attr('opacity',function(d,i){
                             	return $scope.configuration.opacityRule.apply ? $scope.configuration.opacityRule.rule(d,i):1;
                             	})
+                            .on('mousemove',function(d,i){
+				            	if($scope.configuration.tooltip.display){
+				                	$scope.tooltip.coordinate({x:d3.event.pageX,y:d3.event.pageY});
+					                $scope.tooltip.show(d,i);
+				                }
+				            })
+				            .on('mouseout', function(d) {				            	
+					            if($scope.configuration.tooltip.display){
+					            	$scope.tooltip.hide();
+					            }
+				            })
                             .transition()
                                 .attrTween('d',function(d,i){
                                     var interpolate = d3.interpolate(isNaN($scope.previousData[i]) ? 0:$scope.previousData[i],arrangedData[i]);
@@ -106,6 +117,16 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
 	                	.attr('id',$scope.configuration.id)
 	                    .attr('width',$scope.configuration.width)
 	                    .attr('height',$scope.configuration.height+($scope.configuration.title.display ? $scope.configuration.title.fontsize*2:0));
+	            
+	            if(!$scope.tooltip){
+					$scope.tooltip = d3.tip()
+						.attr('id','tooltip-'+$scope.configuration.id)
+						.attr('class', 'ui-dashboard-circular-gauge-tooltip')
+	  					.offset([10, 10])
+	  					.html($scope.configuration.tooltip.format);
+
+					$scope.widget.call($scope.tooltip);
+				}
 
 	            if($scope.configuration.title.display){
 	            	//Setting title

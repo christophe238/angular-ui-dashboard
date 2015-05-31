@@ -79,7 +79,7 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.DonutConfiguration
 		};
 		this.tooltip = {
 			display : true,
-			format : function(value) {
+			format : function(value,index) {
 				return "<strong>Value:</strong> <span style='color:red'>" + value.data + "</span>";
 			}
 		};

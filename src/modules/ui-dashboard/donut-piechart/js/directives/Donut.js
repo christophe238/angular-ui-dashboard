@@ -43,23 +43,29 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
                             	ArcService.translate(
 	                            	$scope.configuration.width,
                     				$scope.configuration.height
-	                            ))
-                            .on('mouseover', function(d) {
+	                            ))                            
+                            .on('mouseover', function(d) {                            	
 				                if($scope.configuration.slice.hover.apply){
 				                	$scope.configuration.slice.hover.callback(d);
 					                d3.select(this).transition()
 					                    .duration(200)
 					                    .attr("d", arcOver);
-					                //$scope.tooltip.direction(PieService.getTooltipDirection(d));
-					                //$scope.tooltip.show(d);
+				                }				                
+				            })
+				            .on('mousemove',function(d,i){
+				            	if($scope.configuration.tooltip.display){
+				                	$scope.tooltip.coordinate({x:d3.event.pageX,y:d3.event.pageY});
+					                $scope.tooltip.show(d,i);
 				                }
 				            })
 				            .on('mouseout', function(d) {
 				            	if($scope.configuration.slice.hover.apply){
 					                d3.select(this).transition()
 					                    .duration(200)
-					                    .attr("d", arc);
-					                //$scope.tooltip.hide();
+					                    .attr("d", arc);					                
+					            }
+					            if($scope.configuration.tooltip.display){
+					            	$scope.tooltip.hide();
 					            }
 				            })
 				            .on('click',$scope.configuration.slice.click)
@@ -122,16 +128,17 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 					.attr('id',$scope.configuration.id)
 					.attr('width',$scope.configuration.width)
 					.attr('height',$scope.configuration.height);
-				/*
-				$scope.tooltip = d3.tip()
-					.attr('id','tooltip-'+$scope.configuration.id)
-					.attr('class', 'ui-dashboard-donut-tooltip')
-  					.offset([-10, 0])
-  					.direction('n')
-  					.html($scope.configuration.tooltip.format);
+				
+				if(!$scope.tooltip){
+					$scope.tooltip = d3.tip()
+						.attr('id','tooltip-'+$scope.configuration.id)
+						.attr('class', 'ui-dashboard-donut-tooltip')
+	  					.offset([10, 10])
+	  					.html($scope.configuration.tooltip.format);
 
-				$scope.widget.call($scope.tooltip);
-				*/
+					$scope.widget.call($scope.tooltip);
+				}
+				
 				if($scope.configuration.title.display){
 	            	//Setting title
 	            	$scope.widget.append('g')

@@ -67,6 +67,12 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.PieChartConfigurat
 			color : 'black',
 			opacity : 1
 		};
+		this.tooltip = {
+			display : true,
+			format : function(value,index) {
+				return "<strong>Value:</strong> <span style='color:red'>" + value.data + "</span>";
+			}
+		};
 		this.transitions = {
 			arc : 1000,
 			label : 500

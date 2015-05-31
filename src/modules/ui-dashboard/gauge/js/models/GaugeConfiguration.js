@@ -76,6 +76,12 @@ angular.module('ui.dashboard.GaugeApp').factory('ui.dashboard.GaugeConfiguration
 			color : 'black',
 			opacity : 1
 		};
+		this.tooltip = {
+			display : true,
+			format : function(value) {
+				return "<strong>Value:</strong> <span style='color:red'>" + value + "</span>";
+			}
+		};
 		this.transitions = {
 			arc : 1000,
 			label : 500

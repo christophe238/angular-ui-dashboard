@@ -70,6 +70,12 @@
 			return initialWidth;
 		}
 	},
+	tooltip : {
+		display : true,
+		format : function(value) {
+			return "<strong>Value:</strong> <span style='color:red'>" + value + "</span>";
+		}
+	},
 	opacityRule : {
 		apply : false,
 		rule : function(value,index){

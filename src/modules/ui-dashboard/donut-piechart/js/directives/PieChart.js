@@ -44,11 +44,20 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 					                    .attr("d", arcOver);
 				                }
 				            })
+				            .on('mousemove',function(d,i){
+				            	if($scope.configuration.tooltip.display){
+				                	$scope.tooltip.coordinate({x:d3.event.pageX,y:d3.event.pageY});
+					                $scope.tooltip.show(d,i);
+				                }
+				            })
 				            .on('mouseout', function(d) {
 				            	if($scope.configuration.slice.hover.apply){
 					                d3.select(this).transition()
 					                    .duration(200)
 					                    .attr("d", arc);
+					            }
+					            if($scope.configuration.tooltip.display){
+					            	$scope.tooltip.hide();
 					            }
 				            })
 				            .on('click',$scope.configuration.slice.click)
@@ -100,6 +109,16 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 					.attr('width',$scope.configuration.width)
 					.attr('height',$scope.configuration.height);								
 				
+				if(!$scope.tooltip){
+					$scope.tooltip = d3.tip()
+						.attr('id','tooltip-'+$scope.configuration.id)
+						.attr('class', 'ui-dashboard-pie-chart-tooltip')
+	  					.offset([10, 10])
+	  					.html($scope.configuration.tooltip.format);
+
+					$scope.widget.call($scope.tooltip);
+				}
+
 				if($scope.configuration.title.display){
 	            	//Setting title
 	            	$scope.widget.append('g')

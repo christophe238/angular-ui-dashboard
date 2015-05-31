@@ -33,6 +33,8 @@ Project built on top of [angular-base](https://github.com/christophe238/angular-
 
 :white_check_mark: Multiple Widgets view (mix donut, pie chart and gauge) - *available since v0.0.2*
 
+:white_check_mark: Customizable tooltip from html templates - *available since v0.0.2*
+
 :white_medium_square: Basic Bar Gauge - *not planned yet*
 
 :white_medium_square: Configurable Bar Gauge - *not planned yet*

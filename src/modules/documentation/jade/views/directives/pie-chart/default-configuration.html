@@ -65,6 +65,12 @@
 		color : 'black',
 		opacity : 1
 	},
+	tooltip : {
+		display : true,
+		format : function(value,index) {
+			return "<strong>Value:</strong> <span style='color:red'>" + value.data + "</span>";
+		}
+	},
 	transitions : {
 		arc : 1000,
 		label : 500

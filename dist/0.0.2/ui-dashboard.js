@@ -29,11 +29,15 @@ return i.size=function(n){return arguments.length?(l=n,i):l},i.padding=function(
 //
 // Tooltips for d3.js SVG visualizations
 
+// Modified by Christophe Marchadour
+// Remove direction in favor of coordinate 
+// for smoother and more precise tooltip location/move
+
 // Public - contructs a new tooltip
 //
 // Returns a tip
 d3.tip = function() {
-  var direction = d3_tip_direction,
+  var coordinate  = d3_tip_coordinate,
       offset    = d3_tip_offset,
       html      = d3_tip_html,
       node      = initNode(),
@@ -56,18 +60,14 @@ d3.tip = function() {
 
     var content = html.apply(this, args),
         poffset = offset.apply(this, args),
-        dir     = direction.apply(this, args),
-        nodel   = d3.select(node), i = 0,
-        coords
+        nodel   = d3.select(node)
 
     nodel.html(content)
       .style({ opacity: 1, 'pointer-events': 'all' })
 
-    while(i--) nodel.classed(directions[i], false)
-    coords = direction_callbacks.get(dir).apply(this)
-    nodel.classed(dir, true).style({
-      top: (coords.top +  poffset[0]) + 'px',
-      left: (coords.left + poffset[1]) + 'px'
+    nodel.style({
+      top: (coordinate().y +  poffset[0]) + 'px',
+      left: (coordinate().x + poffset[1]) + 'px'
     })
 
     return tip
@@ -116,15 +116,14 @@ d3.tip = function() {
     return tip
   }
 
-  // Public: Set or get the direction of the tooltip
+  // Public: Set or get the coordinate of the tooltip
   //
-  // v - One of n(north), s(south), e(east), or w(west), nw(northwest),
-  //     sw(southwest), ne(northeast) or se(southeast)
+  // v - {x:"",y:""}
   //
-  // Returns tip or direction
-  tip.direction = function(v) {
-    if (!arguments.length) return direction
-    direction = v == null ? v : d3.functor(v)
+  // Returns tip or coordinate
+  tip.coordinate = function(v) {
+    if (!arguments.length) return coordinate;
+    coordinate = v == null ? v : d3.functor(v)
 
     return tip
   }
@@ -153,86 +152,9 @@ d3.tip = function() {
     return tip
   }
 
-  function d3_tip_direction() { return 'n' }
   function d3_tip_offset() { return [0, 0] }
   function d3_tip_html() { return ' ' }
-
-  var direction_callbacks = d3.map({
-    n:  direction_n,
-    s:  direction_s,
-    e:  direction_e,
-    w:  direction_w,
-    nw: direction_nw,
-    ne: direction_ne,
-    sw: direction_sw,
-    se: direction_se
-  }),
-
-  directions = direction_callbacks.keys()
-
-  function direction_n() {
-    var bbox = getScreenBBox()
-    return {
-      top:  bbox.n.y - node.offsetHeight,
-      left: bbox.n.x - node.offsetWidth / 2
-    }
-  }
-
-  function direction_s() {
-    var bbox = getScreenBBox()
-    return {
-      top:  bbox.s.y,
-      left: bbox.s.x - node.offsetWidth / 2
-    }
-  }
-
-  function direction_e() {
-    var bbox = getScreenBBox()
-    return {
-      top:  bbox.e.y - node.offsetHeight / 2,
-      left: bbox.e.x
-    }
-  }
-
-  function direction_w() {
-    var bbox = getScreenBBox()
-    return {
-      top:  bbox.w.y - node.offsetHeight / 2,
-      left: bbox.w.x - node.offsetWidth
-    }
-  }
-
-  function direction_nw() {
-    var bbox = getScreenBBox()
-    return {
-      top:  bbox.nw.y - node.offsetHeight,
-      left: bbox.nw.x - node.offsetWidth
-    }
-  }
-
-  function direction_ne() {
-    var bbox = getScreenBBox()
-    return {
-      top:  bbox.ne.y - node.offsetHeight,
-      left: bbox.ne.x
-    }
-  }
-
-  function direction_sw() {
-    var bbox = getScreenBBox()
-    return {
-      top:  bbox.sw.y,
-      left: bbox.sw.x - node.offsetWidth
-    }
-  }
-
-  function direction_se() {
-    var bbox = getScreenBBox()
-    return {
-      top:  bbox.se.y,
-      left: bbox.e.x
-    }
-  }
+  function d3_tip_coordinate() { return {x:0,y:0} }  
 
   function initNode() {
     var node = d3.select(document.createElement('div'))
@@ -252,54 +174,6 @@ d3.tip = function() {
       return el
 
     return el.ownerSVGElement
-  }
-
-  // Private - gets the screen coordinates of a shape
-  //
-  // Given a shape on the screen, will return an SVGPoint for the directions
-  // n(north), s(south), e(east), w(west), ne(northeast), se(southeast), nw(northwest),
-  // sw(southwest).
-  //
-  //    +-+-+
-  //    |   |
-  //    +   +
-  //    |   |
-  //    +-+-+
-  //
-  // Returns an Object {n, s, e, w, nw, sw, ne, se}
-  function getScreenBBox() {
-    var targetel   = target || d3.event.target,
-        bbox       = {},
-        matrix     = targetel.getScreenCTM(),
-        tbbox      = targetel.getBBox(),
-        width      = tbbox.width,
-        height     = tbbox.height,
-        x          = tbbox.x,
-        y          = tbbox.y,
-        scrollTop  = document.documentElement.scrollTop || document.body.scrollTop,
-        scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft
-
-
-    point.x = x + scrollLeft
-    point.y = y + scrollTop
-    bbox.nw = point.matrixTransform(matrix)
-    point.x += width
-    bbox.ne = point.matrixTransform(matrix)
-    point.y += height
-    bbox.se = point.matrixTransform(matrix)
-    point.x -= width
-    bbox.sw = point.matrixTransform(matrix)
-    point.y -= height / 2
-    bbox.w  = point.matrixTransform(matrix)
-    point.x += width
-    bbox.e = point.matrixTransform(matrix)
-    point.x -= width / 2
-    point.y -= height / 2
-    bbox.n = point.matrixTransform(matrix)
-    point.y += height
-    bbox.s = point.matrixTransform(matrix)
-
-    return bbox
   }
 
   return tip
@@ -595,6 +469,12 @@ angular.module('ui.dashboard.GaugeApp').factory('ui.dashboard.GaugeConfiguration
 			color : 'black',
 			opacity : 1
 		};
+		this.tooltip = {
+			display : true,
+			format : function(value) {
+				return "<strong>Value:</strong> <span style='color:red'>" + value + "</span>";
+			}
+		};
 		this.transitions = {
 			arc : 1000,
 			label : 500
@@ -677,6 +557,17 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
                             .attr('opacity',function(d,i){
                             	return $scope.configuration.opacityRule.apply ? $scope.configuration.opacityRule.rule(d,i):1;
                             	})
+                            .on('mousemove',function(d,i){
+				            	if($scope.configuration.tooltip.display){
+				                	$scope.tooltip.coordinate({x:d3.event.pageX,y:d3.event.pageY});
+					                $scope.tooltip.show(d,i);
+				                }
+				            })
+				            .on('mouseout', function(d) {				            	
+					            if($scope.configuration.tooltip.display){
+					            	$scope.tooltip.hide();
+					            }
+				            })
                             .transition()
                                 .attrTween('d',function(d,i){
                                     var interpolate = d3.interpolate(isNaN($scope.previousData[i]) ? 0:$scope.previousData[i],arrangedData[i]);
@@ -752,6 +643,16 @@ angular.module('ui.dashboard.GaugeApp').directive('circularGauge',['ui.dashboard
 	                	.attr('id',$scope.configuration.id)
 	                    .attr('width',$scope.configuration.width)
 	                    .attr('height',$scope.configuration.height+($scope.configuration.title.display ? $scope.configuration.title.fontsize*2:0));
+	            
+	            if(!$scope.tooltip){
+					$scope.tooltip = d3.tip()
+						.attr('id','tooltip-'+$scope.configuration.id)
+						.attr('class', 'ui-dashboard-circular-gauge-tooltip')
+	  					.offset([10, 10])
+	  					.html($scope.configuration.tooltip.format);
+
+					$scope.widget.call($scope.tooltip);
+				}
 
 	            if($scope.configuration.title.display){
 	            	//Setting title
@@ -972,7 +873,7 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.DonutConfiguration
 		};
 		this.tooltip = {
 			display : true,
-			format : function(value) {
+			format : function(value,index) {
 				return "<strong>Value:</strong> <span style='color:red'>" + value.data + "</span>";
 			}
 		};
@@ -1084,6 +985,12 @@ angular.module('ui.dashboard.DonutApp').factory('ui.dashboard.PieChartConfigurat
 			color : 'black',
 			opacity : 1
 		};
+		this.tooltip = {
+			display : true,
+			format : function(value,index) {
+				return "<strong>Value:</strong> <span style='color:red'>" + value.data + "</span>";
+			}
+		};
 		this.transitions = {
 			arc : 1000,
 			label : 500
@@ -1170,23 +1077,29 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
                             	ArcService.translate(
 	                            	$scope.configuration.width,
                     				$scope.configuration.height
-	                            ))
-                            .on('mouseover', function(d) {
+	                            ))                            
+                            .on('mouseover', function(d) {                            	
 				                if($scope.configuration.slice.hover.apply){
 				                	$scope.configuration.slice.hover.callback(d);
 					                d3.select(this).transition()
 					                    .duration(200)
 					                    .attr("d", arcOver);
-					                //$scope.tooltip.direction(PieService.getTooltipDirection(d));
-					                //$scope.tooltip.show(d);
+				                }				                
+				            })
+				            .on('mousemove',function(d,i){
+				            	if($scope.configuration.tooltip.display){
+				                	$scope.tooltip.coordinate({x:d3.event.pageX,y:d3.event.pageY});
+					                $scope.tooltip.show(d,i);
 				                }
 				            })
 				            .on('mouseout', function(d) {
 				            	if($scope.configuration.slice.hover.apply){
 					                d3.select(this).transition()
 					                    .duration(200)
-					                    .attr("d", arc);
-					                //$scope.tooltip.hide();
+					                    .attr("d", arc);					                
+					            }
+					            if($scope.configuration.tooltip.display){
+					            	$scope.tooltip.hide();
 					            }
 				            })
 				            .on('click',$scope.configuration.slice.click)
@@ -1249,16 +1162,17 @@ angular.module('ui.dashboard.DonutApp').directive('donut',['ui.dashboard.DonutCo
 					.attr('id',$scope.configuration.id)
 					.attr('width',$scope.configuration.width)
 					.attr('height',$scope.configuration.height);
-				/*
-				$scope.tooltip = d3.tip()
-					.attr('id','tooltip-'+$scope.configuration.id)
-					.attr('class', 'ui-dashboard-donut-tooltip')
-  					.offset([-10, 0])
-  					.direction('n')
-  					.html($scope.configuration.tooltip.format);
+				
+				if(!$scope.tooltip){
+					$scope.tooltip = d3.tip()
+						.attr('id','tooltip-'+$scope.configuration.id)
+						.attr('class', 'ui-dashboard-donut-tooltip')
+	  					.offset([10, 10])
+	  					.html($scope.configuration.tooltip.format);
 
-				$scope.widget.call($scope.tooltip);
-				*/
+					$scope.widget.call($scope.tooltip);
+				}
+				
 				if($scope.configuration.title.display){
 	            	//Setting title
 	            	$scope.widget.append('g')
@@ -1387,11 +1301,20 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 					                    .attr("d", arcOver);
 				                }
 				            })
+				            .on('mousemove',function(d,i){
+				            	if($scope.configuration.tooltip.display){
+				                	$scope.tooltip.coordinate({x:d3.event.pageX,y:d3.event.pageY});
+					                $scope.tooltip.show(d,i);
+				                }
+				            })
 				            .on('mouseout', function(d) {
 				            	if($scope.configuration.slice.hover.apply){
 					                d3.select(this).transition()
 					                    .duration(200)
 					                    .attr("d", arc);
+					            }
+					            if($scope.configuration.tooltip.display){
+					            	$scope.tooltip.hide();
 					            }
 				            })
 				            .on('click',$scope.configuration.slice.click)
@@ -1443,6 +1366,16 @@ angular.module('ui.dashboard.DonutApp').directive('pieChart',['ui.dashboard.PieC
 					.attr('width',$scope.configuration.width)
 					.attr('height',$scope.configuration.height);								
 				
+				if(!$scope.tooltip){
+					$scope.tooltip = d3.tip()
+						.attr('id','tooltip-'+$scope.configuration.id)
+						.attr('class', 'ui-dashboard-pie-chart-tooltip')
+	  					.offset([10, 10])
+	  					.html($scope.configuration.tooltip.format);
+
+					$scope.widget.call($scope.tooltip);
+				}
+
 				if($scope.configuration.title.display){
 	            	//Setting title
 	            	$scope.widget.append('g')
